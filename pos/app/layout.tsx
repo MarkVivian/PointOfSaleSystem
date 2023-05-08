@@ -1,4 +1,4 @@
-import '@/styles/dist/App.min.css'
+import '@/styles/dist/App.css'
 
 
 export const metadata = {
