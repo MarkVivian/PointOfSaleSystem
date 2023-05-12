@@ -12,22 +12,22 @@ export default function Home() {
         {
           image : product,
           title : "Products",
-          link : ""
+          link : "/Products/"
         },
         {
           image: delivery,
           title : "Orders",
-          link : ""
+          link : "/Orders/"
         },
         {
           image: analitics,
           title : "Analysis",
-          link : ""
+          link : "/Analitics/"
         },
         {
           image: shop,
           title : "Shop",
-          link : ""
+          link : "/Shop/"
         }
     ]
   
