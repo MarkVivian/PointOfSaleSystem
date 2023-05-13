@@ -1,7 +1,10 @@
+"use client"
+
 export interface DataProps {
     title : string,
     image : any,
-    link : string
+    link : string,
+    searchQuery : string
 }
 
 import Image from 'next/image'
@@ -10,7 +13,7 @@ import React from 'react'
 
 const DivElement:React.FC<DataProps> = (dataProp) => {
   return (
-    <Link href={dataProp.link} className=' relative'>
+    <Link href={dataProp.link + `?searchQuery=` + dataProp.searchQuery} className=' relative'>
       
       <Image src={dataProp.image} alt='section image' width={100} priority className=' w-[16rem] h-[13rem]' />
       

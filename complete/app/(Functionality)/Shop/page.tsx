@@ -1,6 +1,6 @@
-import React from 'react'
+import { NextPage } from "next"
 
-const Shop = () => {
+const Shop:NextPage = () => {
   return (
     <div>this is the shoping page</div>
   )

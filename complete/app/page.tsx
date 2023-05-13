@@ -12,22 +12,26 @@ export default function Home() {
         {
           image : product,
           title : "Products",
-          link : "/Products/"
+          link : "/Products/",
+          searchQuery: "Products"
         },
         {
           image: delivery,
           title : "Orders",
-          link : "/Orders/"
+          link : "/Orders/",
+          searchQuery: "Orders"
         },
         {
           image: analitics,
           title : "Analysis",
-          link : "/Analitics/"
+          link : "/Analitics/",
+          searchQuery: "Analitics"
         },
         {
           image: shop,
           title : "Shop",
-          link : "/Shop/"
+          link : "/Shop/",
+          searchQuery: "Ships"
         }
     ]
   
@@ -48,7 +52,7 @@ export default function Home() {
             {
               DivelementsData.map((item) => {
                 return(
-                  <DivElement title={item.title} image={item.image} key={item.link} link={item.link} />
+                  <DivElement title={item.title} image={item.image} key={item.link} link={item.link} searchQuery={item.searchQuery} />
                 )
               })
             }
