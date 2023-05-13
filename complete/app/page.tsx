@@ -52,7 +52,7 @@ export default function Home() {
             {
               DivelementsData.map((item) => {
                 return(
-                  <DivElement title={item.title} image={item.image} key={item.link} link={item.link} searchQuery={item.searchQuery} />
+                  <DivElement title={item.title} image={item.image} key={item.link} link={item.link + `?searchQuery=` + item.searchQuery} />
                 )
               })
             }

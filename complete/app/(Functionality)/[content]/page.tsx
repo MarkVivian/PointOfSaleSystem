@@ -1,6 +1,8 @@
+"use client"
 import Image from "next/image"
-import Products from "@/public/backgroundImage.jpg"
+import ProductsImage from "@/public/BackgroundImage.jpg"
 import ContentPage from "@/components/Content/Content"
+import { useEffect, useState } from "react"
 
 interface propInterface{
   params : {
@@ -12,13 +14,38 @@ interface propInterface{
 }
 
 
+
 const Content = (props:propInterface) => {
-  
+  const [info, SetInfo] = useState<{image : any, title: string}>({
+    image : "",
+    title : ""
+  })
+  useEffect(()=>{
+    if(props.searchParams.searchQuery === "Orders"){
+      SetInfo((item)=>{
+        return{
+          ...item,
+          image : ProductsImage,
+          title : props.searchParams.searchQuery
+        }
+      })
+    }else if(props.searchParams.searchQuery === "Products"){
+      SetInfo((item)=>{
+        return{
+          ...item,
+          image : ProductsImage,
+          title : props.searchParams.searchQuery
+        }
+      })
+    }
+  }, [])
+
   return (
-    <div className=" h-[100vh] w-[100vw] bg-slate-600">
-        <Image src={Products} alt="products images" width={100} height={100} className=" absolute h-[100%] w-[100%]"/>
-        <div>
-          <ContentPage />
+    <div className=" h-[100vh] w-[100vw]">
+        <Image src={info.image} alt="products images" className=" absolute h-[100vh] w-[100%] z-[-1]"/>
+        <h1 className="text-center font-semibold py-2 text-xl bg-white opacity-70">{info.title}</h1>
+        <div className=" h-[88vh] bg-red-500 mt-5 mx-5 p-5 relative">
+          <ContentPage type={info.title}/>
         </div>
     </div>
   )
