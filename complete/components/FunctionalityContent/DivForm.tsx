@@ -34,6 +34,7 @@ const DivForm:React.FC<valuesInterface> = ({searchTerm}) => {
             <div className=' bg-blue-500 flex mb-5 h-[3rem] relative py-2 rounded-md pl-3'>
               <h1>{item}</h1>
               <div className=' flex absolute gap-4 right-4'>
+                // todo: lets create a sequence for orders and for Products.
                 {
                   
                 }
