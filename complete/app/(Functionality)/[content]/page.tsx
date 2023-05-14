@@ -1,4 +1,6 @@
-import ContentPage from "@/components/FunctionalityContent/ContentPage"
+import Database from "@/Database/Database"
+import ProductsPage from "@/components/FunctionalityContent/Products/ProductsPage"
+import OrdersPage from "@/components/FunctionalityContent/Orders/OrdersPage"
 
 interface propInterface{
   params : {
@@ -10,10 +12,16 @@ interface propInterface{
 }
 
 const Content = ({params, searchParams}:propInterface) => {
-  
+
   return (
     <>
-      <ContentPage pages={params.pages} searchQuery={searchParams.searchQuery} />
+      {
+        searchParams.searchQuery === "Products" 
+           ?
+          <ProductsPage />
+           : 
+          <OrdersPage />
+      }
     </>
   )
 }

@@ -4,11 +4,10 @@ import React, { useEffect, useState } from 'react';
 import accept from "@/public/accept.png";
 import Image from 'next/image';
 import deleteButton from "@/public/delete-button.png"
-import FilterData from "./FilterData"
+import FilterData from "../FilterData"
 
 interface valuesInterface {
-  searchTerm : string,
-  searchQuery : string
+  searchTerm : string
 }
 
 const DivForm:React.FC<valuesInterface> = ({searchTerm}) => {
@@ -31,13 +30,9 @@ const DivForm:React.FC<valuesInterface> = ({searchTerm}) => {
     <div className=' bg-green-400 h-[75vh] overflow-y-scroll mt-5 p-2'>
         {Data.filtered.map((item)=>{
           return(
-            <div className=' bg-blue-500 flex mb-5 h-[3rem] relative py-2 rounded-md pl-3'>
+            <div className=' bg-blue-500 flex mb-5 h-[3rem] relative py-2 rounded-md pl-3' key={item}>
               <h1>{item}</h1>
               <div className=' flex absolute gap-4 right-4'>
-                // todo: lets create a sequence for orders and for Products.
-                {
-                  
-                }
                 <button><Image src={accept} alt='accept image' width={30} height={30}/></button>
                 <button><Image src={deleteButton} alt='delete image' width={30} height={30}/></button>
               </div>
