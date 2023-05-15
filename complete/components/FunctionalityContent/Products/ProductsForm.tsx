@@ -7,10 +7,11 @@ import deleteButton from "@/public/delete-button.png"
 import FilterData from "../FilterData"
 
 interface valuesInterface {
-  searchTerm : string
+  searchTerm : string,
+  Database : any
 }
 
-const ProductsForm:React.FC<valuesInterface> = ({searchTerm}) => {
+const ProductsForm:React.FC<valuesInterface> = ({searchTerm, Database}) => {
 
   const [Data, setData] = useState<{original : string[], filtered : string[]}>({
     original : ['Serendipity', 'Melancholy', 'P aradigm', 'Galvanize', 'Euphoria', 'Cacophony', 'Luminous', 'Ephemeral', 'Surreal', 'Ubiquitous'],

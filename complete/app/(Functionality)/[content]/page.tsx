@@ -11,11 +11,13 @@ interface propInterface{
 
 const Content = async ({searchParams}:propInterface) => {
   const DB = new Database()
-  DB.ConnectToDatabase()
-
+  const test = DB.ReadDatabase("Products")
+  const Products = DB.rows
+  //DB.ReadDatabase("Orders")
+  const Orders = DB.rows
   return (
     <>
-      <ContentPage searchQuery={searchParams.searchQuery}/>
+      <ContentPage searchQuery={searchParams.searchQuery} ProductsData={Products} ordersData={Orders}/>
     </>
   )
 }

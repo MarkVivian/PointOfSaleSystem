@@ -7,7 +7,7 @@ import React, { useRef, useState } from 'react'
 import PopUp from "@/components/FunctionalityContent/PopUp"
 
 
-const ContentPage:React.FC<{searchQuery : string}> = ({searchQuery}) => {
+const ContentPage:React.FC<{searchQuery : string, ProductsData:any, ordersData:any}> = ({searchQuery, ProductsData, ordersData}) => {
 
     const hideInput = useRef<HTMLInputElement>(null)
 
@@ -62,9 +62,9 @@ const ContentPage:React.FC<{searchQuery : string}> = ({searchQuery}) => {
 
                 {
                     searchQuery === "Orders" ?
-                        <OrdersForm searchTerm={info.searchTerm}/>
+                        <OrdersForm searchTerm={info.searchTerm} Database={ordersData}/>
                             :
-                        <ProductsForm searchTerm={info.searchTerm}/>
+                        <ProductsForm searchTerm={info.searchTerm} Database={ProductsData}/>
                 }
             </div>
 

@@ -6,15 +6,16 @@ USE TestPOS;
 CREATE TABLE Products(
     ProductId INT PRIMARY KEY AUTO_INCREMENT,
     ProductName VARCHAR(30),
-    ProductCount INT
+    ProductCount VARCHAR(30),
+    ProductCost VARCHAR(30)
 );
 
 INSERT INTO Products VALUES
-(DEFAULT, "Hammers", 23),
-(DEFAULT, "Nails", 100),
-(DEFAULT, "Screw Drivers", 123),
-(DEFAULT, "Screws", 2000),
-(DEFAULT, "Pliers", 12);
+(DEFAULT, "Hammers", 23, 1400),
+(DEFAULT, "Nails", 100, 1500),
+(DEFAULT, "Screw Drivers", 43, 1600),
+(DEFAULT, "Screws", 2000, 1700),
+(DEFAULT, "Pliers", 12, 1300);
 
 CREATE TABLE Orders(
     OrderId INT PRIMARY KEY AUTO_INCREMENT,
@@ -25,8 +26,8 @@ CREATE TABLE Orders(
 );
     
 INSERT INTO Orders VALUES
-(DEFAULT, "Hammers",'2023-01-12','2023-09-22', 44),
-(DEFAULT, "Nails",'2023-02-11','2023-09-22' ),
+(DEFAULT, "Hammers",'2023-01-12','2023-09-22', 43),
+(DEFAULT, "Nails",'2023-02-11','2023-09-22', 41),
 (DEFAULT, "Screw Drivers",'2023-03-10','2023-09-22', 44),
-(DEFAULT, "Screws",'2023-04-09','2023-09-22', 44),
-(DEFAULT, "Pliers",'2023-05-08','2023-09-22', 44);
+(DEFAULT, "Screws",'2023-04-09','2023-09-22', 45),
+(DEFAULT, "Pliers",'2023-05-08','2023-09-22', 46);

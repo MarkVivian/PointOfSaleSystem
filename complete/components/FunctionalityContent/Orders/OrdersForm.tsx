@@ -6,7 +6,8 @@ import Image from 'next/image';
 import deleteButton from "@/public/delete-button.png"
 import FilterData from "../FilterData"
 
-const OrdersForm = ({searchTerm} : {searchTerm : string}) => {
+const OrdersForm = ({searchTerm, Database} : {searchTerm : string, Database : any}) => {
+  console.log(Database)
     const [Data, setData] = useState<{original : string[], filtered : string[]}>({
         original : ['Serendipity', 'Melancholy', 'P aradigm', 'Galvanize', 'Euphoria', 'Cacophony', 'Luminous', 'Ephemeral', 'Surreal', 'Ubiquitous'],
         filtered : [""]
