@@ -20,12 +20,13 @@ CREATE TABLE Orders(
     OrderId INT PRIMARY KEY AUTO_INCREMENT,
     OrderedItem VARCHAR(30),
     OrderDate DATE, 
-    ArrivalDate DATE
+    ArrivalDate DATE,
+    OrderCount INT
 );
     
 INSERT INTO Orders VALUES
-(DEFAULT, "Hammers",'2023-01-12','2023-09-22' ),
+(DEFAULT, "Hammers",'2023-01-12','2023-09-22', 44),
 (DEFAULT, "Nails",'2023-02-11','2023-09-22' ),
-(DEFAULT, "Screw Drivers",'2023-03-10','2023-09-22' ),
-(DEFAULT, "Screws",'2023-04-09','2023-09-22' ),
-(DEFAULT, "Pliers",'2023-05-08','2023-09-22' );
+(DEFAULT, "Screw Drivers",'2023-03-10','2023-09-22', 44),
+(DEFAULT, "Screws",'2023-04-09','2023-09-22', 44),
+(DEFAULT, "Pliers",'2023-05-08','2023-09-22', 44);

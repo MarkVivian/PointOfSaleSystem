@@ -7,17 +7,20 @@ export default class Database{
     ConnectToDatabase(){
         try{
             this.connection = createConnection({
-                host : "localhost",
+                host : "127.0.0.1",
                 user : "mark",
                 password : "M6a2r7k5",
-                database : "TestPOSsystem"
+                database : "TestPOS"
             })
-    
-            if(this.connection.ping()){
-                console.log("the connection is valid")
-            }else{
-                console.log("fuck")
-            }
+
+            this.connection.connect((err : Error) => {
+                if (err) {
+                  console.error('Error connecting to MySQL database:', err);
+                  return;
+                }
+                console.log('Connected to MySQL database');
+              });
+
         }catch(err){
             console.log("an error occured while connecting to the database.")
         }

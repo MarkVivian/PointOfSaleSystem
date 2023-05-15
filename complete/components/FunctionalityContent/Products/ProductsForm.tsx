@@ -10,7 +10,7 @@ interface valuesInterface {
   searchTerm : string
 }
 
-const DivForm:React.FC<valuesInterface> = ({searchTerm}) => {
+const ProductsForm:React.FC<valuesInterface> = ({searchTerm}) => {
 
   const [Data, setData] = useState<{original : string[], filtered : string[]}>({
     original : ['Serendipity', 'Melancholy', 'P aradigm', 'Galvanize', 'Euphoria', 'Cacophony', 'Luminous', 'Ephemeral', 'Surreal', 'Ubiquitous'],
@@ -44,4 +44,4 @@ const DivForm:React.FC<valuesInterface> = ({searchTerm}) => {
   )
 }
 
-export default DivForm
+export default ProductsForm

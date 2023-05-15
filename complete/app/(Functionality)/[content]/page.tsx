@@ -1,7 +1,5 @@
 import Database from "@/Database/Database"
-import ProductsPage from "@/components/FunctionalityContent/Products/ProductsPage"
-import OrdersPage from "@/components/FunctionalityContent/Orders/OrdersPage"
-
+import ContentPage from "@/components/FunctionalityContent/ContentPage"
 interface propInterface{
   params : {
       pages : string
@@ -11,17 +9,13 @@ interface propInterface{
   }
 }
 
-const Content = ({params, searchParams}:propInterface) => {
+const Content = async ({searchParams}:propInterface) => {
+  const DB = new Database()
+  DB.ConnectToDatabase()
 
   return (
     <>
-      {
-        searchParams.searchQuery === "Products" 
-           ?
-          <ProductsPage />
-           : 
-          <OrdersPage />
-      }
+      <ContentPage searchQuery={searchParams.searchQuery}/>
     </>
   )
 }
