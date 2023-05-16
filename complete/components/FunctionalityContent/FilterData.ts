@@ -1,9 +1,5 @@
-export default function FilterData(values : string[], specificText: string){
-    const filteredData:string[]= [];
-    values.map((item)=>{
-        if(item.toLowerCase().includes(specificText.toLowerCase())){
-            filteredData.push(item)
-        }
-    })
-    return filteredData;
+import {Orders, Products} from "@/Database/Database"
+
+export default function FilterData<T> (values : T[], specificText: string, getProperty : (item : T)=>string):T[]{
+    return values.filter((item)=>getProperty(item).includes(specificText))
 }

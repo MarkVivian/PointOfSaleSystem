@@ -26,8 +26,8 @@ CREATE TABLE Orders(
 );
     
 INSERT INTO Orders VALUES
-(DEFAULT, "Hammers",'2023-01-12','2023-09-22', 43),
-(DEFAULT, "Nails",'2023-02-11','2023-09-22', 41),
-(DEFAULT, "Screw Drivers",'2023-03-10','2023-09-22', 44),
-(DEFAULT, "Screws",'2023-04-09','2023-09-22', 45),
-(DEFAULT, "Pliers",'2023-05-08','2023-09-22', 46);
+(DEFAULT, "Hammers order",'2023-01-12','2023-09-22', 43),
+(DEFAULT, "Nails orders",'2023-02-11','2023-09-22', 41),
+(DEFAULT, "Screw Drivers orders",'2023-03-10','2023-09-22', 44),
+(DEFAULT, "Screws orders",'2023-04-09','2023-09-22', 45),
+(DEFAULT, "Pliers orders",'2023-05-08','2023-09-22', 46);

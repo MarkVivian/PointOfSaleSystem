@@ -1,48 +1,108 @@
 "use client"
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 
-interface PopUpInterface{
-    ProductName : string,
-    ProductCount : number,
+interface ProductsInterface{
+        ProductName : string,
+        ProductCount : string,
+        ProductCost : string
+}
+interface OrdersInterface {
+    OrderedItem : string,
+    OrderDate : string,
+    ArrivalDate : string,
+    OrderCount : string 
 }
 
 const PopUp:React.FC<{searchQuery : string}> = ({searchQuery}) => {
+    const [target, useTarget] = useState<{name : string, value : number | string, type : string}[] | {name : string, value : number | string, type : string}[]>()
 
     const HidePopUp = useRef<HTMLDivElement>(null)
 
-    const [PopUpSetup, setPopUpSetup] = useState<PopUpInterface>({
+    useEffect(()=>{
+        if(searchQuery === "Products"){
+            useTarget(()=>ProductContainer)
+        }else if(searchQuery === "Orders"){
+            useTarget(()=>OrderContainer)
+        }
+    }, [])
+
+    const [ProductSetup, setProductSetup] = useState<ProductsInterface>({
         ProductName : "",
-        ProductCount : 0,
+        ProductCount : "",
+        ProductCost : ""
     })
+
+    const [OrderSetup, setOrderSetup] = useState<OrdersInterface>({
+        OrderedItem : "",
+        OrderDate : "",
+        ArrivalDate : "",
+        OrderCount : ""
+    })
+
 
 
     const ProductContainer:{name : string, value : number | string, type : string}[] = [
         {
             name : "ProductName",
-            value : PopUpSetup.ProductName,
+            value : ProductSetup.ProductName,
             type : "text"
         },
         {
             name : "ProductCount",
-            value : PopUpSetup.ProductCount,
+            value : ProductSetup.ProductCount,
             type : "number" 
+        },
+        {
+            name : "Product Cost",
+            value : ProductSetup.ProductCost,
+            type : 'number'
+        }
+    ]
+
+    const OrderContainer:{name : string, value : number | string, type : string}[] = [
+        {
+            name : "Ordered Item",
+            value : OrderSetup.OrderedItem,
+            type : "string"
+        },
+        {
+            name : "Ordered Date",
+            value : OrderSetup.OrderDate,
+            type : "string"
+        },
+        {
+            name : "Arrival date",
+            value : OrderSetup.ArrivalDate,
+            type : "string"
+        },
+        {
+            name : "number of items",
+            value : OrderSetup.OrderCount,
+            type : "number"
         }
     ]
 
     function ValueChanged(event : any){
         const {name, value, type} = event.target
-        console.log(`the name ${name} has a value ${value}`)
-        setPopUpSetup((item)=>{
+        setProductSetup((item)=>{
             return{
                 ...item,
                 [name] : value
             }   
+        })
+
+        setOrderSetup((item)=>{
+            return{
+                ...item,
+                [name] : value
+            }
         })
     }
 
     function AddItem(){
         
     }
+
 
   return (
     <>
@@ -64,24 +124,27 @@ const PopUp:React.FC<{searchQuery : string}> = ({searchQuery}) => {
                         ENTER APPROPRIATE INFORMATION HERE
                     </span>
                 {
-                    ProductContainer.map((item)=>{
-                        return(
-                            <div key={item.name} className=' my-2'>
-                                <span>
-                                    {item.name}
-                                 </span>
-                        
-                                <input 
-                                    type={`${item.type}`}
-                                    placeholder={`${item.name}`}
-                                    name={`${item.name}`}
-                                    value={item.value}
-                                    onChange={ValueChanged}
-                                    className=' ml-2 rounded-md'
-                                />
-                            </div>
-                        )
-                    })
+                    target ?
+                        target.map((item)=>{
+                            return(
+                                <div key={item.name} className=' my-2'>
+                                    <span>
+                                        {item.name}
+                                     </span>
+                            
+                                    <input 
+                                        type={`${item.type}`}
+                                        placeholder={`${item.name}`}
+                                        name={`${item.name}`}
+                                        value={item.value}
+                                        onChange={ValueChanged}
+                                        className=' ml-2 rounded-md'
+                                    />
+                                </div>
+                            )
+                        })
+                        :
+                        ""
                 }       
 
                 <div>

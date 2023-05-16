@@ -17,14 +17,14 @@ interface DataOrders{
     orderCount : number
 }
 
-interface Products{
+export interface Products{
     ProductId : number
     ProductName : string,
     ProductCount : string,
     ProductCost : string
 }
 
-interface Orders{
+export interface Orders{
     OrderId : number,
     OrderedItem : string,
     OrderDate : string, 
@@ -34,7 +34,6 @@ interface Orders{
 
 export default class Database{
     Connection!:Connection;
-    rows?:Orders[] | Products[];
 
     constructor(){
         try{
@@ -51,39 +50,33 @@ export default class Database{
 
     }
 
-    /*WriteToDatabase(DataToWrite : string[], Columns : string[],  table : string){
-        this.pool.getConnection((err, connection)=>{
-            if(err){
-                console.error("an error occured while writting in the database")
-            }
+    async WriteToDatabase(DataToWrite : string[], Columns : string[],  table : string){
+        const commasValues = DataToWrite.map(()=>"?").join(",")        
+        const queryScript = `INSERT INTO ${table} (${Columns}) VALUES(${commasValues})`;
+        return new Promise((resolve, reject) => {
+            this.Connection.query(queryScript, DataToWrite, (error) => {
+              if (error) {
+                reject(error);
+              } else{
 
-            const commasValues = DataToWrite.map(()=>"?").join(",")        
-            const queryScript = `INSERT INTO ${table} (${Columns}) VALUES(${commasValues})`;
-    
-            connection.query(queryScript, DataToWrite, (error, results, fields) => {
-                if (error) {
-                  console.error('Error executing query:', error);
-                } else {
-                  console.log('Data successfully written to the table:', results);
-                }
-        
-                connection.release();
-              })
-        })
-            
-    }*/
+              }
+            });
+          });
+    }
 
-    ReadDatabase(table : string){         
-          // Use the connection for database operations
+    async ReadDatabase(table : string):Promise<Products[] | Orders[]>{         
+        return new Promise((resolve, reject)=>{
+            // Use the connection for database operations
           this.Connection.query(`SELECT * FROM ${table}`, (error, results : Products[] | Orders[], fields) => {
             // Handle the query results
             if (error) {
               console.error('Error executing query:', error);
+              reject(error)
+            }else{
+              resolve(results)
             }
-            this.rows = results;
-            // Release the connection back to the pool
           }); 
-          console.log(this.rows)
+        })
     }
 
     ReadSpecificDatabase(){

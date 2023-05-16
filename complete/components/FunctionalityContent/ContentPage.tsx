@@ -8,7 +8,6 @@ import PopUp from "@/components/FunctionalityContent/PopUp"
 
 
 const ContentPage:React.FC<{searchQuery : string, ProductsData:any, ordersData:any}> = ({searchQuery, ProductsData, ordersData}) => {
-
     const hideInput = useRef<HTMLInputElement>(null)
 
     const [info, SetInfo] = useState<{searchTerm : string}>({
@@ -32,7 +31,7 @@ const ContentPage:React.FC<{searchQuery : string, ProductsData:any, ordersData:a
         
             <Image src={ProductsImage} alt="products images" className=" absolute h-[100vh] w-[100%] z-[-1]"/>
 
-            <h1 className="text-center font-semibold py-2 text-xl bg-white opacity-70">Orders</h1>
+            <h1 className="text-center font-semibold py-2 text-xl bg-white opacity-70">{searchQuery}</h1>
 
 
             <div className=" h-[88vh] bg-red-500 mt-5 mx-5 p-5 relative">
@@ -62,9 +61,9 @@ const ContentPage:React.FC<{searchQuery : string, ProductsData:any, ordersData:a
 
                 {
                     searchQuery === "Orders" ?
-                        <OrdersForm searchTerm={info.searchTerm} Database={ordersData}/>
+                        <OrdersForm searchTerm={info.searchTerm} Orders={ordersData}/>
                             :
-                        <ProductsForm searchTerm={info.searchTerm} Database={ProductsData}/>
+                        <ProductsForm searchTerm={info.searchTerm} Products={ProductsData}/>
                 }
             </div>
 
