@@ -9,11 +9,12 @@ import FilterData from "../FilterData"
 
 const OrdersForm = ({searchTerm, Orders} : {searchTerm : string, Orders : Orders[]}) => {
 
-      const Data = FilterData<Orders>(Orders, searchTerm, (Orders)=>Orders.OrderedItem)
+      const Data = FilterData<Orders>(Orders, searchTerm.toLowerCase(), (Orders)=>Orders.OrderedItem.toLowerCase())
     
       return (
         <div className=' bg-green-400 h-[75vh] overflow-y-scroll mt-5 p-2'>
-            {Data.map((item)=>{
+            {
+            Data.map((item)=>{
               return(
                 <div className=' bg-blue-500 flex mb-5 h-[3rem] relative py-2 rounded-md pl-3' key={item.OrderId}>
                   <h1>{item.OrderedItem}</h1>
@@ -23,7 +24,8 @@ const OrdersForm = ({searchTerm, Orders} : {searchTerm : string, Orders : Orders
                   </div>
                 </div>
                     )
-              })}
+              })
+              }
     
         </div>
       )

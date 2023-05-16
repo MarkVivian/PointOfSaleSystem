@@ -1,45 +1,36 @@
 "use client"
+import Database from '@/Database/Database'
+import { SendData } from '@/app/(Functionality)/[content]/page'
 import React, { useEffect, useRef, useState } from 'react'
 
 interface ProductsInterface{
         ProductName : string,
-        ProductCount : string,
-        ProductCost : string
+        ProductCount : number,
+        ProductCost : number
 }
 interface OrdersInterface {
     OrderedItem : string,
     OrderDate : string,
     ArrivalDate : string,
-    OrderCount : string 
+    OrderCount : number 
 }
 
 const PopUp:React.FC<{searchQuery : string}> = ({searchQuery}) => {
-    const [target, useTarget] = useState<{name : string, value : number | string, type : string}[] | {name : string, value : number | string, type : string}[]>()
 
     const HidePopUp = useRef<HTMLDivElement>(null)
 
-    useEffect(()=>{
-        if(searchQuery === "Products"){
-            useTarget(()=>ProductContainer)
-        }else if(searchQuery === "Orders"){
-            useTarget(()=>OrderContainer)
-        }
-    }, [])
-
     const [ProductSetup, setProductSetup] = useState<ProductsInterface>({
         ProductName : "",
-        ProductCount : "",
-        ProductCost : ""
+        ProductCount : 0,
+        ProductCost : 0
     })
 
     const [OrderSetup, setOrderSetup] = useState<OrdersInterface>({
         OrderedItem : "",
         OrderDate : "",
         ArrivalDate : "",
-        OrderCount : ""
+        OrderCount : 0
     })
-
-
 
     const ProductContainer:{name : string, value : number | string, type : string}[] = [
         {
@@ -53,7 +44,7 @@ const PopUp:React.FC<{searchQuery : string}> = ({searchQuery}) => {
             type : "number" 
         },
         {
-            name : "Product Cost",
+            name : "ProductCost",
             value : ProductSetup.ProductCost,
             type : 'number'
         }
@@ -61,22 +52,22 @@ const PopUp:React.FC<{searchQuery : string}> = ({searchQuery}) => {
 
     const OrderContainer:{name : string, value : number | string, type : string}[] = [
         {
-            name : "Ordered Item",
+            name : "OrderedItem",
             value : OrderSetup.OrderedItem,
             type : "string"
         },
         {
-            name : "Ordered Date",
+            name : "OrderDate",
             value : OrderSetup.OrderDate,
             type : "string"
         },
         {
-            name : "Arrival date",
+            name : "ArrivalDate",
             value : OrderSetup.ArrivalDate,
             type : "string"
         },
         {
-            name : "number of items",
+            name : "OrderCount",
             value : OrderSetup.OrderCount,
             type : "number"
         }
@@ -84,25 +75,45 @@ const PopUp:React.FC<{searchQuery : string}> = ({searchQuery}) => {
 
     function ValueChanged(event : any){
         const {name, value, type} = event.target
-        setProductSetup((item)=>{
-            return{
-                ...item,
-                [name] : value
-            }   
-        })
+        if(searchQuery === "Orders"){
+            setOrderSetup((item)=>{
+                return{
+                    ...item,
+                    [name] : value
+                }
+            })
+        }else if(searchQuery === "Products"){
+            setProductSetup((item)=>{
+                return{
+                    ...item,
+                    [name] : value
+                }   
+            })
+        }else{
+            throw new Error("invalid url has been used")
+        }
 
-        setOrderSetup((item)=>{
-            return{
-                ...item,
-                [name] : value
-            }
-        })
+        console.log(`the value was ${value} for the name ${name}`)
     }
 
-    function AddItem(){
-        
-    }
+    async function AddItem(){
+        const {OrderedItem, OrderDate, OrderCount, ArrivalDate} = OrderSetup
+        const {ProductName, ProductCost, ProductCount} = ProductSetup
 
+        if(searchQuery === "Orders"){
+            const DB = new Database()
+            await DB.WriteToDatabase([OrderCount.toString(), OrderDate, OrderedItem, ArrivalDate], ["OrderCount", "OrderDate", "OrderedItem", "ArrivalDate"], "Orders")
+             .then(()=>{
+                console.log(" data has been sent")
+             })
+        }else if(searchQuery === "Products"){
+           // const DB = new Database()
+           // DB.WriteToDatabase([ProductName, ProductCost.toString(), ProductCount.toString()], ["ProductName", "ProductCost", "ProductCount"], "Products")
+            await SendData([ProductName, ProductCost.toString(), ProductCount.toString()], ["ProductName", "ProductCost", "ProductCount"], "Products")
+        }else{
+            throw new Error("invalid url is being used")
+        }
+    }
 
   return (
     <>
@@ -123,9 +134,10 @@ const PopUp:React.FC<{searchQuery : string}> = ({searchQuery}) => {
                     <span>
                         ENTER APPROPRIATE INFORMATION HERE
                     </span>
+
                 {
-                    target ?
-                        target.map((item)=>{
+                    searchQuery === "Orders" ?
+                        OrderContainer.map((item)=>{
                             return(
                                 <div key={item.name} className=' my-2'>
                                     <span>
@@ -144,7 +156,24 @@ const PopUp:React.FC<{searchQuery : string}> = ({searchQuery}) => {
                             )
                         })
                         :
-                        ""
+                        ProductContainer.map((item)=>{
+                            return(
+                                <div key={item.name} className=' my-2'>
+                                    <span>
+                                        {item.name}
+                                     </span>
+            
+                                    <input 
+                                        type={`${item.type}`}
+                                        placeholder={`${item.name}`}
+                                        name={`${item.name}`}
+                                        value={item.value}
+                                        onChange={ValueChanged}
+                                        className=' ml-2 rounded-md'
+                                    />
+                                </div>
+                            )
+                        })
                 }       
 
                 <div>

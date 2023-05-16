@@ -27,3 +27,12 @@ const Content = async ({searchParams}:propInterface) => {
 }
 
 export default Content
+
+export async function SendData(DataToWrite : string[], Columns : string[],  table : string){
+  try{
+    const DAB = new Database()
+    const WTD = await DAB.WriteToDatabase(DataToWrite, Columns, table);
+  }catch(err){
+    console.log(`an error occured while writting to the database`)
+  }
+}

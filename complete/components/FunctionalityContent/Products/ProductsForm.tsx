@@ -14,7 +14,7 @@ interface valuesInterface {
 
 const ProductsForm = ({searchTerm, Products} : {searchTerm : string, Products : Products[]}) => {
 
-  const Data = FilterData<Products>(Products, searchTerm, (Products)=>Products.ProductName)
+  const Data = FilterData<Products>(Products, searchTerm.toLocaleLowerCase(), (Products)=>Products.ProductName.toLocaleLowerCase())
 
   return (
     <div className=' bg-green-400 h-[75vh] overflow-y-scroll mt-5 p-2'>

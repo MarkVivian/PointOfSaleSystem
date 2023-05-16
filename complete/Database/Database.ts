@@ -43,7 +43,6 @@ export default class Database{
                 password : "M6a2r7k5",
                 database : "TestPOS"
                })
-
         }catch(err){
             console.log("an error occured while connecting to the database.")
         }
@@ -51,17 +50,19 @@ export default class Database{
     }
 
     async WriteToDatabase(DataToWrite : string[], Columns : string[],  table : string){
-        const commasValues = DataToWrite.map(()=>"?").join(",")        
-        const queryScript = `INSERT INTO ${table} (${Columns}) VALUES(${commasValues})`;
         return new Promise((resolve, reject) => {
+            const commasValues = DataToWrite.map(()=>"?").join(",")        
+            const queryScript = `INSERT INTO ${table} (${Columns}) VALUES(${commasValues})`
             this.Connection.query(queryScript, DataToWrite, (error) => {
-              if (error) {
+                if (error) {
                 reject(error);
-              } else{
-
-              }
+                } else{
+                console.log("the data has been written correctly");
+                }
             });
-          });
+            
+            this.Connection.end()
+        });
     }
 
     async ReadDatabase(table : string):Promise<Products[] | Orders[]>{         
@@ -75,11 +76,8 @@ export default class Database{
             }else{
               resolve(results)
             }
-          }); 
+          })
+          this.Connection.end() 
         })
-    }
-
-    ReadSpecificDatabase(){
-
     }
 }
