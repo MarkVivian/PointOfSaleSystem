@@ -62,8 +62,9 @@ export default class Database{
 
     async ReadDatabase(table : string):Promise<Products[] | Orders[]>{         
         return new Promise((resolve, reject)=>{
+            const queryScript = "SELECT * FROM " + table
             // Use the connection for database operations
-          this.Connection.query(`SELECT * FROM ${table}`, (error, results : Products[] | Orders[], fields) => {
+          this.Connection.query(queryScript, (error, results : Products[] | Orders[], fields) => {
             // Handle the query results
             if (error) {
               console.error('Error executing query:', error);
@@ -73,6 +74,22 @@ export default class Database{
             }
           })
           this.Connection.end() 
+        })
+    }
+
+    async DeleteFromDatabase(table:string, columnName : string, columnId : number){
+        return new Promise((resolve, reject)=>{
+            const queryScript = "DELETE FROM " + table + " WHERE " + columnName + "=" +  columnId;
+            console.log(queryScript)
+            this.Connection.query(queryScript, (error, results, fields)=>{
+                if(error){
+                    console.log("Error executing query", error);
+                    reject(error)
+                }else{
+                    resolve(results)
+                }
+            })
+            this.Connection.end()
         })
     }
 }

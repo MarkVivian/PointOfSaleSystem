@@ -1,7 +1,5 @@
 "use client"
-import Database from '@/Database/Database'
-import { SendData } from '@/app/(Functionality)/[content]/page'
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useRef, useState } from 'react'
 
 interface ProductsInterface{
         ProductName : string,
@@ -101,15 +99,24 @@ const PopUp:React.FC<{searchQuery : string}> = ({searchQuery}) => {
         const {ProductName, ProductCost, ProductCount} = ProductSetup
 
         if(searchQuery === "Orders"){
-            const DB = new Database()
-            await DB.WriteToDatabase([OrderCount.toString(), OrderDate, OrderedItem, ArrivalDate], ["OrderCount", "OrderDate", "OrderedItem", "ArrivalDate"], "Orders")
-             .then(()=>{
-                console.log(" data has been sent")
-             })
+            const DataValue = {
+                "DataToWrite" : [OrderCount.toString(), OrderDate, OrderedItem, ArrivalDate],
+                "Columns" : ["OrderCount", "OrderDate", "OrderedItem", "ArrivalDate"],
+                "tableName" : "Orders"
+            }
+
+            const Response = await fetch(
+                "http://localhost:3000/DatabaseInfo/Data",
+                {
+                    next : {
+                        revalidate : 10
+                    },
+                    body:JSON.stringify(DataValue)
+                })
         }else if(searchQuery === "Products"){
            // const DB = new Database()
            // DB.WriteToDatabase([ProductName, ProductCost.toString(), ProductCount.toString()], ["ProductName", "ProductCost", "ProductCount"], "Products")
-            await SendData([ProductName, ProductCost.toString(), ProductCount.toString()], ["ProductName", "ProductCost", "ProductCount"], "Products")
+            //await SendData([ProductName, ProductCost.toString(), ProductCount.toString()], ["ProductName", "ProductCost", "ProductCount"], "Products")
         }else{
             throw new Error("invalid url is being used")
         }

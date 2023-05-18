@@ -1,4 +1,4 @@
-import Database, { Orders, Products } from "@/Database/Database"
+import { Orders, Products } from "@/Database/Database"
 import ContentPage from "@/components/FunctionalityContent/ContentPage"
 interface propInterface{
   params : {
@@ -10,15 +10,13 @@ interface propInterface{
 }
 
 const Content = async ({searchParams}:propInterface) => {
-  const DB = new Database()
-  var Products:Products[]|Orders[];
-  var Orders:Products[] | Orders[];
+  var Products:Products[] | any;
+  var Orders:Orders[] | any;
   if(searchParams.searchQuery === "Products"){
-    Products = await DB.ReadDatabase("Products")
+      Products = await GetData("Products")
   }else if(searchParams.searchQuery === "Orders"){
-    Orders = await DB.ReadDatabase("Orders")
+    Orders = await GetData("Orders")
   }
-
   return (
     <>
       <ContentPage searchQuery={searchParams.searchQuery} ProductsData={Products!} ordersData={Orders!}/>
@@ -28,11 +26,27 @@ const Content = async ({searchParams}:propInterface) => {
 
 export default Content
 
-export async function SendData(DataToWrite : string[], Columns : string[],  table : string){
-  try{
-    const DAB = new Database()
-    const WTD = await DAB.WriteToDatabase(DataToWrite, Columns, table);
-  }catch(err){
-    console.log(`an error occured while writting to the database`)
-  }
+async function GetData(table:string){
+    return new Promise(async (resolve, reject)=>{
+      try{
+        const info = await fetch("http://localhost:3000/DatabaseInfo/GetData", {
+          method : "POST",
+          next : {
+            revalidate : 10
+          },
+          headers: {
+            'Content-Type': 'application/json', // Set the appropriate Content-Type header
+            // Additional headers if needed
+            // ...
+          },
+          body: JSON.stringify({"Name" : table})
+        })
+        const response = await info.json()
+        resolve(response)
+      }catch(err){
+        console.error("an error occured while getting the data")
+        reject(err)
+      }
+    })
+   
 }
