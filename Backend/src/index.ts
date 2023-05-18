@@ -4,11 +4,7 @@ import HandleOrdersProducts from "./Orders-Products/HandleOrdersProducts";
 const App:Application = express()
 
 
-App.use(cors({
-    origin : 'http://localhost:3000',
-    methods : ["POST", "GET"],
-    allowedHeaders : ["authorization", "content-type"]
-}))
+App.use(cors())
 
 App.use(express.json())
 

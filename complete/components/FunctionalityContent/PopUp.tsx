@@ -17,6 +17,8 @@ const PopUp:React.FC<{searchQuery : string}> = ({searchQuery}) => {
 
     const HidePopUp = useRef<HTMLDivElement>(null)
 
+    const [others , setOthers] = useState<Promise<string> | string>()
+
     const [ProductSetup, setProductSetup] = useState<ProductsInterface>({
         ProductName : "",
         ProductCount : 0,
@@ -30,44 +32,51 @@ const PopUp:React.FC<{searchQuery : string}> = ({searchQuery}) => {
         OrderCount : 0
     })
 
-    const ProductContainer:{name : string, value : number | string, type : string}[] = [
+    const ProductContainer:{name : string, value : number | string, type : string, placeholder : string}[] = [
         {
             name : "ProductName",
+            placeholder : "e.g hammer",
             value : ProductSetup.ProductName,
             type : "text"
         },
         {
             name : "ProductCount",
+            placeholder : "e.g 23, 56",
             value : ProductSetup.ProductCount,
             type : "number" 
         },
         {
             name : "ProductCost",
+            placeholder : "e.g 5000",
             value : ProductSetup.ProductCost,
             type : 'number'
         }
     ]
 
-    const OrderContainer:{name : string, value : number | string, type : string}[] = [
+    const OrderContainer:{name : string, value : number | string, type : string, placeholder : string}[] = [
         {
             name : "OrderedItem",
             value : OrderSetup.OrderedItem,
-            type : "string"
+            type : "string",
+             placeholder : "e.g Hammer"
         },
         {
             name : "OrderDate",
             value : OrderSetup.OrderDate,
-            type : "string"
+            type : "string",
+             placeholder : "e.g. yyyy-mm-dd -> 2001-12-01"
         },
         {
             name : "ArrivalDate",
             value : OrderSetup.ArrivalDate,
-            type : "string"
+            type : "string",
+             placeholder : "e.g. yyyy-mm-dd -> 2001-12-01"
         },
         {
             name : "OrderCount",
             value : OrderSetup.OrderCount,
-            type : "number"
+            type : "number",
+             placeholder : "e.g 24"
         }
     ]
 
@@ -91,7 +100,28 @@ const PopUp:React.FC<{searchQuery : string}> = ({searchQuery}) => {
             throw new Error("invalid url has been used")
         }
 
-        console.log(`the value was ${value} for the name ${name}`)
+    }
+
+    async function WriteData(info : any):Promise<string>{
+        return new Promise(async (resolve, reject)=>{
+            try{
+                const Response = await fetch("http://localhost:3000/DatabaseInfo/AddData",{
+                    cache : "no-cache",
+                    method : 'POST',
+                    headers: {
+                        'Content-Type': 'application/json', // Set the appropriate Content-Type header
+                        // Additional headers if needed
+                        // ...
+                        },
+                    body:JSON.stringify(info)
+                })
+                setOthers(Response.text())
+            }catch(err){
+                reject(err)
+                setOthers("an error occured while writting to the database")
+                console.log("an error occured while updating " + err)
+            }
+        })
     }
 
     async function AddItem(){
@@ -99,24 +129,19 @@ const PopUp:React.FC<{searchQuery : string}> = ({searchQuery}) => {
         const {ProductName, ProductCost, ProductCount} = ProductSetup
 
         if(searchQuery === "Orders"){
-            const DataValue = {
-                "DataToWrite" : [OrderCount.toString(), OrderDate, OrderedItem, ArrivalDate],
-                "Columns" : ["OrderCount", "OrderDate", "OrderedItem", "ArrivalDate"],
-                "tableName" : "Orders"
-            }
-
-            const Response = await fetch(
-                "http://localhost:3000/DatabaseInfo/Data",
-                {
-                    next : {
-                        revalidate : 10
-                    },
-                    body:JSON.stringify(DataValue)
+                await WriteData({
+                    "DataToWrite" : [OrderCount, OrderDate, OrderedItem, ArrivalDate],
+                    "Columns" : ["OrderCount", "OrderDate", "OrderedItem", "ArrivalDate"],
+                    "tableName" : "Orders"
                 })
+                //setOthers("succesfully added item to the store")
         }else if(searchQuery === "Products"){
-           // const DB = new Database()
-           // DB.WriteToDatabase([ProductName, ProductCost.toString(), ProductCount.toString()], ["ProductName", "ProductCost", "ProductCount"], "Products")
-            //await SendData([ProductName, ProductCost.toString(), ProductCount.toString()], ["ProductName", "ProductCost", "ProductCount"], "Products")
+            await WriteData({
+                "DataToWrite" : [ProductName, ProductCost, ProductCount],
+                "Columns" : ["ProductName", "ProductCost", "ProductCount"],
+                "tableName" : "Products"
+            })
+            //setOthers("succesfully added item to the store")
         }else{
             throw new Error("invalid url is being used")
         }
@@ -141,6 +166,9 @@ const PopUp:React.FC<{searchQuery : string}> = ({searchQuery}) => {
                     <span>
                         ENTER APPROPRIATE INFORMATION HERE
                     </span>
+                    <h1 className=' text-green-500'>
+                        {others!}
+                    </h1>
 
                 {
                     searchQuery === "Orders" ?
@@ -153,7 +181,7 @@ const PopUp:React.FC<{searchQuery : string}> = ({searchQuery}) => {
                             
                                     <input 
                                         type={`${item.type}`}
-                                        placeholder={`${item.name}`}
+                                        placeholder={`${item.placeholder}`}
                                         name={`${item.name}`}
                                         value={item.value}
                                         onChange={ValueChanged}
