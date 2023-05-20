@@ -5,14 +5,16 @@ import Image from "next/image"
 import ProductsImage from "@/public/BackgroundImage.jpg"
 import React, { useRef, useState } from 'react'
 import PopUp from "@/components/FunctionalityContent/PopUp"
+import Link from 'next/link'
 
 
 const ContentPage:React.FC<{searchQuery : string, ProductsData:any, ordersData:any}> = ({searchQuery, ProductsData, ordersData}) => {
     const hideInput = useRef<HTMLInputElement>(null)
 
-    const [info, SetInfo] = useState<{searchTerm : string, state : boolean}>({
+    const [info, SetInfo] = useState<{searchTerm : string, stateDelete : boolean, stateUpdate : boolean}>({
       searchTerm : "",
-      state : false
+      stateDelete : false,
+      stateUpdate : false
     })
   
     function SearchChange(event : React.ChangeEvent<HTMLInputElement>){
@@ -25,21 +27,27 @@ const ContentPage:React.FC<{searchQuery : string, ProductsData:any, ordersData:a
         }
       })
     }
-  
+
   return (
     <>
         <div className=" h-[100vh] w-[100vw] ContentPage relative">
         
-            <Image src={ProductsImage} alt="products images" className=" absolute h-[100vh] w-[100%] z-[-1]"/>
+            <Image src={ProductsImage} alt="products images" className=" absolute h-[100vh] w-[100%] z-[-1] blur-sm"/>
 
             <h1 className="text-center font-semibold py-2 text-xl bg-white opacity-70">{searchQuery}</h1>
 
 
-            <div className=" h-[88vh] bg-red-500 mt-5 mx-5 p-5 relative">
+            <div className=" h-[88vh] bg-black mt-5 mx-5 p-5 relative opacity-90">
 
                     <div className=' flex place-content-center gap-3'>
+
+                          <Link href={"/"} className=''>
+                            <button className="border-2 text-white p-3">
+                              Home
+                            </button>
+                          </Link>
         
-                            <button className="buttonReusable" onClick={()=>{
+                            <button className="border-2 text-white p-3" onClick={()=>{
                                 if(hideInput.current){
                                   const classLists = hideInput.current?.classList
                                   console.log(classLists)
@@ -53,37 +61,41 @@ const ContentPage:React.FC<{searchQuery : string, ProductsData:any, ordersData:a
                                 value={info.searchTerm}
                                 onChange={SearchChange}
                                 name='searchTerm'
-                                className=' ml-5 p-1 hidden'
+                                className=' ml-1 p-1 hidden'
                                 ref={hideInput}
                             />
         
                             <PopUp searchQuery={searchQuery}/>
 
+                            <button className=' border-2 text-white p-3' onClick={()=>{
+                              SetInfo((item)=>{
+                                return{
+                                  ...item,
+                                  stateUpdate : !info.stateUpdate
+                                }
+                              })
+                            }}>
+                                Update Data
+                            </button>
+                             
                             <button onClick={()=>{
                                 SetInfo((items)=>{
                                     return{
                                       ...items,
-                                      state : !info.state
+                                      stateDelete : !info.stateDelete
                                     }
                                 })
-                            }} className=' buttonReusable'>
+                            }} className=' border-2 text-white p-3 '>
                               Delete Item
                             </button>
 
-                            {
-                              info.state ?
-                              <button onClick={()=>{location.reload()}} className='buttonReusable'>
-                                  Done
-                              </button>:
-                              ""
-                            }
                     </div>
 
                 {
                     searchQuery === "Orders" ?
-                        <OrdersForm searchTerm={info.searchTerm} Orders={ordersData}/>
+                        <OrdersForm searchTerm={info.searchTerm} Orders={ordersData} stateDelete={info.stateDelete} stateUpdate={info.stateUpdate}/>
                             :
-                        <ProductsForm searchTerm={info.searchTerm} Products={ProductsData} state={info.state}/>
+                        <ProductsForm searchTerm={info.searchTerm} Products={ProductsData} stateDelete={info.stateDelete} stateUpdate={info.stateUpdate}/>
                 }
             </div>
 

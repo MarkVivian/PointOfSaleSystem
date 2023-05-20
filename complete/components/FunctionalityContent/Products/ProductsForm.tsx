@@ -1,34 +1,30 @@
 "use client"
+//TODO ADD THE EDIT INFORMATION TAB.
 
 import React, { useEffect, useState } from 'react';
-import accept from "@/public/accept.png";
-import Image from 'next/image';
-import deleteButton from "@/public/delete-button.png"
-import { Orders, Products } from '@/Database/Database';
+import { Products } from '@/Database/Database';
 import FilterData from "../FilterData"
 
-interface valuesInterface {
-  searchTerm : string,
-  Database : any
-}
-
-const ProductsForm = ({searchTerm, Products, state} : {searchTerm : string, Products : Products[], state : boolean}) => {
+const ProductsForm = ({searchTerm, Products, stateDelete, stateUpdate} : {searchTerm : string, Products : Products[], stateDelete : boolean, stateUpdate : boolean}) => {
 
   const Data = FilterData<Products>(Products, searchTerm.toLocaleLowerCase(), (Products)=>Products.ProductName.toLocaleLowerCase())
-  const [Delete, SetDelete] = useState<{DeleteState : boolean, message : string, done : boolean}>({
+
+  const [Delete, SetDelete] = useState<{DeleteState : boolean, message : string, UpdateState : boolean}>({
     DeleteState : false,
     message : "",
-    done : false
+    UpdateState : false
   })
+
   useEffect(()=>{
       SetDelete((item)=>{
         return{
           ...item,
-          DeleteState : state
+          DeleteState : stateDelete,
+          UpdateState : stateUpdate
         }
       })
-      localStorage.setItem("delete", `${state}`)
-  }, [state])
+  }, [stateDelete, stateUpdate])
+
   function DeleteMe(id:number, column : string, table : string){
     return new Promise(async (resolve, reject)=>{
       const sendBody = {
@@ -46,32 +42,40 @@ const ProductsForm = ({searchTerm, Products, state} : {searchTerm : string, Prod
           },
         })
         console.log("i have been sent away")
-        SetDelete((item)=>{
-          return{
-            ...item,
-            done : true
-          }
-        })
+        location.reload()
       }catch(err){
         reject(err)
-        console.log("an error occured while deleting item.")
+        console.log("an error occured while deleting Product.")
       }
     })
   }
   return (
-    <div className=' bg-green-400 h-[75vh] overflow-y-scroll mt-5 p-2'>
+    <div className=' h-[75vh] overflow-y-scroll mt-5 p-2'>
         {
         Data.map((item)=>{
           return(
-            <div className=' bg-blue-500 flex mb-5 h-[3rem] relative py-2 rounded-md pl-3' key={item.ProductId}>
-              <h1>{item.ProductName}</h1>
-              <div className=' flex absolute gap-4 right-4'>
+            <div className=' bg-blue-500 flex mb-5 py-2 rounded-md pl-3 gap-6 place-content-center' key={item.ProductId}>
+              <div className=' grid'>
+                  <h1>Product Name : {item.ProductName}</h1>
+                  <h1>Product Count : {item.ProductCount}</h1>
+              </div>
+
+              <div className=' grid'>
+                <h1>Product Cost : {item.ProductCost}</h1>
+              </div>
+
+              <div className=' grid'>
               {
                       Delete.DeleteState ?
-                      Delete.done ?
-                      <h2> Deleted </h2>
+                      <button onClick={()=>{
+                        DeleteMe(item.ProductId, "ProductId", "Products")
+                    }} className=' m-2 border-2 p-1'>  Select</button>
                       :
-                    <button onClick={()=>DeleteMe(item.ProductId, "ProductId", "Products")}><Image src={deleteButton} alt='delete image' width={30} height={30}/></button>
+                      Delete.UpdateState ?
+                      <>
+                          <button className=' border-2'>Edit Information</button>
+                          <button className=' mt-2 border-2'>Done</button>
+                      </>
                       :
                       ""
               }

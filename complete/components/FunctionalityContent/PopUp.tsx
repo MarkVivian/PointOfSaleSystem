@@ -158,7 +158,7 @@ const PopUp:React.FC<{searchQuery : string}> = ({searchQuery}) => {
 
   return (
     <>
-        <button className='buttonReusable' onClick={()=>{
+        <button className='border-2 text-white p-3' onClick={()=>{
             if(HidePopUp.current){
                 const classList = HidePopUp.current.classList
                 classList.remove("hidden")
