@@ -2,24 +2,33 @@ import { Orders, Products } from "@/Database/Database"
 import ContentPage from "@/components/FunctionalityContent/ContentPage"
 interface propInterface{
   params : {
-      pages : string
+      content : string
   },
   searchParams : {
       searchQuery : string
   }
 }
 
-const Content = async ({searchParams}:propInterface) => {
+export async function generateStaticParams(){
+    const paths = ["Orders/Orders", "Products/Orders"]
+    return paths.map((item)=>{
+      return{
+        content : item
+      }
+    })
+}
+
+const Content = async ({searchParams, params}:propInterface) => {
   var Products:Products[] | any;
   var Orders:Orders[] | any;
-  if(searchParams.searchQuery === "Products"){
+  if(params.content === "Products"){
       Products = await GetData("Products")
-  }else if(searchParams.searchQuery === "Orders"){
+  }else if(params.content === "Orders"){
     Orders = await GetData("Orders")
   }
   return (
     <>
-      <ContentPage searchQuery={searchParams.searchQuery} ProductsData={Products!} ordersData={Orders!}/>
+      <ContentPage searchQuery={params.content!} ProductsData={Products!} ordersData={Orders!}/>
     </>
   )
 }
@@ -31,7 +40,10 @@ async function GetData(table:string){
       try{
         const info = await fetch("http://localhost:3000/DatabaseInfo/GetData", {
           method : "POST",
-          cache : "no-store",
+          //next : {
+          //  revalidate : 10
+          //},
+          cache : 'no-store',
           headers: {
             'Content-Type': 'application/json', // Set the appropriate Content-Type header
             // Additional headers if needed

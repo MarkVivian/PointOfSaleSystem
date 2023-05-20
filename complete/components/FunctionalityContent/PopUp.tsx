@@ -1,5 +1,5 @@
 "use client"
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 
 interface ProductsInterface{
         ProductName : string,
@@ -134,6 +134,7 @@ const PopUp:React.FC<{searchQuery : string}> = ({searchQuery}) => {
                     "Columns" : ["OrderCount", "OrderDate", "OrderedItem", "ArrivalDate"],
                     "tableName" : "Orders"
                 })
+                location.reload()
                 //setOthers("succesfully added item to the store")
         }else if(searchQuery === "Products"){
             await WriteData({
@@ -141,19 +142,29 @@ const PopUp:React.FC<{searchQuery : string}> = ({searchQuery}) => {
                 "Columns" : ["ProductName", "ProductCost", "ProductCount"],
                 "tableName" : "Products"
             })
-            //setOthers("succesfully added item to the store")
         }else{
             throw new Error("invalid url is being used")
         }
+
     }
+
+    useEffect(()=>{
+        const classState = localStorage.getItem("PopUpClass")
+        if(HidePopUp.current && classState){
+            const classList = HidePopUp.current.classList
+            classList.add(classState)
+        }
+    }, [])
 
   return (
     <>
-        <button className=" border-2 p-2 rounded-lg ml-2" onClick={()=>{
+        <button className='buttonReusable' onClick={()=>{
             if(HidePopUp.current){
                 const classList = HidePopUp.current.classList
                 classList.remove("hidden")
                 classList.add("grid")
+                localStorage.clear()
+                localStorage.setItem("PopUpClass", "Grid")
             }
         }}>
             Add {searchQuery}
@@ -221,6 +232,8 @@ const PopUp:React.FC<{searchQuery : string}> = ({searchQuery}) => {
                             const classList = HidePopUp.current.classList
                             classList.add("hidden")
                             classList.remove("grid")
+                            localStorage.clear()
+                            localStorage.setItem("PopUpClass", "hidden")
                         }
                     }}>
                         close

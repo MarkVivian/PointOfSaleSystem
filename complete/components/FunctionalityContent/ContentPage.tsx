@@ -10,8 +10,9 @@ import PopUp from "@/components/FunctionalityContent/PopUp"
 const ContentPage:React.FC<{searchQuery : string, ProductsData:any, ordersData:any}> = ({searchQuery, ProductsData, ordersData}) => {
     const hideInput = useRef<HTMLInputElement>(null)
 
-    const [info, SetInfo] = useState<{searchTerm : string}>({
+    const [info, SetInfo] = useState<{searchTerm : string, state : boolean}>({
       searchTerm : "",
+      state : false
     })
   
     function SearchChange(event : React.ChangeEvent<HTMLInputElement>){
@@ -36,9 +37,9 @@ const ContentPage:React.FC<{searchQuery : string, ProductsData:any, ordersData:a
 
             <div className=" h-[88vh] bg-red-500 mt-5 mx-5 p-5 relative">
 
-                    <div className=' flex place-content-center'>
+                    <div className=' flex place-content-center gap-3'>
         
-                            <button className=" border-2 p-2 rounded-lg" onClick={()=>{
+                            <button className="buttonReusable" onClick={()=>{
                                 if(hideInput.current){
                                   const classLists = hideInput.current?.classList
                                   console.log(classLists)
@@ -52,18 +53,37 @@ const ContentPage:React.FC<{searchQuery : string, ProductsData:any, ordersData:a
                                 value={info.searchTerm}
                                 onChange={SearchChange}
                                 name='searchTerm'
-                                className=' ml-5 p-1 hideMyself'
+                                className=' ml-5 p-1 hidden'
                                 ref={hideInput}
                             />
         
                             <PopUp searchQuery={searchQuery}/>
+
+                            <button onClick={()=>{
+                                SetInfo((items)=>{
+                                    return{
+                                      ...items,
+                                      state : !info.state
+                                    }
+                                })
+                            }} className=' buttonReusable'>
+                              Delete Item
+                            </button>
+
+                            {
+                              info.state ?
+                              <button onClick={()=>{location.reload()}} className='buttonReusable'>
+                                  Done
+                              </button>:
+                              ""
+                            }
                     </div>
 
                 {
                     searchQuery === "Orders" ?
                         <OrdersForm searchTerm={info.searchTerm} Orders={ordersData}/>
                             :
-                        <ProductsForm searchTerm={info.searchTerm} Products={ProductsData}/>
+                        <ProductsForm searchTerm={info.searchTerm} Products={ProductsData} state={info.state}/>
                 }
             </div>
 

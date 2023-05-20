@@ -48,10 +48,6 @@ HandleOrdersProducts.post("/DeleteData", (req, res)=>{
         columnName : string
     }
     const info:infoInterface = req.body
-    console.log(info.columnId)
-    console.log(info.tableName)
-    console.log(info.columnName)
-    /*
     return new Promise(async (resolve, reject)=>{
         try{
             const DB = new Database()
@@ -63,7 +59,6 @@ HandleOrdersProducts.post("/DeleteData", (req, res)=>{
             reject(err)
         }
     })
-    */
 })
 
 export default HandleOrdersProducts;
