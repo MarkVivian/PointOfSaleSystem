@@ -37,10 +37,10 @@ export default Content
 
 async function GetData(table:string){
     return new Promise(async (resolve, reject)=>{
-      try{
+      try{  
         const info = await fetch("http://localhost:3000/DatabaseInfo/GetData", {
           method : "POST",
-          cache : "no-store",
+          cache : "no-cache",
           headers: {
             'Content-Type': 'application/json', // Set the appropriate Content-Type header
             // Additional headers if needed

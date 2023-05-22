@@ -1,0 +1,17 @@
+.PopUp{
+    background: linear-gradient(to top, #051937, #002f4f, #004555, #005a48, #246b2d);
+    font : bold;  
+    color: white;  
+    .PopUpBox{
+        background-image: linear-gradient(to top, #5c5110, #565b0c, #4b6610, #38711b, #0b7b2c);
+        .PopUpInput{
+            background-color: black;
+        }
+
+        .PopUpButton{
+            border: 2px solid grey; 
+            padding: .5rem;
+            border-radius: 30px;
+        }
+    }
+}

@@ -170,13 +170,14 @@ const PopUp:React.FC<{searchQuery : string}> = ({searchQuery}) => {
             Add {searchQuery}
         </button>
 
-        <div className=' absolute z-[999] hidden bg-black h-[100%] w-[100vw] opacity-80 place-content-center' ref={HidePopUp}>
+        <div className='PopUp absolute z-[999] hidden h-[100%] w-[100vw] opacity-[96] place-content-center text-xl' ref={HidePopUp}>
 
 
-            <div className=' bg-white opacity-1 w-[20rem] h-[20rem]'>
-                    <span>
-                        ENTER APPROPRIATE INFORMATION HERE
-                    </span>
+            <div className=' bg-white opacity-1 w-[30rem] p-2 rounded-md PopUpBox gap-3'>
+                    <h1 className=' text-center'>
+                        ENTER APPROPRIATE INFORMATION
+                    </h1>
+                    <hr/>
                     <h1 className=' text-green-500'>
                         {others!}
                     </h1>
@@ -185,7 +186,7 @@ const PopUp:React.FC<{searchQuery : string}> = ({searchQuery}) => {
                     searchQuery === "Orders" ?
                         OrderContainer.map((item)=>{
                             return(
-                                <div key={item.name} className=' my-2'>
+                                <div key={item.name} className=' grid my-2 gap-3'>
                                     <span>
                                         {item.name}
                                      </span>
@@ -196,7 +197,7 @@ const PopUp:React.FC<{searchQuery : string}> = ({searchQuery}) => {
                                         name={`${item.name}`}
                                         value={item.value}
                                         onChange={ValueChanged}
-                                        className=' ml-2 rounded-md'
+                                        className=' ml-2 rounded-md PopUpInput'
                                     />
                                 </div>
                             )
@@ -204,7 +205,7 @@ const PopUp:React.FC<{searchQuery : string}> = ({searchQuery}) => {
                         :
                         ProductContainer.map((item)=>{
                             return(
-                                <div key={item.name} className=' my-2'>
+                                <div key={item.name} className=' grid my-2 gap-3'>
                                     <span>
                                         {item.name}
                                      </span>
@@ -215,19 +216,19 @@ const PopUp:React.FC<{searchQuery : string}> = ({searchQuery}) => {
                                         name={`${item.name}`}
                                         value={item.value}
                                         onChange={ValueChanged}
-                                        className=' ml-2 rounded-md'
+                                        className=' ml-2 rounded-md PopUpInput'
                                     />
                                 </div>
                             )
                         })
                 }       
 
-                <div>
-                    <button className='buttonReusable' onClick={AddItem}>
+                <div className=' relative gap-3 flex place-content-center'>
+                    <button className='PopUpButton' onClick={AddItem}>
                         Add {searchQuery}
                     </button>
 
-                    <button className='buttonReusable' onClick={()=>{
+                    <button className='PopUpButton' onClick={()=>{
                         if(HidePopUp.current){
                             const classList = HidePopUp.current.classList
                             classList.add("hidden")
