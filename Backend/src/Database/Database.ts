@@ -92,4 +92,30 @@ export default class Database{
             this.Connection.end()
         })
     }
+
+    async UpdateDataFromDatabase(table:string, tableId:number, Column:string[], UpdatedData:string[], idColumn:string){
+        return new Promise((resolve, reject)=>{
+            try{
+                var Info="";
+                for(var i=0; i<Column.length;i++){
+                    const ColumnScript = `\n${Column[i]}="${UpdatedData[i]}",`
+                    Info += ColumnScript
+                }
+                Info = Info.slice(0, -1)
+                const queryScript = `UPDATE ${table} SET ${Info} WHERE ${idColumn}=${tableId}`
+                this.Connection.query(queryScript, (error, results, fields)=>{
+                    if(error){
+                        console.log("Error executing query", error);
+                        reject(error)
+                    }else{
+                        resolve(results)
+                    }
+                })
+                this.Connection.end()
+            }catch(err){
+                reject(err)
+                console.log(`an error occured while Updating data in the database ${err}`)
+            }
+        })
+    }
 }

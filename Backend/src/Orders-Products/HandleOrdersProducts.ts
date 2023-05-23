@@ -61,4 +61,28 @@ HandleOrdersProducts.post("/DeleteData", (req, res)=>{
     })
 })
 
+HandleOrdersProducts.post("/UpdateData", (req, res)=>{
+    interface DataInterface{
+        id:number,
+        tableName : string,
+        columns : string[],
+        UpdatedData : string[],
+        idColumn : string
+    }
+
+    const Data:DataInterface = req.body
+    const DB = new Database()
+    return new Promise(async (resolve, reject)=>{
+        try{
+            await DB.ConnectToDatabase()
+            await DB.UpdateDataFromDatabase(Data.tableName, Data.id, Data.columns, Data.UpdatedData, Data.idColumn)
+            res.status(200).send("the data has been updated succesfully")
+        }catch(err){
+            reject(err)
+            console.log(`an error occured while updating data in the database . \n ${err}`)
+        }
+    })
+
+})
+
 export default HandleOrdersProducts;
