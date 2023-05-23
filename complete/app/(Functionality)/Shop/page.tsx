@@ -2,7 +2,7 @@
 import { NextPage } from "next"
 import Image from "next/image"
 import shop from "@/public/shop.jpg"
-import { ChangeEvent, useState } from "react"
+import { useState } from "react"
 
 const Shop:NextPage = () => {
   const[input, setInput] = useState<{Product : string, Count : number}>({
@@ -11,7 +11,7 @@ const Shop:NextPage = () => {
   })
 
   function ChangeEvent(event:any){
-    const {name, type, value} = event.target
+    const {name, value} = event.target
     setInput((item)=>{
       return{
         ...item,

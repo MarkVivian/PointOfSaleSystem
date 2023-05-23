@@ -82,7 +82,6 @@ HandleOrdersProducts.post("/UpdateData", (req, res)=>{
             console.log(`an error occured while updating data in the database . \n ${err}`)
         }
     })
-
 })
 
 export default HandleOrdersProducts;

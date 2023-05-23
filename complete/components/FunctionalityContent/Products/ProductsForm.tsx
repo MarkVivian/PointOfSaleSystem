@@ -2,8 +2,14 @@
 //TODO ADD THE EDIT INFORMATION TAB.
 
 import React, { useEffect, useState } from 'react';
-import { Products } from '@/Database/Database';
 import FilterData from "../FilterData"
+
+export interface Products{
+  ProductId : number
+  ProductName : string,
+  ProductCount : string,
+  ProductCost : string
+}
 
 const ProductsForm = ({searchTerm, Products, stateDelete, stateUpdate} : {searchTerm : string, Products : Products[], stateDelete : boolean, stateUpdate : boolean}) => {
 
