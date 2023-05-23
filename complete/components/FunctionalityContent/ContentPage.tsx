@@ -16,6 +16,12 @@ const ContentPage:React.FC<{searchQuery : string, ProductsData:any, ordersData:a
       stateDelete : false,
       stateUpdate : false
     })
+
+    const [fetchedData, setFetchedData] = useState<{ProductData : any, OrdersData : any}>({
+        ProductData : "",
+        OrdersData : ""
+    })
+    
   
     function SearchChange(event : React.ChangeEvent<HTMLInputElement>){
       const {name, value} = event.target

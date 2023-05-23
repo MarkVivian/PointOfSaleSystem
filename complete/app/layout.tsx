@@ -1,5 +1,5 @@
 import '@/styles/dist/App.css'
-
+import Menu from "@/components/Reusable/Menu"
 
 export const metadata = {
   title: 'Point of sale system',
@@ -13,7 +13,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        <Menu />
+        {children}
+      </body>
     </html>
   )
 }

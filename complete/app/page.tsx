@@ -31,7 +31,7 @@ export default function Home() {
           image: shop,
           title : "Shop",
           link : "/Shop/",
-          searchQuery: "Ships"
+          searchQuery: "Shop"
         }
     ]
   

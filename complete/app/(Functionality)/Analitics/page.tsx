@@ -1,7 +1,9 @@
 
 const Analitics = () => {
   return (
-    <div>this is the analitics page</div>
+    <>
+    this is the analitics page
+    </>
   )
 }
 
