@@ -71,6 +71,8 @@ HandleOrdersProducts.post("/UpdateData", (req, res)=>{
     }
 
     const Data:DataInterface = req.body
+    console.log(Data)
+    console.log(`Updated data is ${Data.UpdatedData}`)
     const DB = new Database()
     return new Promise(async (resolve, reject)=>{
         try{

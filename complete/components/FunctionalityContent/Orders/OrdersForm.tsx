@@ -13,18 +13,27 @@ export interface Orders{
   OrderedItem : string,
   OrderDate : string, 
   ArrivalDate : string,
-  OrderCount : number
+  OrderCount : number,
+  Editstate? : boolean
 }
 
 const OrdersForm = ({searchTerm, Orders, stateDelete, stateUpdate} : {searchTerm : string, Orders : Orders[], stateDelete : boolean, stateUpdate : boolean}) => {
 
       const Data = FilterData<Orders>(Orders, searchTerm.toLowerCase(), (Orders)=>Orders.OrderedItem.toLowerCase())
+      const [UpdateData, setUpdateData] = useState<Orders[]>(Data)
 
-      const [Delete, SetDelete] = useState<{stateDelete : boolean, message : string, stateUpdate : boolean, UpdateMe : boolean}>({
+      const [Delete, SetDelete] = useState<{stateDelete : boolean, message : string, stateUpdate : boolean}>({
         stateDelete : false,
         message : "",
-        stateUpdate : false,
-        UpdateMe : false
+        stateUpdate : false
+      })
+
+      const [newData, setNewData] = useState<Orders>({
+        OrderedItem : "",
+        OrderCount : 0,
+        ArrivalDate : "",
+        OrderDate : "",
+        OrderId : 0
       })
 
       useEffect(()=>{
@@ -62,17 +71,31 @@ const OrdersForm = ({searchTerm, Orders, stateDelete, stateUpdate} : {searchTerm
         })
       }
 
-      const [UpdateData, setUpdateData] = useState<Orders>({
-        OrderedItem: "",
-        OrderCount : 0,
-        OrderDate : "",
-        ArrivalDate : "",
-        OrderId : 0
-      })
-
-      function UpdateMe(table : string, Columns : string[], id : number, idColumn : string, UpdatedValues : string[]){
-        return new Promise((resolve, reject)=>{
-
+      function UpdateMe(table : string, ColumnValues : string[], tableId : number, idColumnName : string, UpdatedValues : string[]){
+        const dataToBeSend = {
+          tableName : table,
+          id : tableId,
+          idColumn : idColumnName,
+          columns : ColumnValues,
+          UpdatedData : UpdatedValues
+        }
+        return new Promise(async (resolve, reject)=>{
+            try{
+              const Response = await fetch("http://localhost:3000/DatabaseInfo/UpdateData", {
+                method : "POST",
+                cache : "no-cache",
+                body : JSON.stringify(dataToBeSend),
+                headers : {
+                  'Content-Type': 'application/json',
+                }
+              })
+              const ResponseGotten = await Response.text()
+              resolve(ResponseGotten)
+              console.log(ResponseGotten)
+            }catch(err){
+              console.log(`an error occured while sending update data ${err}`)
+              reject(err)
+            }
         })
       }
 
@@ -81,33 +104,33 @@ const OrdersForm = ({searchTerm, Orders, stateDelete, stateUpdate} : {searchTerm
           type={valueType}
           name={`${name}`}
           placeholder={`${initialValue}`}
-          value={name === "OrderedItem" ? UpdateData.OrderedItem : name === "OrderCount" ? UpdateData.OrderCount : name === "ArrivalDate" ? UpdateData.ArrivalDate : name === "OrderDate" ? UpdateData.OrderDate : ""}
+          value={name === "OrderedItem" ? newData.OrderedItem : name === "OrderCount" ? newData.OrderCount : name === "ArrivalDate" ? newData.ArrivalDate : name === "OrderDate" ? newData.OrderDate : ""}
           onChange={UpdateInfo}
         />
       }
     
       function UpdateInfo(event : any){
           const {name, value} = event.target
-          setUpdateData((item)=>{
+          setNewData((item)=>{
             return{
               ...item,
               [name] : value
             }
           })
-          console.log(UpdateData)
+          console.log(newData)
       }
 
       return (
         <div className={" h-[75vh] overflow-y-scroll mt-5 p-2"}>
             {
-            Data.map((item)=>{
+            UpdateData.map((item)=>{
               return(
                 <div className='bg-blue-500 rounded-md m-2 relative flex p-2 gap-4 text-lg place-content-center' key={item.OrderId}>
 
                   <div className=' grid ' >
                       <h1 className=' mx-2 border-b-2'>Order Name : 
                         {
-                          Delete.UpdateMe ?
+                            item.Editstate! ?
                             InputForms("OrderedItem", item.OrderedItem, "text")
                                 :
                             item.OrderedItem
@@ -116,7 +139,7 @@ const OrdersForm = ({searchTerm, Orders, stateDelete, stateUpdate} : {searchTerm
 
                       <h1 className=' mx-2 border-b-2 pt-1'>Number Of Items : 
                       {
-                      Delete.UpdateMe ?
+                        item.Editstate! ?
                         InputForms("OrderCount", item.OrderCount, "number")
                           :
                         item.OrderCount
@@ -127,7 +150,7 @@ const OrdersForm = ({searchTerm, Orders, stateDelete, stateUpdate} : {searchTerm
                   <div className='grid '>
                   <h1 className=' mx-2 border-b-2'>Order Date : 
                   {
-                  Delete.UpdateMe ?
+                  item.Editstate! ?
                     InputForms("OrderDate", item.OrderDate.slice(0,10), "text")
                   :
                   item.OrderDate.slice(0,10)
@@ -136,7 +159,7 @@ const OrdersForm = ({searchTerm, Orders, stateDelete, stateUpdate} : {searchTerm
                   </h1>
                       <h1 className=' mx-2 border-b-2 p-1'>Arrival Date : 
                       {
-                      Delete.UpdateMe ?
+                      item.Editstate! ?
                         InputForms("ArrivalDate", item.ArrivalDate.slice(0,10), "text")
                             :
                         item.ArrivalDate.slice(0,10)
@@ -154,15 +177,14 @@ const OrdersForm = ({searchTerm, Orders, stateDelete, stateUpdate} : {searchTerm
 
                         <>
                           <button className=' border-2' onClick={()=>{
-                            SetDelete((content)=>{
-                              return{
-                                ...content,
-                                UpdateMe : !content.UpdateMe
-                              }
-                            })
-                          }}>Edit Information</button>
-                          <button className=' mt-2 border-2'>Done</button>
-                        </>
+                            setUpdateData((content)=>content.map((value)=>value.OrderId === item.OrderId ? {...value, Editstate : true} : value ))}}>
+                              Edit Information</button>
+
+                          <button className=' mt-2 border-2' onClick={async ()=>{
+                              await UpdateMe("Orders", ["OrderDate", "ArrivalDate", "OrderedItem", "OrderCount"], item.OrderId, "OrderId", [newData.OrderDate, newData.ArrivalDate, newData.OrderedItem, newData.OrderCount.toString()])
+                              location.reload()
+                          }}>Done</button>
+                        </> 
                         :
                         ""
                       }
