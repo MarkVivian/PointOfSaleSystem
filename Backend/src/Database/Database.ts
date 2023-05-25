@@ -118,4 +118,23 @@ export default class Database{
             }
         })
     }
+
+    async DeleteDatabase(tableName:string){
+        return new Promise((resolve, reject)=>{
+            try{
+                const queryScript = `DELETE FROM ${tableName}`
+                this.Connection.query(queryScript, (error, results, fields)=>{
+                    if(error){
+                        console.log("Error while executing query", error)
+                        reject(error)
+                    }else{
+                        resolve(results)
+                    }
+                })
+            }catch(err){
+                reject(err)
+                console.log(`an error occured while reading specific data from the database.${err}`)
+            }
+        })
+    }
 }

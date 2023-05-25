@@ -86,4 +86,19 @@ HandleOrdersProducts.post("/UpdateData", (req, res)=>{
     })
 })
 
+HandleOrdersProducts.post("/DeleteStaticTable", (req, res)=>{
+    const Info:{name : string} = req.body
+    return new Promise(async (resolve, reject)=>{
+        try{
+            const DB = new Database()
+            await DB.ConnectToDatabase()
+            await DB.DeleteDatabase(Info.name)
+            res.status(200).send("succesfully deleted the static database.")
+        }catch(err){
+            reject(err)
+            console.log(`an error occured while deleting the static table`)
+        }
+    })
+})
+
 export default HandleOrdersProducts;

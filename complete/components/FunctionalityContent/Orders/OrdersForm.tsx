@@ -3,18 +3,13 @@
 import React, { useEffect, useState } from 'react';
 import FilterData from "../FilterData"
 
-interface UpdateOrders{
-    orderId : number,
-    SelectionChanged : string
-}
-
 export interface Orders{
   OrderId : number,
   OrderedItem : string,
   OrderDate : string, 
   ArrivalDate : string,
   OrderCount : number,
-  Editstate? : boolean
+  Editstate? : boolean  
 }
 
 const OrdersForm = ({searchTerm, Orders, stateDelete, stateUpdate} : {searchTerm : string, Orders : Orders[], stateDelete : boolean, stateUpdate : boolean}) => {
@@ -117,7 +112,6 @@ const OrdersForm = ({searchTerm, Orders, stateDelete, stateUpdate} : {searchTerm
               [name] : value
             }
           })
-          console.log(newData)
       }
 
       return (

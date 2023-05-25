@@ -1,5 +1,19 @@
-import { Orders, Products } from "@/Database/Database"
 import ContentPage from "@/components/FunctionalityContent/ContentPage"
+interface Products{
+  ProductId : number
+  ProductName : string,
+  ProductCount : number,
+  ProductCost : number,
+  Editstate? : boolean
+}
+interface Orders{
+  OrderId : number,
+  OrderedItem : string,
+  OrderDate : string, 
+  ArrivalDate : string,
+  OrderCount : number,
+  Editstate? : boolean  
+}
 interface propInterface{
   params : {
       content : string
