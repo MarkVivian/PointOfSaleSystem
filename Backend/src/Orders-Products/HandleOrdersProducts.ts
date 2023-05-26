@@ -33,10 +33,10 @@ HandleOrdersProducts.post("/AddData", (req, res)=>{
             const DB = new Database()
             await DB.ConnectToDatabase()
             await DB.WriteToDatabase(Info.DataToWrite, Info.Columns, Info.tableName)
-            res.status(200).send("Successfully added the data to the database.")
+            res.status(200).send({message  : "Successfully added the data to the database."})
         }catch(err){
             reject(err)
-            res.status(200).send("unable to write to the database")
+            res.status(200).send({message : "unable to write to the database"})
         }
     })
 })

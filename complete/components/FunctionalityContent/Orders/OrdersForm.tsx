@@ -12,16 +12,21 @@ export interface Orders{
   Editstate? : boolean  
 }
 
-const OrdersForm = ({searchTerm, Orders, stateDelete, stateUpdate} : {searchTerm : string, Orders : Orders[], stateDelete : boolean, stateUpdate : boolean}) => {
+const OrdersForm = ({searchTerm, Orders, stateDelete, stateUpdate, stateEditing, stateCount} : {searchTerm : string, Orders : Orders[], stateDelete : boolean, stateUpdate : boolean, stateEditing:boolean, stateCount : number}) => {
 
       const Data = FilterData<Orders>(Orders, searchTerm.toLowerCase(), (Orders)=>Orders.OrderedItem.toLowerCase())
-      const [UpdateData, setUpdateData] = useState<Orders[]>(Data)
+      const [UpdateData, setUpdateData] = useState<Orders[]>(Data)   
 
       const [Delete, SetDelete] = useState<{stateDelete : boolean, message : string, stateUpdate : boolean}>({
         stateDelete : false,
         message : "",
         stateUpdate : false
       })
+
+      useEffect(()=>{
+          setUpdateData(Data)
+      }, [Data])
+      
 
       const [newData, setNewData] = useState<Orders>({
         OrderedItem : "",
@@ -74,6 +79,7 @@ const OrdersForm = ({searchTerm, Orders, stateDelete, stateUpdate} : {searchTerm
           columns : ColumnValues,
           UpdatedData : UpdatedValues
         }
+
         return new Promise(async (resolve, reject)=>{
             try{
               const Response = await fetch("http://localhost:3000/DatabaseInfo/UpdateData", {
@@ -154,9 +160,9 @@ const OrdersForm = ({searchTerm, Orders, stateDelete, stateUpdate} : {searchTerm
                       <h1 className=' mx-2 border-b-2 p-1'>Arrival Date : 
                       {
                       item.Editstate! ?
-                        InputForms("ArrivalDate", item.ArrivalDate.slice(0,10), "text")
+                        InputForms("ArrivalDate", item.ArrivalDate, "text")
                             :
-                        item.ArrivalDate.slice(0,10)
+                        item.ArrivalDate
                       }</h1>
                   </div>
 

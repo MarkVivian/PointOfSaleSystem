@@ -22,12 +22,6 @@ export default function Home() {
           searchQuery: "Orders"
         },
         {
-          image: analitics,
-          title : "Analysis",
-          link : "/Analitics/",
-          searchQuery: "Analitics"
-        },
-        {
           image: shop,
           title : "Shop",
           link : "/Shop/",

@@ -5,7 +5,6 @@ import Image from "next/image"
 import ProductsImage from "@/public/BackgroundImage.jpg"
 import React, { useRef, useState } from 'react'
 import PopUp from "@/components/FunctionalityContent/PopUp"
-import Link from 'next/link'
 
 
 const ContentPage:React.FC<{searchQuery : string, ProductsData:any, ordersData:any}> = ({searchQuery, ProductsData, ordersData}) => {
@@ -17,9 +16,9 @@ const ContentPage:React.FC<{searchQuery : string, ProductsData:any, ordersData:a
       stateUpdate : false
     })
 
-    const [fetchedData, setFetchedData] = useState<{ProductData : any, OrdersData : any}>({
-        ProductData : "",
-        OrdersData : ""
+    const [EditForm, setEditForm] = useState<{count : number, state : boolean}>({
+       count : 0,
+       state : false
     })
     
   
@@ -47,12 +46,13 @@ const ContentPage:React.FC<{searchQuery : string, ProductsData:any, ordersData:a
 
                     <div className=' flex place-content-center gap-3'>
 
-                          <Link href={"/"} className=''>
+                          <a href={"/"} className=''>
                             <button className="border-2 text-white p-3">
                               Home
                             </button>
-                          </Link>
+                          </a>
         
+{/*
                             <button className="border-2 text-white p-3" onClick={()=>{
                                 if(hideInput.current){
                                   const classLists = hideInput.current?.classList
@@ -69,7 +69,7 @@ const ContentPage:React.FC<{searchQuery : string, ProductsData:any, ordersData:a
                                 name='searchTerm'
                                 className=' ml-1 p-1 hidden'
                                 ref={hideInput}
-                            />
+                          />*/}
         
                             <PopUp searchQuery={searchQuery}/>
 
@@ -99,7 +99,7 @@ const ContentPage:React.FC<{searchQuery : string, ProductsData:any, ordersData:a
 
                 {
                     searchQuery === "Orders" ?
-                        <OrdersForm searchTerm={info.searchTerm} Orders={ordersData} stateDelete={info.stateDelete} stateUpdate={info.stateUpdate}/>
+                        <OrdersForm searchTerm={info.searchTerm} Orders={ordersData} stateDelete={info.stateDelete} stateUpdate={info.stateUpdate} stateEditing={EditForm.state} stateCount={EditForm.count}/>
                             :
                         <ProductsForm searchTerm={info.searchTerm} Products={ProductsData} stateDelete={info.stateDelete} stateUpdate={info.stateUpdate}/>
                 }

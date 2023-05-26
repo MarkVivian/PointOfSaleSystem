@@ -20,8 +20,8 @@ INSERT INTO Products VALUES
 CREATE TABLE Orders(
     OrderId INT PRIMARY KEY AUTO_INCREMENT,
     OrderedItem VARCHAR(30),
-    OrderDate DATE, 
-    ArrivalDate DATE,
+    OrderDate VARCHAR(30), 
+    ArrivalDate VARCHAR(30),
     OrderCount INT
 );
     

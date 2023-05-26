@@ -1,5 +1,6 @@
 "use client"
 import React, { useEffect, useRef, useState } from 'react'
+import CheckIfEmpty from "./CheckIfEmpty"
 
 interface ProductsInterface{
         ProductName : string,
@@ -16,8 +17,47 @@ interface OrdersInterface {
 const PopUp:React.FC<{searchQuery : string}> = ({searchQuery}) => {
 
     const HidePopUp = useRef<HTMLDivElement>(null)
+    const MessageRef = useRef<HTMLDivElement>(null)
 
-    const [others , setOthers] = useState<Promise<string> | string>()
+    const [Message, setMessage] = useState({
+        message : "",
+        work : false,
+        fail : false,
+        infoGood : false,
+        infoBad : false
+    })
+
+    useEffect(()=>{
+        if(Message.fail){
+            setMessage((content)=>{
+                return{
+                    ...content,
+                    message : "Could not write the data. Contact the Programmer"
+                }
+            })
+        }else if(Message.work){
+            setMessage((content)=>{
+                return{
+                    ...content,
+                    message : "Data has been written succesfully."
+                }
+            })
+        }else if(Message.infoGood){
+            setMessage((value)=>{
+                return{
+                    ...value,
+                    message : ""
+                }
+            })
+        }else if(Message.infoBad){
+            setMessage((content)=>{
+                return{
+                    ...content,
+                    message : "Please fill all the fields"
+                }
+            })
+        }
+    }, [Message.infoBad, Message.infoGood, Message.fail, Message.work])
 
     const [ProductSetup, setProductSetup] = useState<ProductsInterface>({
         ProductName : "",
@@ -102,9 +142,17 @@ const PopUp:React.FC<{searchQuery : string}> = ({searchQuery}) => {
 
     }
 
-    async function WriteData(info : any):Promise<string>{
+    async function WriteData(info : any){
         return new Promise(async (resolve, reject)=>{
             try{
+                setMessage((value)=>{
+                    return{
+                        ...value,
+                        work : true,
+                        fail : false,
+                        info: false
+                    }
+                })
                 const Response = await fetch("http://localhost:3000/DatabaseInfo/AddData",{
                     cache : "no-cache",
                     method : 'POST',
@@ -115,10 +163,17 @@ const PopUp:React.FC<{searchQuery : string}> = ({searchQuery}) => {
                         },
                     body:JSON.stringify(info)
                 })
-                setOthers(Response.text())
+                location.reload()
             }catch(err){
+                setMessage((value)=>{
+                    return{
+                        ...value,
+                        work : false,
+                        fail : true,
+                        info : false
+                    }
+                })
                 reject(err)
-                setOthers("an error occured while writting to the database")
                 console.log("an error occured while updating " + err)
             }
         })
@@ -134,27 +189,19 @@ const PopUp:React.FC<{searchQuery : string}> = ({searchQuery}) => {
                     "Columns" : ["OrderCount", "OrderDate", "OrderedItem", "ArrivalDate"],
                     "tableName" : "Orders"
                 })
-                location.reload()
-                //setOthers("succesfully added item to the store")
+                console.log("i am running")
         }else if(searchQuery === "Products"){
             await WriteData({
                 "DataToWrite" : [ProductName, ProductCost, ProductCount],
                 "Columns" : ["ProductName", "ProductCost", "ProductCount"],
                 "tableName" : "Products"
             })
+            console.log("i am running")
         }else{
             throw new Error("invalid url is being used")
         }
 
     }
-
-    useEffect(()=>{
-        const classState = localStorage.getItem("PopUpClass")
-        if(HidePopUp.current && classState){
-            const classList = HidePopUp.current.classList
-            classList.add(classState)
-        }
-    }, [])
 
   return (
     <>
@@ -178,8 +225,8 @@ const PopUp:React.FC<{searchQuery : string}> = ({searchQuery}) => {
                         ENTER APPROPRIATE INFORMATION
                     </h1>
                     <hr/>
-                    <h1 className=' text-green-500'>
-                        {others!}
+                    <h1 className=' text-black' ref={MessageRef}>
+                        {Message.message}
                     </h1>
 
                 {
@@ -224,7 +271,51 @@ const PopUp:React.FC<{searchQuery : string}> = ({searchQuery}) => {
                 }       
 
                 <div className=' relative gap-3 flex place-content-center'>
-                    <button className='PopUpButton' onClick={AddItem}>
+                    <button className='PopUpButton' onClick={async ()=>{
+                        if(searchQuery==="Products"){
+                            if(CheckIfEmpty([ProductSetup.ProductName])){
+                                setMessage((value)=>{
+                                    return{
+                                        ...value,
+                                        work : false,
+                                        fail : false,
+                                        infoBad : true,
+                                        infoGood : false
+                                    }})
+                            }else{
+                                setMessage((value)=>{
+                                    return{
+                                        ...value,
+                                        work : false,
+                                        fail : false,
+                                        infoBad : false,
+                                        infoGood : true
+                                    }})
+                                await AddItem()
+                            }
+                        }else if(searchQuery === "Orders"){
+                            if(CheckIfEmpty([OrderSetup.ArrivalDate, OrderSetup.OrderDate, OrderSetup.OrderedItem])){
+                                setMessage((value)=>{
+                                    return{
+                                        ...value,
+                                        work : false,
+                                        fail : false,
+                                        infoBad : true,
+                                        infoGood : false
+                                    }})
+                            }else{
+                                setMessage((value)=>{
+                                    return{
+                                        ...value,
+                                        work : false,
+                                        fail : false,
+                                        infoBad : false,
+                                        infoGood : true
+                                    }})
+                                await AddItem()
+                            }
+                        }
+                        }}>
                         Add {searchQuery}
                     </button>
 
@@ -236,6 +327,7 @@ const PopUp:React.FC<{searchQuery : string}> = ({searchQuery}) => {
                             localStorage.clear()
                             localStorage.setItem("PopUpClass", "hidden")
                         }
+                        location.reload()
                     }}>
                         close
                     </button>

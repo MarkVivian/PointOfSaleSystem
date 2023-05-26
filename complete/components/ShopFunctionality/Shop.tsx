@@ -40,8 +40,7 @@ function Shop({Products, staticInfo} : {Products : ProductsInterface[], staticIn
 
     async function ClearStatic(){
       return new Promise(async (resolve, reject)=>{
-        try{
-          const Response = await fetch("http://localhost:3000/DatabaseInfo/DeleteStaticTable",{
+          await fetch("http://localhost:3000/DatabaseInfo/DeleteStaticTable",{
                     cache : "no-cache",
                     method : 'POST',
                     headers: {
@@ -51,38 +50,26 @@ function Shop({Products, staticInfo} : {Products : ProductsInterface[], staticIn
                         },
                     body:JSON.stringify({name : "Static"})
                 })
-          const res = await Response.text()
-          resolve(res)
-        }catch(err){
-          reject(err)
-          console.log(`an error occured while clearing the static.`)
-        }
-      })
+          location.reload()
+              })
     }
 
-    async function SendToStatic(){
+    function SendToStatic(){
+      const body = {
+        DataToWrite : [input.Count, input.Product],
+        Columns : [`StaticCount`, `StaticItem`],
+        tableName : "Static"
+      }
       return new Promise(async (resolve, reject)=>{
-        try{
-          const Response = await fetch("http://localhost:3000/DatabaseInfo/AddData",{
-                    cache : "no-cache",
+          await fetch("http://localhost:3000/DatabaseInfo/AddData",{
                     method : 'POST',
                     headers: {
                         'Content-Type': 'application/json', // Set the appropriate Content-Type header
                         // Additional headers if needed
                         // ...
                         },
-                    body:JSON.stringify({
-                      DataToWrite : [input.Count, input.Product],
-                      Columns : [`StaticCount`, `StaticItem`],
-                      tableName : "Static"
-                    })
+                    body:JSON.stringify(body)
                 })
-          const res = await Response.json()
-          resolve(res)
-        }catch(err){
-          reject(err)
-          console.log(`an error occured while sending the static data.`)
-        }
       })
     }
 
@@ -96,7 +83,7 @@ function Shop({Products, staticInfo} : {Products : ProductsInterface[], staticIn
 
           <section className=' m-4 relative flex place-content-center'>
 
-            <div className='ShopList flex overflow-y-scroll text-white '>
+            <div className='ShopList flex overflow-y-scroll text-white border-x-2'>
               <div className='w-[40rem]'>
 
                 <h1 className='text-center'>
@@ -104,7 +91,7 @@ function Shop({Products, staticInfo} : {Products : ProductsInterface[], staticIn
                 </h1>
                 <hr />
 
-                <div className=' p-1'> 
+                <div className=' p-1 w-full place-content-center relative grid'> 
                   {
                 staticInfo.map((item)=>{
                   return(
@@ -115,9 +102,6 @@ function Shop({Products, staticInfo} : {Products : ProductsInterface[], staticIn
                             </span>
                             <span className='flex'>
                                 <h2>Product Count : </h2> <h1>{item.StaticCount}</h1>
-                            </span>
-                            <span className='flex'>
-                                <h2>Cost per Product : </h2> <h1>{item.StaticPrice}.ksh</h1>
                             </span>
                         </div>
                     </div>
@@ -136,10 +120,10 @@ function Shop({Products, staticInfo} : {Products : ProductsInterface[], staticIn
                         <h1 className='text-center text-yellow-400'>Product in Inventory</h1>
                         <div className='flex gap-6 m-1 w-fit ml-4'>
                           <div className='flex'>
-                          <h2>Product Name:</h2> <h1>{item.ProductName}</h1>
+                          <h2>Name:</h2> <h1>{item.ProductName}</h1>
                           </div> 
                           <div className='flex'>
-                          <h2>Product Count : </h2> <h1>{item.ProductCount}</h1>
+                          <h2>Count : </h2> <h1>{item.ProductCount}</h1>
                           </div>
                           <div className='flex'>
                           <h2>Cost per Product : </h2> <h1>{item.ProductCost}.ksh</h1>
@@ -150,27 +134,11 @@ function Shop({Products, staticInfo} : {Products : ProductsInterface[], staticIn
                   })
                 }
               </div>
-             
-
-              <div className=' w-[10rem] border-l-2'>
-                    <h1 className='text-center'>Cost</h1>
-                    <hr/>
-                    {
-                      staticInfo.map((item)=>{
-                        return(
-                          <div key={item.id}>
-                            <h1 className=' text-center m-3 p-1'>
-                              {item.StaticPrice}.ksh
-                            </h1>
-                          </div>
-                        )
-                      })
-                    }
-              </div>
             </div>
-            
 
             <div className='ShopEnter w-[30rem] relative'>
+              <h1 className=' text-white text-center'>Enter Your Information</h1>
+              <hr />
 
                 <div className='flex'>
                   <h1>
@@ -207,15 +175,18 @@ function Shop({Products, staticInfo} : {Products : ProductsInterface[], staticIn
                 <div className=' gap-6 relative flex m-1 p-1 place-content-center w-[100%]'>
 
                   <button className=" bg-blue-500" onClick={async()=>{
-                    const reponse = await SendToStatic()
-                    location.reload()
+                    try{
+                      await SendToStatic()
+                    }catch(err){                      
+                      location.reload()
+                    }
+                    
                   }}>
                     submit
                   </button>
 
                   <button className=" bg-blue-500" onClick={async ()=>{
                     const response = await ClearStatic()
-                    location.reload()
                   }}>
                     Done/Clear
                   </button>
