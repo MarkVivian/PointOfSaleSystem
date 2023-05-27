@@ -54,7 +54,7 @@ async function GetData(table:string){
       try{  
         const info = await fetch("http://localhost:3000/DatabaseInfo/GetData", {
           method : "POST",
-          cache : "default",
+          cache : "no-cache",
           headers: {
             'Content-Type': 'application/json', // Set the appropriate Content-Type header
             // Additional headers if needed

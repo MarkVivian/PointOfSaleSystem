@@ -41,7 +41,6 @@ const ContentPage:React.FC<{searchQuery : string, ProductsData:any, ordersData:a
 
             <h1 className="text-center font-semibold py-2 text-xl bg-white opacity-70">{searchQuery}</h1>
 
-
             <div className=" h-[88vh] bg-black mt-5 mx-5 p-5 relative opacity-90">
 
                     <div className=' flex place-content-center gap-3'>

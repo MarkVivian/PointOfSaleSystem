@@ -5,6 +5,7 @@ import { useState } from "react"
 import shop from "@/public/shop.jpg"
 import { ProductsInterface } from '@/app/(Functionality)/Shop/page'
 import FilterData from '../FunctionalityContent/FilterData'
+import { resolve } from 'path'
 
 interface StaticInterface{
   id : number,
@@ -54,25 +55,54 @@ function Shop({Products, staticInfo} : {Products : ProductsInterface[], staticIn
               })
     }
 
-    function SendToStatic(){
+    async function SendToStatic(Count:number, Product:string){
+      return new Promise(async (resolve, reject)=>{
+
       const body = {
-        DataToWrite : [input.Count, input.Product],
+        DataToWrite : [Count, Product],
         Columns : [`StaticCount`, `StaticItem`],
         tableName : "Static"
       }
-      return new Promise(async (resolve, reject)=>{
-          await fetch("http://localhost:3000/DatabaseInfo/AddData",{
+      const resp = await fetch("http://localhost:3000/DatabaseInfo/AddData",{
                     method : 'POST',
                     headers: {
                         'Content-Type': 'application/json', // Set the appropriate Content-Type header
                         // Additional headers if needed
-                        // ...
                         },
                     body:JSON.stringify(body)
-                })
+        })
+      resolve(await resp.text())
       })
     }
 
+    async function DoneStatic(){
+      return new Promise((resolve, reject)=>{
+          Data.map((value)=>{
+            staticInfo.map(async (content)=>{
+              if(value.ProductName === content.StaticItem){
+                const count = value.ProductCount - content.StaticCount
+                const dataToBeSend = {
+                  tableName : "Products",
+                  id : value.ProductId,
+                  idColumn : "ProductId",
+                  columns : ["ProductCount"],
+                  UpdatedData : [count]
+                }
+                const res = await fetch("http://localhost:3000/DatabaseInfo/UpdateData",{
+                    method : "POST",
+                    cache : "no-cache",
+                    body : JSON.stringify(dataToBeSend),
+                    headers : {
+                      'Content-Type': 'application/json',
+                    }
+                })
+                const response = await res.text()
+                resolve(response)
+              }
+            })
+          })
+      })
+    }
       return (
         <section className=" h-[100vh] w-[100vw] relative">
           <Image src={shop} alt="Shop Background" className="absolute h-[100%] w-[100vw] filter blur-sm z-[-9999]"/>
@@ -174,24 +204,45 @@ function Shop({Products, staticInfo} : {Products : ProductsInterface[], staticIn
 
                 <div className=' gap-6 relative flex m-1 p-1 place-content-center w-[100%]'>
 
-                  <button className=" bg-blue-500" onClick={async()=>{
+                  <button className=" bg-blue-500 relative" onClick={()=>{
                     try{
-                      await SendToStatic()
+                      SendToStatic(input.Count, input.Product)
                     }catch(err){                      
-                      location.reload()
+                      console.log("an error occured while sending to static");
+                      
                     }
                     
                   }}>
-                    submit
+                    Submit 
                   </button>
 
                   <button className=" bg-blue-500" onClick={async ()=>{
-                    const response = await ClearStatic()
+                    try{
+                      await DoneStatic()
+                      location.reload()
+                    }catch(err){
+                      console.log("an error occured while updating products" + err)
+                    }
                   }}>
-                    Done/Clear
+                    Done
                   </button>
                 </div>
                 
+                <div className=' gap-6 relative flex m-1 p-1 place-content-center w-[100%]'>
+                  <button className=" bg-blue-500" onClick={()=>{location.reload()}}>
+                    Reload
+                  </button>
+
+                  <button className=" bg-blue-500" onClick={async()=>{const response = await ClearStatic()}}>
+                    Clear
+                  </button>
+                </div>
+              <div>
+                Submit -&gt; this will allow you to see the Product Bought .<br />
+                Done -&gt; will update the Data in the database. <br />
+                Reload -&gt; will show you the item when you submit it. <br />
+                Clear -&gt; will clear all the data from the product Bought section.
+              </div>
 
             </div>
 

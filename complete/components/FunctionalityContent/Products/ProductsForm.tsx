@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import FilterData from "../FilterData"
+import DueDate from "../DueDate"
 
 export interface Products{
   ProductId : number
@@ -120,6 +121,7 @@ const ProductsForm = ({searchTerm, Products, stateDelete, stateUpdate} : {search
         UpdateData.map((item)=>{
           return(
             <div className=' bg-blue-500 flex mb-5 py-2 rounded-md pl-3 gap-6 place-content-center' key={item.ProductId}>
+                <DueDate ArrivalDate="N/A" Count={item.ProductCount} Product={item.ProductName} type="Products"/>
               <div className=' grid'>
                   <h1>Product Name : {
                   item.Editstate! ?

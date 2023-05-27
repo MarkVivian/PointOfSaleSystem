@@ -1,10 +1,12 @@
 "use client"
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
+import menu from "@/public/menu.png"
+import Image from 'next/image'
 
 const Menu = () => {
   const Data:string[] = ["Orders", "Shop", "Products", "home"]
   const MenuDiv = useRef<HTMLDivElement>(null)
-
+  const [image, setImage] = useState(false)
   useEffect(()=>{
     if(MenuDiv.current){
         const classL = MenuDiv.current.classList
@@ -18,8 +20,15 @@ const Menu = () => {
                 const listClasses = MenuDiv.current.classList
                 listClasses.toggle("hidden")
             }
+            setImage(!image)
         }}>
-            Menu
+            {
+                image ?
+                <Image src={menu} alt="Menu Image" className="h-[2rem] w-[2rem] rotate-90 duration-150"/> 
+                :
+                <Image src={menu} alt="Menu Image" className="h-[2rem] w-[2rem] duration-150"/>
+            }
+            
         </button>
 
         <div className='Menu grid hidden bg-gradient2' ref={MenuDiv}>
@@ -31,6 +40,7 @@ const Menu = () => {
                                 const classL = MenuDiv.current.classList
                                 classL.add("hidden")
                             }
+
                         }}>
                             {item}
                         </a>

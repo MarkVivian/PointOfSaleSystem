@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import FilterData from "../FilterData"
+import DueDate from '../DueDate';
 
 export interface Orders{
   OrderId : number,
@@ -22,10 +23,6 @@ const OrdersForm = ({searchTerm, Orders, stateDelete, stateUpdate, stateEditing,
         message : "",
         stateUpdate : false
       })
-
-      useEffect(()=>{
-          setUpdateData(Data)
-      }, [Data])
       
 
       const [newData, setNewData] = useState<Orders>({
@@ -126,7 +123,7 @@ const OrdersForm = ({searchTerm, Orders, stateDelete, stateUpdate, stateEditing,
             UpdateData.map((item)=>{
               return(
                 <div className='bg-blue-500 rounded-md m-2 relative flex p-2 gap-4 text-lg place-content-center' key={item.OrderId}>
-
+                  <DueDate ArrivalDate={item.ArrivalDate} Count={10} Product={item.OrderedItem} type={"Orders"} />
                   <div className=' grid ' >
                       <h1 className=' mx-2 border-b-2'>Order Name : 
                         {
