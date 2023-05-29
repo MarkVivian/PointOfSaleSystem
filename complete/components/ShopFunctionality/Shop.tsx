@@ -24,7 +24,14 @@ function Shop({Products, staticInfo} : {Products : ProductsInterface[], staticIn
         currentCost : 0,
         getCurrentCost : false
       })
-  
+      
+    const [controlButton, setControlButton] = useState<{submit : boolean, done : boolean, clear : boolean, reload : boolean}>({
+      submit : true,
+      done : true,
+      clear : false,
+      reload : false
+    })
+
     const Data = FilterData<ProductsInterface>(Products, input.Product.toLocaleLowerCase(), (Products)=>Products.ProductName.toLocaleLowerCase())
 
     function ChangeEvent(event:any){
@@ -158,7 +165,7 @@ function Shop({Products, staticInfo} : {Products : ProductsInterface[], staticIn
                           <div className='flex'>
                           <h2>Cost per Product : </h2> <h1>{item.ProductCost}.ksh</h1>
                           </div>
-                        </div>
+                        </div>  
                       </div>
                     )
                   })
@@ -202,50 +209,84 @@ function Shop({Products, staticInfo} : {Products : ProductsInterface[], staticIn
 
                 </div>
 
-                <div className=' gap-6 relative flex m-1 p-1 place-content-center w-[100%]'>
-
-                  <button className=" bg-blue-500 relative" onClick={()=>{
+              <div className='w-[100%] relative flex place-content-center gap-10'>
+{  controlButton.submit ? <button className=" bg-blue-500 relative" onClick={async ()=>{
                     try{
-                      SendToStatic(input.Count, input.Product)
+                      setControlButton((files)=>{
+                          return{
+                            ...files,
+                            submit : false,
+                            reload : true
+                          }
+                      })
+                      await SendToStatic(input.Count, input.Product)
                     }catch(err){                      
                       console.log("an error occured while sending to static");
-                      
                     }
                     
                   }}>
                     Submit 
                   </button>
+                  : 
+                  ""
+}
 
-                  <button className=" bg-blue-500" onClick={async ()=>{
+{  controlButton.done ?    <button className=" bg-blue-500" onClick={async ()=>{
                     try{
+                      setControlButton((files)=>{
+                        return{
+                          ...files,
+                          done : false,
+                          clear : true
+                        }
+                    })
                       await DoneStatic()
-                      location.reload()
                     }catch(err){
                       console.log("an error occured while updating products" + err)
                     }
                   }}>
                     Done
                   </button>
-                </div>
+                  : ""}
                 
-                <div className=' gap-6 relative flex m-1 p-1 place-content-center w-[100%]'>
-                  <button className=" bg-blue-500" onClick={()=>{location.reload()}}>
+{controlButton.reload ?  <button className=" bg-blue-500" onClick={()=>{
+                  setControlButton((files)=>{
+                    return{
+                      ...files,
+                      reload : false,
+                      submit : true
+                    }
+                })
+                location.reload()
+                }}>
                     Reload
                   </button>
+                  :
+                  ""}
 
-                  <button className=" bg-blue-500" onClick={async()=>{const response = await ClearStatic()}}>
+{controlButton.clear ?  <button className=" bg-blue-500" onClick={async()=>{
+                    setControlButton((files)=>{
+                      return{
+                        ...files,
+                        clear : false,
+                        done : true
+                      }
+                  })
+              const response = await ClearStatic()
+  }}>
                     Clear
                   </button>
+                  :
+                  ""}
+          </div>
+                <div>
+                  Submit -&gt; this will allow you to see the Product Bought .<br />
+                  Done -&gt; will update the Data in the database. <br />
+                  Reload -&gt; will show you the item when you submit it. <br />
+                  Clear -&gt; will clear all the data from the product Bought section.
                 </div>
-              <div>
-                Submit -&gt; this will allow you to see the Product Bought .<br />
-                Done -&gt; will update the Data in the database. <br />
-                Reload -&gt; will show you the item when you submit it. <br />
-                Clear -&gt; will clear all the data from the product Bought section.
-              </div>
 
-            </div>
-
+      </div>
           </section>
     
         </section>
