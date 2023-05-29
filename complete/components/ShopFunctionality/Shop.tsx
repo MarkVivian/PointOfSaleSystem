@@ -86,7 +86,7 @@ function Shop({Products, staticInfo} : {Products : ProductsInterface[], staticIn
       return new Promise((resolve, reject)=>{
           Data.map((value)=>{
             staticInfo.map(async (content)=>{
-              if(value.ProductName === content.StaticItem){
+              if(value.ProductName.toLowerCase() === content.StaticItem.toLowerCase()){
                 const count = value.ProductCount - content.StaticCount
                 const dataToBeSend = {
                   tableName : "Products",
@@ -212,11 +212,12 @@ function Shop({Products, staticInfo} : {Products : ProductsInterface[], staticIn
               <div className='w-[100%] relative flex place-content-center gap-10'>
 {  controlButton.submit ? <button className=" bg-blue-500 relative" onClick={async ()=>{
                     try{
-                      setControlButton((files)=>{
+                      setControlButton(()=>{
                           return{
-                            ...files,
                             submit : false,
-                            reload : true
+                            reload : true,
+                            done : false,
+                            clear : true
                           }
                       })
                       await SendToStatic(input.Count, input.Product)
@@ -233,11 +234,12 @@ function Shop({Products, staticInfo} : {Products : ProductsInterface[], staticIn
 
 {  controlButton.done ? <button className=" bg-blue-500" onClick={async ()=>{
                     try{
-                      setControlButton((files)=>{
+                      setControlButton(()=>{
                         return{
-                          ...files,
+                          submit : true,
                           done : false,
-                          clear : true
+                          clear : true,
+                          reload : false
                         }
                     })
                       await DoneStatic()
@@ -250,11 +252,12 @@ function Shop({Products, staticInfo} : {Products : ProductsInterface[], staticIn
                   : ""}
                 
 {controlButton.reload ?  <button className=" bg-blue-500" onClick={()=>{
-                  setControlButton((files)=>{
+                  setControlButton(()=>{
                     return{
-                      ...files,
                       reload : false,
-                      submit : true
+                      submit : true,
+                      done : true,
+                      clear : false
                     }
                 })
                 location.reload()
@@ -265,11 +268,12 @@ function Shop({Products, staticInfo} : {Products : ProductsInterface[], staticIn
                   ""}
 
 {controlButton.clear ?  <button className=" bg-blue-500" onClick={async()=>{
-                    setControlButton((files)=>{
+                    setControlButton(()=>{
                       return{
-                        ...files,
                         clear : false,
-                        done : true
+                        done : true,
+                        submit : true,
+                        reload : false
                       }
                   })
               const response = await ClearStatic()
