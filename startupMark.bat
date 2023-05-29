@@ -15,8 +15,9 @@ start /B "" npm run dev
 echo npm run dev executed.
 echo Proceeding to open chrome.
 
-REM Open Chrome browser to localhost:3001
+REM Open Chrome browser to localhost:3301
 echo Opening Chrome browser...
-start chrome http://localhost:3001
+start chrome http://localhost:3301
 
 echo Script execution completed.
+exit
