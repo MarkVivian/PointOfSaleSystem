@@ -128,7 +128,7 @@ const OrdersForm = ({searchTerm, Orders, stateDelete, stateUpdate, stateEditing,
                       <h1 className=' mx-2 border-b-2'>Order Name : 
                         {
                             item.Editstate! ?
-                            InputForms("OrderedItem", item.OrderedItem, "text")
+                            InputForms("OrderedItem", item.OrderedItem.toLowerCase(), "text")
                                 :
                             item.OrderedItem
                         }
@@ -178,7 +178,7 @@ const OrdersForm = ({searchTerm, Orders, stateDelete, stateUpdate, stateEditing,
                               Edit Information</button>
 
                           <button className=' mt-2 border-2' onClick={async ()=>{
-                              await UpdateMe("Orders", ["OrderDate", "ArrivalDate", "OrderedItem", "OrderCount"], item.OrderId, "OrderId", [newData.OrderDate, newData.ArrivalDate, newData.OrderedItem, newData.OrderCount.toString()])
+                              await UpdateMe("Orders", ["OrderDate", "ArrivalDate", "OrderedItem", "OrderCount"], item.OrderId, "OrderId", [newData.OrderDate, newData.ArrivalDate, newData.OrderedItem.toLowerCase(), newData.OrderCount.toString()])
                               location.reload()
                           }}>Done</button>
                         </> 

@@ -66,7 +66,7 @@ function Shop({Products, staticInfo} : {Products : ProductsInterface[], staticIn
       return new Promise(async (resolve, reject)=>{
 
       const body = {
-        DataToWrite : [Count, Product],
+        DataToWrite : [Count, Product.toLowerCase()],
         Columns : [`StaticCount`, `StaticItem`],
         tableName : "Static"
       }
@@ -231,7 +231,7 @@ function Shop({Products, staticInfo} : {Products : ProductsInterface[], staticIn
                   ""
 }
 
-{  controlButton.done ?    <button className=" bg-blue-500" onClick={async ()=>{
+{  controlButton.done ? <button className=" bg-blue-500" onClick={async ()=>{
                     try{
                       setControlButton((files)=>{
                         return{

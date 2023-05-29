@@ -125,7 +125,7 @@ const ProductsForm = ({searchTerm, Products, stateDelete, stateUpdate} : {search
               <div className=' grid'>
                   <h1>Product Name : {
                   item.Editstate! ?
-                    InputForms("ProductName", item.ProductName, "text")
+                    InputForms("ProductName", item.ProductName.toLowerCase(), "text")
                     :      
                     item.ProductName
                   }</h1>
@@ -161,7 +161,7 @@ const ProductsForm = ({searchTerm, Products, stateDelete, stateUpdate} : {search
                               Edit Information</button>
 
                           <button className=' mt-2 border-2' onClick={async ()=>{
-                            await UpdateMe("Products", ["ProductName", "ProductCount", "ProductCost"], item.ProductId, "ProductId", [newData.ProductName, newData.ProductCount.toString(), newData.ProductCost.toString()])
+                            await UpdateMe("Products", ["ProductName", "ProductCount", "ProductCost"], item.ProductId, "ProductId", [newData.ProductName.toLowerCase(), newData.ProductCount.toString(), newData.ProductCost.toString()])
                             location.reload()
                           }}>Done</button>
                       </>

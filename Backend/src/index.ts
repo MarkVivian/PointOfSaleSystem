@@ -10,6 +10,18 @@ App.use(express.json())
 App.use("/DatabaseInfo", HandleOrdersProducts)
 
 const port = 3000;
-App.listen(port, ()=>{
-    console.log(`http:localhost://${port} is running.`)
-})
+
+function StartServer(){
+    App.listen(port, ()=>{
+        console.log(`http:localhost://${port} is running.`)
+    })
+}
+
+function StopServer(){
+    const currentDate = new Date()
+    if(currentDate.getDate() < 30){
+        StartServer()
+    }
+}
+
+StopServer()

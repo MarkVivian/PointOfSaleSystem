@@ -7,6 +7,7 @@ const HandleOrdersProducts = Express.Router()
 HandleOrdersProducts.post("/GetData", (req, res)=>{
     const Info:{Name : string} = req.body
     const tableName = RemoveQuotes(Info.Name)
+    console.log(tableName)
     return new Promise(async (resolve, reject)=>{
         try{
             const DB = new Database()

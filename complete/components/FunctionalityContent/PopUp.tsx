@@ -185,14 +185,14 @@ const PopUp:React.FC<{searchQuery : string}> = ({searchQuery}) => {
 
         if(searchQuery === "Orders"){
                 await WriteData({
-                    "DataToWrite" : [OrderCount, OrderDate, OrderedItem, ArrivalDate],
+                    "DataToWrite" : [OrderCount, OrderDate, OrderedItem.toLowerCase(), ArrivalDate],
                     "Columns" : ["OrderCount", "OrderDate", "OrderedItem", "ArrivalDate"],
                     "tableName" : "Orders"
                 })
                 console.log("i am running")
         }else if(searchQuery === "Products"){
             await WriteData({
-                "DataToWrite" : [ProductName, ProductCost, ProductCount],
+                "DataToWrite" : [ProductName.toLowerCase(), ProductCost, ProductCount],
                 "Columns" : ["ProductName", "ProductCost", "ProductCount"],
                 "tableName" : "Products"
             })
