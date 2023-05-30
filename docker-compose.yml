@@ -1,0 +1,14 @@
+version: '3'
+services:
+  Server:
+    image: "viviantech/server:1.0"
+    ports:
+      - "3000:3000"
+      # <host machine port> : <container port>
+      # you can use the same container port but different host ports.
+  client:
+    image: "viviantech/client:1.0"
+    ports:
+      - "3001:3001"
+    depends_on:
+      - "Server"
