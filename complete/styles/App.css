@@ -1,0 +1,223 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.body-setter .dataPropText {
+  transition-duration: 500ms;
+}
+
+.bike {
+  display: block;
+  margin: auto;
+  width: 16em;
+  height: auto;
+}
+
+.bike__body,
+.bike__front,
+.bike__handlebars,
+.bike__pedals,
+.bike__pedals-spin,
+.bike__seat,
+.bike__spokes,
+.bike__spokes-spin,
+.bike__tire {
+  animation: bikeBody 3s ease-in-out infinite;
+  stroke: hsl(var(--hue), 90%, 50%);
+  transition: stroke 0.3s;
+}
+
+.bike__front {
+  animation-name: bikeFront;
+}
+
+.bike__handlebars {
+  animation-name: bikeHandlebars;
+}
+
+.bike__pedals {
+  animation-name: bikePedals;
+}
+
+.bike__pedals-spin {
+  animation-name: bikePedalsSpin;
+}
+
+.bike__seat {
+  animation-name: bikeSeat;
+}
+
+.bike__spokes,
+.bike__tire {
+  stroke: currentColor;
+}
+
+.bike__spokes {
+  animation-name: bikeSpokes;
+}
+
+.bike__spokes-spin {
+  animation-name: bikeSpokesSpin;
+}
+
+.bike__tire {
+  animation-name: bikeTire;
+}
+
+/* Animations */
+@keyframes bikeBody {
+  from {
+    stroke-dashoffset: 79;
+  }
+  33%, 67% {
+    stroke-dashoffset: 0;
+  }
+  to {
+    stroke-dashoffset: -79;
+  }
+}
+@keyframes bikeFront {
+  from {
+    stroke-dashoffset: 19;
+  }
+  33%, 67% {
+    stroke-dashoffset: 0;
+  }
+  to {
+    stroke-dashoffset: -19;
+  }
+}
+@keyframes bikeHandlebars {
+  from {
+    stroke-dashoffset: 10;
+  }
+  33%, 67% {
+    stroke-dashoffset: 0;
+  }
+  to {
+    stroke-dashoffset: -10;
+  }
+}
+@keyframes bikePedals {
+  from {
+    animation-timing-function: ease-in;
+    stroke-dashoffset: -25.133;
+  }
+  33%, 67% {
+    animation-timing-function: ease-out;
+    stroke-dashoffset: -21.991;
+  }
+  to {
+    stroke-dashoffset: -25.133;
+  }
+}
+@keyframes bikePedalsSpin {
+  from {
+    transform: rotate(0.1875turn);
+  }
+  to {
+    transform: rotate(3.1875turn);
+  }
+}
+@keyframes bikeSeat {
+  from {
+    stroke-dashoffset: 5;
+  }
+  33%, 67% {
+    stroke-dashoffset: 0;
+  }
+  to {
+    stroke-dashoffset: -5;
+  }
+}
+@keyframes bikeSpokes {
+  from {
+    animation-timing-function: ease-in;
+    stroke-dashoffset: -31.416;
+  }
+  33%, 67% {
+    animation-timing-function: ease-out;
+    stroke-dashoffset: -23.562;
+  }
+  to {
+    stroke-dashoffset: -31.416;
+  }
+}
+@keyframes bikeSpokesSpin {
+  from {
+    transform: rotate(0);
+  }
+  to {
+    transform: rotate(3turn);
+  }
+}
+@keyframes bikeTire {
+  from {
+    animation-timing-function: ease-in;
+    stroke-dashoffset: 56.549;
+    transform: rotate(0);
+  }
+  33% {
+    stroke-dashoffset: 0;
+    transform: rotate(0.33turn);
+  }
+  67% {
+    animation-timing-function: ease-out;
+    stroke-dashoffset: 0;
+    transform: rotate(0.67turn);
+  }
+  to {
+    stroke-dashoffset: -56.549;
+    transform: rotate(1turn);
+  }
+}
+.PopUp {
+  background: linear-gradient(to top, #051937, #002f4f, #004555, #005a48, #246b2d);
+  font: bold;
+  color: white;
+}
+.PopUp .PopUpBox {
+  background-image: linear-gradient(to top, #5c5110, #565b0c, #4b6610, #38711b, #0b7b2c);
+}
+.PopUp .PopUpBox .PopUpInput {
+  background-color: black;
+}
+.PopUp .PopUpBox .PopUpButton {
+  border: 2px solid grey;
+  padding: 0.5rem;
+  border-radius: 30px;
+}
+
+.ShopEnter {
+  background-image: linear-gradient(to right, #434343 0%, black 100%);
+  border-bottom-right-radius: 1.9rem;
+  border-top-right-radius: 1.9rem;
+}
+.ShopEnter div {
+  color: white;
+  position: relative;
+  padding: 0.75rem;
+}
+.ShopEnter div h1 {
+  font-size: medium;
+  margin: 0.2rem;
+}
+.ShopEnter div input, .ShopEnter div .input {
+  background-color: black;
+  height: 3rem;
+  border: none;
+}
+.ShopEnter .Count {
+  width: 10rem;
+}
+.ShopEnter button {
+  border-radius: 10%;
+  padding: 0.3rem;
+}
+
+.ShopList {
+  background-image: linear-gradient(to left, #434343 0%, black 100%);
+  border-bottom-left-radius: 1.9rem;
+  border-top-left-radius: 1.9rem;
+  height: 25rem;
+}

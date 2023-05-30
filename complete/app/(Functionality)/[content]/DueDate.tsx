@@ -1,5 +1,5 @@
 "use client"
-import React, { useEffect, useRef } from 'react'
+import React, { useRef } from 'react'
 
 function DueDate({ArrivalDate, Count, Product, type}:{ArrivalDate : string, Count : number, Product:string, type:string}) {
     const showDiv = useRef<HTMLDivElement>(null)

@@ -1,6 +1,6 @@
 "use client"
 import React, { useEffect, useRef, useState } from 'react'
-import CheckIfEmpty from "./CheckIfEmpty"
+import CheckIfEmpty from "@/components/CheckIfEmpty"
 
 interface ProductsInterface{
         ProductName : string,
@@ -121,6 +121,11 @@ const PopUp:React.FC<{searchQuery : string}> = ({searchQuery}) => {
     ]
 
     function ValueChanged(event : any){
+        setMessage((content)=>{
+            return{
+                ...content,
+            }
+        })
         const {name, value, type} = event.target
         if(searchQuery === "Orders"){
             setOrderSetup((item)=>{

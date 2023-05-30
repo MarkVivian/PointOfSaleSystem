@@ -1,5 +1,4 @@
-import { NextPage } from "next"
-import Shop from "@/components/ShopFunctionality/Shop"
+import Shop from "./Shop"
 
 export interface ProductsInterface{
   ProductId : number

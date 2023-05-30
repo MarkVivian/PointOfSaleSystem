@@ -1,4 +1,7 @@
 "use client"
+import Image from 'next/image'
+import Link from 'next/link'
+import React from 'react'
 
 export interface DataProps {
     title : string,
@@ -6,10 +9,6 @@ export interface DataProps {
     link : string,
     searchQuery? : string
 }
-
-import Image from 'next/image'
-import Link from 'next/link'
-import React from 'react'
 
 const DivElement:React.FC<DataProps> = (dataProp) => {
   return (

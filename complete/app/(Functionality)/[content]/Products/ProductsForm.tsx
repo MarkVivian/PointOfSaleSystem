@@ -1,7 +1,7 @@
 "use client"
 
 import React, { useEffect, useState } from 'react';
-import FilterData from "../FilterData"
+import FilterData from "@/components/FilterData"
 import DueDate from "../DueDate"
 
 export interface Products{

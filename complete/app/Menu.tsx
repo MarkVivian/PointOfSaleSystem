@@ -12,11 +12,11 @@ const Menu = () => {
         const classL = MenuDiv.current.classList
         classL.add("hidden")
     }
-  },[])
+  },[]) 
   return (
     <section className='absolute z-[9999]'>
         <button className=' p-2 m-[.125rem] ml-2' onClick={()=>{
-            if(MenuDiv.current){
+           if(MenuDiv.current){
                 const listClasses = MenuDiv.current.classList
                 listClasses.toggle("hidden")
             }
@@ -40,7 +40,6 @@ const Menu = () => {
                                 const classL = MenuDiv.current.classList
                                 classL.add("hidden")
                             }
-
                         }}>
                             {item}
                         </a>

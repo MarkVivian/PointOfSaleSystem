@@ -1,4 +1,4 @@
-import ContentPage from "@/components/FunctionalityContent/ContentPage"
+import ContentPage from "./ContentPage"
 interface Products{
   ProductId : number
   ProductName : string,

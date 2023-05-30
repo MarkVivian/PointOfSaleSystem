@@ -1,5 +1,5 @@
-import '@/styles/dist/App.css'
-import Menu from "@/components/Reusable/Menu"
+import '@/styles/App.css'
+import Menu from "./Menu"
 
 export const metadata = {
   title: 'Point of sale system',

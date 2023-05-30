@@ -1,11 +1,10 @@
 "use client"
-import React from 'react'
+
 import Image from "next/image"
 import { useState } from "react"
 import shop from "@/public/shop.jpg"
 import { ProductsInterface } from '@/app/(Functionality)/Shop/page'
-import FilterData from '../FunctionalityContent/FilterData'
-import { resolve } from 'path'
+import FilterData from '@/components/FilterData'
 
 interface StaticInterface{
   id : number,
@@ -13,7 +12,6 @@ interface StaticInterface{
   StaticCount : number,
   StaticPrice : number
 }
-
 function Shop({Products, staticInfo} : {Products : ProductsInterface[], staticInfo : StaticInterface[]}) {
     const[input, setInput] = useState<{Product : string, Count : number, Done : boolean, submit : boolean, cost:number, currentCost : number,getCurrentCost : boolean}>({
         Product : "",
@@ -128,25 +126,6 @@ function Shop({Products, staticInfo} : {Products : ProductsInterface[], staticIn
                 </h1>
                 <hr />
 
-                <div className=' p-1 w-full place-content-center relative grid'> 
-                  {
-                staticInfo.map((item)=>{
-                  return(
-                    <div  key={item.id}>
-                         <div className='flex gap-6 m-3 w-fit p-1'>
-                            <span className='flex'>
-                                <h2>Product Name:</h2> <h1>{item.StaticItem}</h1>
-                            </span>
-                            <span className='flex'>
-                                <h2>Product Count : </h2> <h1>{item.StaticCount}</h1>
-                            </span>
-                        </div>
-                    </div>
-                        )
-                      })
-                  }
-               </div>
-
                 {
                   input.Product === "" ?
                   ""
@@ -170,6 +149,26 @@ function Shop({Products, staticInfo} : {Products : ProductsInterface[], staticIn
                     )
                   })
                 }
+                
+                <div className=' p-1 w-full place-content-center relative grid'> 
+                    {
+                  staticInfo.map((item)=>{
+                    return(
+                      <div  key={item.id}>
+                          <div className='flex gap-6 m-3 w-fit p-1'>
+                              <span className='flex'>
+                                  <h2>Product Name:</h2> <h1>{item.StaticItem}</h1>
+                              </span>
+                              <span className='flex'>
+                                  <h2>Product Count : </h2> <h1>{item.StaticCount}</h1>
+                              </span>
+                          </div>
+                      </div>
+                          )
+                        })
+                    }
+               </div>
+               
               </div>
             </div>
 

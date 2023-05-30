@@ -4,7 +4,7 @@ import ProductsForm from './Products/ProductsForm'
 import Image from "next/image"
 import ProductsImage from "@/public/BackgroundImage.jpg"
 import React, { useRef, useState } from 'react'
-import PopUp from "@/components/FunctionalityContent/PopUp"
+import PopUp from "./PopUp"
 
 
 const ContentPage:React.FC<{searchQuery : string, ProductsData:any, ordersData:any}> = ({searchQuery, ProductsData, ordersData}) => {

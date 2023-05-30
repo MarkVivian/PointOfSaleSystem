@@ -1,7 +1,6 @@
-import DivElement, { DataProps } from "@/components/HomePage/DivElement";
+import DivElement, { DataProps } from "@/components/DivElement";
 import delivery from "@/public/delivery.jpg";
 import product from "@/public/Products.jpg";
-import analitics from "@/public/statistics.jpg";
 import Background from "@/public/BackgroundImage.jpg";
 import shop from "@/public/shop.jpg";
 import Image from "next/image";
