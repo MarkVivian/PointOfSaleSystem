@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import FilterData from "@/components/FilterData"
-import DueDate from '../DueDate';
+import DueDate from '@/components/DueDate';
 
 export interface Orders{
   OrderId : number,
