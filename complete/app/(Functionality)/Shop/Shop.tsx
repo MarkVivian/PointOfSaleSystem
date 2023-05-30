@@ -12,6 +12,7 @@ interface StaticInterface{
   StaticCount : number,
   StaticPrice : number
 }
+
 function Shop({Products, staticInfo} : {Products : ProductsInterface[], staticInfo : StaticInterface[]}) {
     const[input, setInput] = useState<{Product : string, Count : number, Done : boolean, submit : boolean, cost:number, currentCost : number,getCurrentCost : boolean}>({
         Product : "",

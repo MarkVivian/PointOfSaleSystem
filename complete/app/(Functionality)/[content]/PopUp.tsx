@@ -124,6 +124,10 @@ const PopUp:React.FC<{searchQuery : string}> = ({searchQuery}) => {
         setMessage((content)=>{
             return{
                 ...content,
+                work : false,
+                fail : false,
+                infoGood : true,
+                infoBad : false
             }
         })
         const {name, value, type} = event.target
@@ -225,15 +229,20 @@ const PopUp:React.FC<{searchQuery : string}> = ({searchQuery}) => {
         <div className='PopUp absolute z-[999] hidden h-[100%] w-[100vw] opacity-[96] place-content-center text-xl' ref={HidePopUp}>
 
 
-            <div className=' bg-white opacity-1 w-[30rem] p-2 rounded-md PopUpBox gap-3'>
+            <div className=' bg-white opacity-1 w-[30rem] p-2 rounded-md PopUpBox gap-3 relative'>
                     <h1 className=' text-center'>
                         ENTER APPROPRIATE INFORMATION
                     </h1>
                     <hr/>
-                    <h1 className=' text-black' ref={MessageRef}>
+{                  Message.work ?  
+                    <h1 className=' w-[100%] text-center font-extrabold text-black' ref={MessageRef}>
                         {Message.message}
                     </h1>
-
+                    :
+                    <h1 className=' w-[100%] text-center font-extrabold text-red-800' ref={MessageRef}>
+                    {Message.message}
+                    </h1>
+}
                 {
                     searchQuery === "Orders" ?
                         OrderContainer.map((item)=>{
