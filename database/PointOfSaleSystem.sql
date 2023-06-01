@@ -45,10 +45,17 @@ INSERT INTO Bought VALUES
 CREATE TABLE Static(
     id INT AUTO_INCREMENT PRIMARY KEY,
     StaticItem VARCHAR(30),
-    StaticCount INT
+    StaticCount INT,
+    StaticPrice INT
 );
 
 INSERT INTO Static VALUES
-(DEFAULT, "Hammers", 23);
+(DEFAULT, "Hammers", 23, 3000);
 
-DELETE FROM `PointOfSale`.`Static`;
+CREATE TABLE testCase(
+    testId INT AUTO_INCREMENT PRIMARY KEY,
+    testName VARCHAR(60)
+);
+
+INSERT INTO testCase VALUES
+(DEFAULT,"Test Api Requests");

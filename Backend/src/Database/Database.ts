@@ -35,10 +35,9 @@ export default class Database{
         try{
             this.Connection = createConnection({
                 host : "127.0.0.1",
-                user : "user",
-                password : "1234",
-                database : "PointOfSale",
-                port: 3307
+                user : "root",
+                password : "M6a2r7k5",
+                database : "PointOfSale"
                })
         }catch(err){
             console.log("an error occured while connecting to the database.")

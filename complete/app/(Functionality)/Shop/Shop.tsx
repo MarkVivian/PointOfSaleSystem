@@ -1,37 +1,37 @@
 "use client"
 
 import Image from "next/image"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import shop from "@/public/shop.jpg"
-import { ProductsInterface } from '@/app/(Functionality)/Shop/page'
 import FilterData from '@/components/FilterData'
+import { Products, Static } from "@/components/interfaces"
+import ApiRequests from "@/components/APIRequests"
+import CheckIfSimilar from "@/components/CheckIfSimilar"
+import CheckIfEmpty from "@/components/CheckIfEmpty"
+import DueDate from "@/components/DueDate"
 
-interface StaticInterface{
-  id : number,
-  StaticItem : string,
-  StaticCount : number,
-  StaticPrice : number
-}
 
-function Shop({Products, staticInfo} : {Products : ProductsInterface[], staticInfo : StaticInterface[]}) {
-    const[input, setInput] = useState<{Product : string, Count : number, Done : boolean, submit : boolean, cost:number, currentCost : number,getCurrentCost : boolean}>({
+function Shop({Products, staticInfo} : {Products : Products[], staticInfo : Static[]}) {
+    const[input, setInput] = useState<{Product : string, Count : number, Done : boolean, submit : boolean, cost:number, id : number}>({
         Product : "",
-        Count : 0,
+        Count : 1,
         Done : false,
         submit : false,
         cost : 0,
-        currentCost : 0,
-        getCurrentCost : false
+        id : 0
       })
-      
-    const [controlButton, setControlButton] = useState<{submit : boolean, done : boolean, clear : boolean, reload : boolean}>({
+    
+    const [controlButton, setControlButton] = useState<{submit : boolean, done : boolean, message : string,itemName : string, WrongItem : boolean, reloadRequired : boolean, PleaseClear : boolean}>({
       submit : true,
       done : true,
-      clear : false,
-      reload : false
+      message : "",
+      WrongItem : true,
+      itemName : "",
+      reloadRequired : false,
+      PleaseClear : false
     })
 
-    const Data = FilterData<ProductsInterface>(Products, input.Product.toLocaleLowerCase(), (Products)=>Products.ProductName.toLocaleLowerCase())
+    const Data = FilterData<Products>(Products, input.Product.toLocaleLowerCase(), (Products)=>Products.ProductName.toLocaleLowerCase())
 
     function ChangeEvent(event:any){
       const {name, value} = event.target
@@ -42,72 +42,83 @@ function Shop({Products, staticInfo} : {Products : ProductsInterface[], staticIn
           getCurrentCost : true
         }
       })
-    }
-
-
-    async function ClearStatic(){
-      return new Promise(async (resolve, reject)=>{
-          await fetch("http://localhost:3000/DatabaseInfo/DeleteStaticTable",{
-                    cache : "no-cache",
-                    method : 'POST',
-                    headers: {
-                        'Content-Type': 'application/json', // Set the appropriate Content-Type header
-                        // Additional headers if needed
-                        // ...
-                        },
-                    body:JSON.stringify({name : "Static"})
-                })
-          location.reload()
-              })
-    }
-
-    async function SendToStatic(Count:number, Product:string){
-      return new Promise(async (resolve, reject)=>{
-
-      const body = {
-        DataToWrite : [Count, Product.toLowerCase()],
-        Columns : [`StaticCount`, `StaticItem`],
-        tableName : "Static"
-      }
-      const resp = await fetch("http://localhost:3000/DatabaseInfo/AddData",{
-                    method : 'POST',
-                    headers: {
-                        'Content-Type': 'application/json', // Set the appropriate Content-Type header
-                        // Additional headers if needed
-                        },
-                    body:JSON.stringify(body)
-        })
-      resolve(await resp.text())
+      setControlButton((vlues)=>{
+        return{
+          ...vlues,
+          message : ""
+        }
       })
     }
 
-    async function DoneStatic(){
-      return new Promise((resolve, reject)=>{
-          Data.map((value)=>{
-            staticInfo.map(async (content)=>{
-              if(value.ProductName.toLowerCase() === content.StaticItem.toLowerCase()){
-                const count = value.ProductCount - content.StaticCount
-                const dataToBeSend = {
-                  tableName : "Products",
-                  id : value.ProductId,
-                  idColumn : "ProductId",
-                  columns : ["ProductCount"],
-                  UpdatedData : [count]
-                }
-                const res = await fetch("http://localhost:3000/DatabaseInfo/UpdateData",{
-                    method : "POST",
-                    cache : "no-cache",
-                    body : JSON.stringify(dataToBeSend),
-                    headers : {
-                      'Content-Type': 'application/json',
-                    }
-                })
-                const response = await res.text()
-                resolve(response)
+    useEffect(()=>{
+      if(Data.length === 1){
+        Data.map((item)=>{
+          if(CheckIfSimilar(input.Product, item.ProductName) === item.ProductName || input.Product === item.ProductName){
+            console.log("are you rude. Fuck Off")
+            console.log(`the checkifSimilar value is ${CheckIfSimilar(input.Product, item.ProductName)}, the item is ${item.ProductName} and input is ${input.Product}`)
+            setControlButton((value)=>{
+              return{
+                ...value,
+                itemName : CheckIfSimilar(input.Product, item.ProductName),
               }
             })
+            setInput((content)=>{
+              return{
+                ...content,
+                id : item.ProductId,
+                cost : item.ProductCost
+              }
+            })
+          }
+        })
+      }
+      console.log(input)
+    }, [input.Product])
+
+    async function DoneStatic(){
+        Data.map((value)=>{
+          staticInfo.map(async (content)=>{
+            if(value.ProductName.toLowerCase() === content.StaticItem.toLowerCase()){
+              const count = value.ProductCount - content.StaticCount   
+              await ApiRequests.UpdateInServer(
+                "Products",
+                ["ProductCount"],
+                value.ProductId,
+                "ProductId",
+                [count]
+              )
+            }
           })
-      })
+        } )
+    }
+
+    async function SubmitFunc(){
+      if(controlButton.itemName !== input.Product){
+        setControlButton((values)=>{
+          return{
+            ...values,
+            message : `Did you mean ${controlButton.itemName}`
+          }
+        })
+      }else{
+        setControlButton((value)=>{
+          return{
+            ...value,
+            submit : false,
+            done : false,
+            message : "please reload to see item."
+          }
+        })
+        const cost = input.cost * input.Count
+        await ApiRequests.WriteToServer("Static", [`StaticCount`, `StaticItem`, `StaticPrice`], [input.Count, input.Product.toLowerCase(), cost])
+    }}
+
+    function CalculateCost():number{
+      var total = 0
+      for(var i =0; i < staticInfo.length; i++){
+        total += staticInfo[i].StaticPrice
+      }
+      return total;
     }
       return (
         <section className=" h-[100vh] w-[100vw] relative">
@@ -146,6 +157,7 @@ function Shop({Products, staticInfo} : {Products : ProductsInterface[], staticIn
                           <h2>Cost per Product : </h2> <h1>{item.ProductCost}.ksh</h1>
                           </div>
                         </div>  
+                        <DueDate Product={item.ProductName} type="Products" Count={item.ProductCount} ArrivalDate="NA" />
                       </div>
                     )
                   })
@@ -163,7 +175,11 @@ function Shop({Products, staticInfo} : {Products : ProductsInterface[], staticIn
                               <span className='flex'>
                                   <h2>Product Count : </h2> <h1>{item.StaticCount}</h1>
                               </span>
+                              <span className="flex">
+                                    <h2>Total cost: </h2> <h1>{item.StaticPrice}</h1>
+                              </span>
                           </div>
+                          <hr />
                       </div>
                           )
                         })
@@ -176,7 +192,11 @@ function Shop({Products, staticInfo} : {Products : ProductsInterface[], staticIn
             <div className='ShopEnter w-[30rem] relative'>
               <h1 className=' text-white text-center'>Enter Your Information</h1>
               <hr />
-
+                <div>
+                  <h1 className=" font-bold text-center">
+                    {controlButton.message}
+                  </h1>
+                </div>
                 <div className='flex'>
                   <h1>
                     Product Name :
@@ -210,36 +230,51 @@ function Shop({Products, staticInfo} : {Products : ProductsInterface[], staticIn
                 </div>
 
               <div className='w-[100%] relative flex place-content-center gap-10'>
-{  controlButton.submit ? <button className=" bg-blue-500 relative" onClick={async ()=>{
-                    try{
-                      setControlButton(()=>{
-                          return{
-                            submit : false,
-                            reload : true,
-                            done : false,
-                            clear : true
-                          }
-                      })
-                      await SendToStatic(input.Count, input.Product)
-                    }catch(err){                      
-                      console.log("an error occured while sending to static");
-                    }
-                    
-                  }}>
+
+              {  controlButton.submit ? 
+                  <button className=" bg-blue-500 relative" onClick={async ()=>{
+                      try{
+                        if(CheckIfEmpty([input.Product])){
+                          setControlButton((value)=>{
+                            return{
+                              ...value,
+                              message : "please fill in all the fields"
+                              }
+                          })
+                          }else{
+                            SubmitFunc()
+                        }
+                        
+                      }catch(err){                      
+                        console.log("an error occured while sending to static");
+                      }
+
+                    }}>
                     Submit 
                   </button>
                   : 
-                  ""
+                  <button className=" bg-blue-500" onClick={()=>{
+                      setControlButton((values)=>{
+                        return{
+                          ...values,
+                          submit : true,
+                          done : true,
+                        }
+                    })
+                    location.reload()
+                    }}>
+                      Reload
+                  </button>
 }
 
-{  controlButton.done ? <button className=" bg-blue-500" onClick={async ()=>{
+                {  controlButton.done ? <button className=" bg-blue-500" onClick={async ()=>{
                     try{
-                      setControlButton(()=>{
+                      setControlButton((values)=>{
                         return{
+                          ...values,
                           submit : true,
                           done : false,
-                          clear : true,
-                          reload : false
+                          message : "press clear button to clear the slots"
                         }
                     })
                       await DoneStatic()
@@ -249,46 +284,38 @@ function Shop({Products, staticInfo} : {Products : ProductsInterface[], staticIn
                   }}>
                     Done
                   </button>
-                  : ""}
-                
-{controlButton.reload ?  <button className=" bg-blue-500" onClick={()=>{
-                  setControlButton(()=>{
-                    return{
-                      reload : false,
-                      submit : true,
-                      done : true,
-                      clear : false
+                  : 
+                  <button className=" bg-blue-500" onClick={async()=>{
+                    try{
+                      setControlButton((values)=>{
+                        return{
+                          ...values,
+                          done : true,
+                          submit : true,
+                        }
+                      })
+                      await ApiRequests.ClearFromServer("Static")
+                      location.reload()
+                    }catch(err){
+                      console.error("an error occured in client while sending a request to clear database")
                     }
-                })
-                location.reload()
-                }}>
-                    Reload
-                  </button>
-                  :
-                  ""}
-
-{controlButton.clear ?  <button className=" bg-blue-500" onClick={async()=>{
-                    setControlButton(()=>{
-                      return{
-                        clear : false,
-                        done : true,
-                        submit : true,
-                        reload : false
-                      }
-                  })
-              const response = await ClearStatic()
-  }}>
+                  }}>
                     Clear
                   </button>
-                  :
-                  ""}
+}
+
+                
           </div>
-                <div>
-                  Submit -&gt; this will allow you to see the Product Bought .<br />
-                  Done -&gt; will update the Data in the database. <br />
-                  Reload -&gt; will show you the item when you submit it. <br />
-                  Clear -&gt; will clear all the data from the product Bought section.
-                </div>
+
+          <div className="flex place-content-center absolute mt-10 ">
+            <h2 className=" grid text-lg align-middle my-2">Total Cost: </h2>
+            <input 
+            type="text"
+            name="CalculateCost"
+            className=" h-10 w-20 text-center rounded-xl"
+              value={CalculateCost()} 
+            />
+          </div>
 
       </div>
           </section>

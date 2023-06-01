@@ -1,19 +1,11 @@
 "use client"
-
 import React, { useEffect, useState } from 'react';
 import FilterData from "@/components/FilterData"
 import DueDate from '@/components/DueDate';
+import { Orders } from '@/components/interfaces';
+import ApiRequests from '@/components/APIRequests';
 
-export interface Orders{
-  OrderId : number,
-  OrderedItem : string,
-  OrderDate : string, 
-  ArrivalDate : string,
-  OrderCount : number,
-  Editstate? : boolean  
-}
-
-const OrdersForm = ({searchTerm, Orders, stateDelete, stateUpdate, stateEditing, stateCount} : {searchTerm : string, Orders : Orders[], stateDelete : boolean, stateUpdate : boolean, stateEditing:boolean, stateCount : number}) => {
+const OrdersForm = ({searchTerm, Orders, stateDelete, stateUpdate} : {searchTerm : string, Orders : Orders[], stateDelete : boolean, stateUpdate : boolean}) => {
 
       const Data = FilterData<Orders>(Orders, searchTerm.toLowerCase(), (Orders)=>Orders.OrderedItem.toLowerCase())
       const [UpdateData, setUpdateData] = useState<Orders[]>(Data)   
@@ -43,59 +35,6 @@ const OrdersForm = ({searchTerm, Orders, stateDelete, stateUpdate, stateEditing,
         })
       }, [stateDelete, stateUpdate])
 
-      function DeleteMe(table : string, column : string, OrderId : number){
-        return new Promise(async (resolve, reject)=>{
-            const sendBody = {
-              tableName : table,
-              columnName : column,
-              columnId : OrderId
-            }
-            try{
-              const Response = await fetch("http://localhost:3000/DatabaseInfo/DeleteData", {
-                cache : "no-cache",
-                method : "POST",
-                body : JSON.stringify(sendBody),
-                headers: {
-                  'Content-Type': 'application/json', // Set the appropriate Content-Type header
-                },
-              })
-              console.log("i have been sent away")
-              location.reload()
-            }catch(err){
-                reject(err)
-                console.log("an error occured while deleting order")
-            }
-        })
-      }
-
-      function UpdateMe(table : string, ColumnValues : string[], tableId : number, idColumnName : string, UpdatedValues : string[]){
-        const dataToBeSend = {
-          tableName : table,
-          id : tableId,
-          idColumn : idColumnName,
-          columns : ColumnValues,
-          UpdatedData : UpdatedValues
-        }
-
-        return new Promise(async (resolve, reject)=>{
-            try{
-              const Response = await fetch("http://localhost:3000/DatabaseInfo/UpdateData", {
-                method : "POST",
-                cache : "no-cache",
-                body : JSON.stringify(dataToBeSend),
-                headers : {
-                  'Content-Type': 'application/json',
-                }
-              })
-              const ResponseGotten = await Response.text()
-              resolve(ResponseGotten)
-              console.log(ResponseGotten)
-            }catch(err){
-              console.log(`an error occured while sending update data ${err}`)
-              reject(err)
-            }
-        })
-      }
 
       function InputForms(name:string, initialValue : string|number, valueType:string){
         return <input 
@@ -166,8 +105,14 @@ const OrdersForm = ({searchTerm, Orders, stateDelete, stateUpdate, stateEditing,
                   <div className=' grid '>
                       {
                         Delete.stateDelete ?
-                      <button onClick={()=>{
-                        DeleteMe("Orders", "OrderId", item.OrderId)
+                      <button onClick={async()=>{
+                        try{
+                          await ApiRequests.DeleteInServer("Orders", "OrderId", item.OrderId)
+                          location.reload()
+                        }catch(err){
+                          console.error("an error occured while in client while sending a delete request")
+                        }
+
                     }} className=' m-2 border-2 p-1'>select</button>
                         :
                         Delete.stateUpdate ?
@@ -178,7 +123,7 @@ const OrdersForm = ({searchTerm, Orders, stateDelete, stateUpdate, stateEditing,
                               Edit Information</button>
 
                           <button className=' mt-2 border-2' onClick={async ()=>{
-                              await UpdateMe("Orders", ["OrderDate", "ArrivalDate", "OrderedItem", "OrderCount"], item.OrderId, "OrderId", [newData.OrderDate, newData.ArrivalDate, newData.OrderedItem.toLowerCase(), newData.OrderCount.toString()])
+                              await ApiRequests.UpdateInServer("Orders", ["OrderDate", "ArrivalDate", "OrderedItem", "OrderCount"], item.OrderId, "OrderId", [newData.OrderDate, newData.ArrivalDate, newData.OrderedItem.toLowerCase(), newData.OrderCount.toString()])
                               location.reload()
                           }}>Done</button>
                         </> 

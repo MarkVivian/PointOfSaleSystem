@@ -1,18 +1,9 @@
 "use client"
 import React, { useEffect, useRef, useState } from 'react'
 import CheckIfEmpty from "@/components/CheckIfEmpty"
+import { ProductsInterface, OrdersInterface } from '@/components/interfaces'
+import ApiRequests from '@/components/APIRequests'
 
-interface ProductsInterface{
-        ProductName : string,
-        ProductCount : number,
-        ProductCost : number
-}
-interface OrdersInterface {
-    OrderedItem : string,
-    OrderDate : string,
-    ArrivalDate : string,
-    OrderCount : number 
-}
 
 const PopUp:React.FC<{searchQuery : string}> = ({searchQuery}) => {
 
@@ -130,7 +121,7 @@ const PopUp:React.FC<{searchQuery : string}> = ({searchQuery}) => {
                 infoBad : false
             }
         })
-        const {name, value, type} = event.target
+        const {name, value} = event.target
         if(searchQuery === "Orders"){
             setOrderSetup((item)=>{
                 return{
@@ -151,65 +142,45 @@ const PopUp:React.FC<{searchQuery : string}> = ({searchQuery}) => {
 
     }
 
-    async function WriteData(info : any){
-        return new Promise(async (resolve, reject)=>{
-            try{
-                setMessage((value)=>{
-                    return{
-                        ...value,
-                        work : true,
-                        fail : false,
-                        info: false
-                    }
-                })
-                const Response = await fetch("http://localhost:3000/DatabaseInfo/AddData",{
-                    cache : "no-cache",
-                    method : 'POST',
-                    headers: {
-                        'Content-Type': 'application/json', // Set the appropriate Content-Type header
-                        // Additional headers if needed
-                        // ...
-                        },
-                    body:JSON.stringify(info)
-                })
-                location.reload()
-            }catch(err){
-                setMessage((value)=>{
-                    return{
-                        ...value,
-                        work : false,
-                        fail : true,
-                        info : false
-                    }
-                })
-                reject(err)
-                console.log("an error occured while updating " + err)
-            }
-        })
-    }
-
     async function AddItem(){
         const {OrderedItem, OrderDate, OrderCount, ArrivalDate} = OrderSetup
         const {ProductName, ProductCost, ProductCount} = ProductSetup
-
-        if(searchQuery === "Orders"){
-                await WriteData({
-                    "DataToWrite" : [OrderCount, OrderDate, OrderedItem.toLowerCase(), ArrivalDate],
-                    "Columns" : ["OrderCount", "OrderDate", "OrderedItem", "ArrivalDate"],
-                    "tableName" : "Orders"
-                })
-                console.log("i am running")
-        }else if(searchQuery === "Products"){
-            await WriteData({
-                "DataToWrite" : [ProductName.toLowerCase(), ProductCost, ProductCount],
-                "Columns" : ["ProductName", "ProductCost", "ProductCount"],
-                "tableName" : "Products"
+        try{
+            setMessage((value)=>{
+                return{
+                    ...value,
+                    work : true,
+                    fail : false,
+                    info: false
+                }
             })
-            console.log("i am running")
-        }else{
-            throw new Error("invalid url is being used")
+            if(searchQuery === "Orders"){
+                await ApiRequests.WriteToServer(
+                    "Orders",
+                    ["OrderCount", "OrderDate", "OrderedItem", "ArrivalDate"],
+                    [OrderCount, OrderDate, OrderedItem.toLowerCase(), ArrivalDate]
+                )
+                location.reload()
+            }else if(searchQuery === "Products"){
+                await ApiRequests.WriteToServer(
+                    "Products",
+                    ["ProductName", "ProductCost", "ProductCount"],
+                    [ProductName.toLowerCase(), ProductCost, ProductCount]
+                )
+                location.reload()
+            }else{
+                throw new Error("invalid url is being used")
+            }
+        }catch(err){
+            setMessage((value)=>{
+                return{
+                    ...value,
+                    work : false,
+                    fail : true,
+                    info : false
+                }
+            })
         }
-
     }
 
   return (

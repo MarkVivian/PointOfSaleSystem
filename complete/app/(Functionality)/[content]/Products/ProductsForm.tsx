@@ -3,14 +3,8 @@
 import React, { useEffect, useState } from 'react';
 import FilterData from "@/components/FilterData"
 import DueDate from "@/components/DueDate"
-
-export interface Products{
-  ProductId : number
-  ProductName : string,
-  ProductCount : number,
-  ProductCost : number,
-  Editstate? : boolean
-}
+import ApiRequests from '@/components/APIRequests'
+import { Products } from '@/components/interfaces';
 
 const ProductsForm = ({searchTerm, Products, stateDelete, stateUpdate} : {searchTerm : string, Products : Products[], stateDelete : boolean, stateUpdate : boolean}) => {
 
@@ -39,60 +33,6 @@ const ProductsForm = ({searchTerm, Products, stateDelete, stateUpdate} : {search
         }
       })
   }, [stateDelete, stateUpdate])
-
-  function DeleteMe(id:number, column : string, table : string){
-    return new Promise(async (resolve, reject)=>{
-      const sendBody = {
-        tableName : table,
-        columnId : id,
-        columnName : column
-      }
-      try{
-        const Response = await fetch("http://localhost:3000/DatabaseInfo/DeleteData", {
-          cache : "no-cache",
-          method : "POST",
-          body : JSON.stringify(sendBody),
-          headers: {
-            'Content-Type': 'application/json', // Set the appropriate Content-Type header
-          },
-        })
-        console.log("i have been sent away")
-        location.reload()
-      }catch(err){
-        reject(err)
-        console.log("an error occured while deleting Product.")
-      }
-    })
-  }
-
-
-  function UpdateMe(table : string, ColumnValues : string[], tableId : number, idColumnName : string, UpdatedValues : string[]){
-    const dataToBeSend = {
-      tableName : table,
-      id : tableId,
-      idColumn : idColumnName,
-      columns : ColumnValues,
-      UpdatedData : UpdatedValues
-    }
-    return new Promise(async (resolve, reject)=>{
-        try{
-          const Response = await fetch("http://localhost:3000/DatabaseInfo/UpdateData", {
-            method : "POST",
-            cache : "no-cache",
-            body : JSON.stringify(dataToBeSend),
-            headers : {
-              'Content-Type': 'application/json',
-            }
-          })
-          const ResponseGotten = await Response.text()
-          resolve(ResponseGotten)
-          console.log(ResponseGotten)
-        }catch(err){
-          console.log(`an error occured while sending update data ${err}`)
-          reject(err)
-        }
-    })
-  }
 
   function InputForms(name:string, initialValue : string|number, valueType:string){
     return <input 
@@ -148,8 +88,8 @@ const ProductsForm = ({searchTerm, Products, stateDelete, stateUpdate} : {search
               <div className=' grid'>
               {
                       Delete.DeleteState ?
-                      <button onClick={()=>{
-                        DeleteMe(item.ProductId, "ProductId", "Products")
+                      <button onClick={async ()=>{
+                        await ApiRequests.DeleteInServer("Products", "ProductId", item.ProductId)
                     }} className=' m-2 border-2 p-1'>  Select</button>
                       :
                       Delete.UpdateState ?
@@ -161,7 +101,7 @@ const ProductsForm = ({searchTerm, Products, stateDelete, stateUpdate} : {search
                               Edit Information</button>
 
                           <button className=' mt-2 border-2' onClick={async ()=>{
-                            await UpdateMe("Products", ["ProductName", "ProductCount", "ProductCost"], item.ProductId, "ProductId", [newData.ProductName.toLowerCase(), newData.ProductCount.toString(), newData.ProductCost.toString()])
+                            await ApiRequests.UpdateInServer("Products", ["ProductName", "ProductCount", "ProductCost"], item.ProductId, "ProductId", [newData.ProductName.toLowerCase(), newData.ProductCount.toString(), newData.ProductCost.toString()])
                             location.reload()
                           }}>Done</button>
                       </>

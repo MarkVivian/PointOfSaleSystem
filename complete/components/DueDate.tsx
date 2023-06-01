@@ -36,7 +36,7 @@ function DueDate({ArrivalDate, Count, Product, type}:{ArrivalDate : string, Coun
 
 
   return (
-    <div ref={showDiv} className='absolute bg-white left-0 w-[20rem] text-center grid rounded-md top-0'>
+    <div ref={showDiv} className='absolute bg-white left-0 w-[20rem] text-center grid rounded-md top-0 text-black'>
     {
         GetCount().states ?
             GetCount().Message

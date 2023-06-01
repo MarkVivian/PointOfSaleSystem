@@ -24,8 +24,7 @@
     "mysql2": "^3.2.4",
     "nodemon": "^2.0.22",
     "supertest": "^6.3.3",
-    "ts-node": "^10.9.1",
-    "tsc": "^2.0.4"
+    "ts-node": "^10.9.1"
   },
   "dependencies": {
     "typescript": "^5.0.4"

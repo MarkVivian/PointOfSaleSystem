@@ -3,35 +3,16 @@ import OrdersForm from './Orders/OrdersForm'
 import ProductsForm from './Products/ProductsForm'
 import Image from "next/image"
 import ProductsImage from "@/public/BackgroundImage.jpg"
-import React, { useRef, useState } from 'react'
+import React, { useState } from 'react'
 import PopUp from "./PopUp"
 
 
 const ContentPage:React.FC<{searchQuery : string, ProductsData:any, ordersData:any}> = ({searchQuery, ProductsData, ordersData}) => {
-    const hideInput = useRef<HTMLInputElement>(null)
-
     const [info, SetInfo] = useState<{searchTerm : string, stateDelete : boolean, stateUpdate : boolean}>({
       searchTerm : "",
       stateDelete : false,
       stateUpdate : false
     })
-
-    const [EditForm, setEditForm] = useState<{count : number, state : boolean}>({
-       count : 0,
-       state : false
-    })
-    
-  
-    function SearchChange(event : React.ChangeEvent<HTMLInputElement>){
-      const {name, value} = event.target
-      console.log(value)
-      SetInfo((item)=>{
-        return{
-          ...item,
-          [name] : value
-        }
-      })
-    }
 
   return (
     <>
@@ -50,25 +31,6 @@ const ContentPage:React.FC<{searchQuery : string, ProductsData:any, ordersData:a
                               Home
                             </button>
                           </a>
-        
-{/*
-                            <button className="border-2 text-white p-3" onClick={()=>{
-                                if(hideInput.current){
-                                  const classLists = hideInput.current?.classList
-                                  console.log(classLists)
-                                  classLists.toggle("hidden")
-                                }
-                            }}>
-                                Search
-                            </button>
-                            <input 
-                                placeholder='search Item here'
-                                value={info.searchTerm}
-                                onChange={SearchChange}
-                                name='searchTerm'
-                                className=' ml-1 p-1 hidden'
-                                ref={hideInput}
-                          />*/}
         
                             <PopUp searchQuery={searchQuery}/>
 
@@ -98,7 +60,7 @@ const ContentPage:React.FC<{searchQuery : string, ProductsData:any, ordersData:a
 
                 {
                     searchQuery === "Orders" ?
-                        <OrdersForm searchTerm={info.searchTerm} Orders={ordersData} stateDelete={info.stateDelete} stateUpdate={info.stateUpdate} stateEditing={EditForm.state} stateCount={EditForm.count}/>
+                        <OrdersForm searchTerm={info.searchTerm} Orders={ordersData} stateDelete={info.stateDelete} stateUpdate={info.stateUpdate} />
                             :
                         <ProductsForm searchTerm={info.searchTerm} Products={ProductsData} stateDelete={info.stateDelete} stateUpdate={info.stateUpdate}/>
                 }
