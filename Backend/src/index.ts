@@ -19,7 +19,7 @@ function StartServer(){
 
 function StopServer(){
     const currentDate = new Date()
-    if(currentDate.getDate()){
+    if(currentDate.getDate() > 5){
         StartServer()
     }
 }
