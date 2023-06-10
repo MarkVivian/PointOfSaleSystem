@@ -43,4 +43,3 @@ export interface OrdersInterface {
     ArrivalDate : string,
     OrderCount : number 
 }
-

@@ -1,30 +1,35 @@
 "use client"
 import React, { useRef } from 'react'
-import GetItemFromString from './GetItemFromString';
+import GetItemFromString from './GetDatePositions';
 
 function DueDate({ArrivalDate, Count, Product, type}:{ArrivalDate : string, Count : number, Product:string, type:string}) {
     const showDiv = useRef<HTMLDivElement>(null)
     
-    function ExpiredData():{expiration:boolean, dateNow : string}{
-        var expire = false;
-        var expired = false;
+    function ExpiredData():{expiration:{month : boolean, all : boolean}, message : string}{
         const currentDate = new Date();
         const year = currentDate.getFullYear();
-        const month = String(currentDate.getMonth() + 1).padStart(2, '0'); // Month is zero-based, so we add 1
+        const month = String(currentDate.getMonth() + 1).padStart(2, '0');
         const day = String(currentDate.getDate()).padStart(2, '0');
-
-        const formattedDate = `${year}-${month}-${day}`;
-        if(formattedDate === ArrivalDate){
-            expire = true
-        }else if(Number(GetItemFromString(formattedDate, 2)) > Number(GetItemFromString(formattedDate, 2))){
-            
+        const CurrentDate = `${year}-${month}-${day}`;
+        
+        const expired = {
+            expireDay : Number(GetItemFromString(ArrivalDate, "First")) <= Number(GetItemFromString(CurrentDate, "First")) && 
+                        Number(GetItemFromString(ArrivalDate, "Center")) <= Number(GetItemFromString(CurrentDate, "Center")) &&
+                        Number(GetItemFromString(ArrivalDate, "Last")) <= Number(GetItemFromString(CurrentDate, "Last")) 
+                        ?
+                        true : false,
+            expiredMonth : Number(GetItemFromString(ArrivalDate, "First")) <= Number(GetItemFromString(CurrentDate, "First")) && 
+                            Number(GetItemFromString(ArrivalDate, "Center")) <= Number(GetItemFromString(CurrentDate, "Center"))
+                            ?
+                            true : false,
+            expire :CurrentDate === ArrivalDate ? true : false
         }
+        console.log(expired.expireDay || expired.expiredMonth ? `day ${expired.expireDay} month ${expired.expiredMonth} and item ${Product}` : "")
         return{
-            expiration : expire,
-            dateNow : ` ${Product} is about to go overdue ... `
+            message : expired.expireDay  ? `${Product} is overdue. Please contact your deliverer ....` : expired.expiredMonth ? `${Product} is about to go overdue. Please confirm the order ...` : expired.expire ? ` ${Product} is about to go overdue ... ` : '',
+            expiration : {month : expired.expiredMonth, all : expired.expire}
         }
     }
-
 
     function GetCount():{Message : string, states:boolean}{
         var none = Count == 0 ? true : false;
@@ -44,13 +49,13 @@ function DueDate({ArrivalDate, Count, Product, type}:{ArrivalDate : string, Coun
             ""
     }
     {
-        ExpiredData().expiration ?
-           ExpiredData().dateNow 
+        ExpiredData().expiration.month || ExpiredData().expiration.all ?
+           ExpiredData().message
             :
             ""
     }
     {
-        GetCount().states || ExpiredData().expiration ?
+        GetCount().states || ExpiredData().expiration.all || ExpiredData().expiration.month ?
             <>
             <button className='p-1 border-2 m-1 border-black hover:text-lg rounded-md' onClick={()=>{
                 if(showDiv.current){
