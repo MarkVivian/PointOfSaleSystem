@@ -52,6 +52,7 @@ export default function Home() {
         </div>
         
       </div>
+     
       
       <footer className=" p-1 absolute left-0 text-center w-full">
       Copyright © 2023 Mark Industries. All rights reserved.
