@@ -35,7 +35,7 @@ const LeftNavbar = () => {
 
         {/* this will handle the icon.... */}
         <div className=" relative w-full h-44 grid place-content-center">
-          <Link href={"/"}>
+          <Link href={"/"} passHref>
             <Image src={placeholder} alt="icon Image" height={100} width={100} priority className='h-28 rounded-full '/>
           </Link>
         </div>
