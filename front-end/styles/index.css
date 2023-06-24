@@ -1,14 +1,23 @@
-.hover-effect {
-  background-image: linear-gradient(#0ba730 0 0), linear-gradient(#41a221 0 0);
-  background-repeat: no-repeat;
-  background-size: 50% 0.08em;
-  background-position: -100% 100%, 200% 0;
-  transition: background-size 0.3s, background-position 0.3s 0.3s;
+.pos {
+  font-size: 8vw;
+  line-height: 8vw;
+  margin: 0;
+  font-family: "Red Hat Display", sans-serif;
+  font-weight: 900;
+  background: url(../public/icon_placeHolder.jpg);
+  background-size: 40%;
+  background-position: 50% 50%;
+  -webkit-background-clip: text;
+  color: rgba(0, 0, 0, 0.08);
+  animation: zoomout 10s ease 500ms forwards;
 }
-.hover-effect:hover {
-  background-size: 50% 100%;
-  background-position: 0 100%, 100% 0;
-  transition: background-size 0.3s 0.3s, background-position 0.3s;
+@keyframes zoomout {
+  from {
+    background-size: 40%;
+  }
+  to {
+    background-size: 10%;
+  }
 }
 
 @tailwind base;

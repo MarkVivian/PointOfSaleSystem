@@ -2,34 +2,9 @@ import Image from 'next/image'
 import React from 'react'
 import placeholder from "@/public/icon_placeHolder.jpg"
 import Link from 'next/link';
+import { valuesState } from '@/components/ImportedValues';
 
 const LeftNavbar = () => {
-  const icons = [
-    {
-      name : "Home",
-      link : "/"
-    },
-    {
-      name : "Orders",
-      link : "/dashboard/orders"
-    },
-    {
-      name : "Products",
-      link : "/dashboard/products"
-    },
-    {
-      name : "Shop",
-      link : "/dashboard/shop"
-    },
-    {
-      name : "Dashboard",
-      link : "/dashboard"
-    },
-    {
-      name : "Settings",
-      link : "/dashboard/settings"
-    }
-  ]
   return (
     <main className='relative h-screen border-r-4 border-black w-40 dark:border-white'>
 
@@ -43,7 +18,7 @@ const LeftNavbar = () => {
         {/* other icons*/}
         <div className=' relative grid w-full pt-5'>
           {
-            icons.map((value)=>{
+            valuesState.map((value)=>{
               return(
                 <Link className=' relative grid place-content-center h-14 m-2 text-xl hover-effect rounded-lg' key={value.name} href={value.link}>
                     {value.name}

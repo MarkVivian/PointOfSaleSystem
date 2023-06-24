@@ -1,4 +1,4 @@
-import LeftNavbar from "@/components/LeftNavbar"
+import LeftNavbar from "@/app/dashboard/LeftNavbar"
 
 export const metadata = {
   title: 'dashboard',
