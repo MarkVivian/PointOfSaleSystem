@@ -11,7 +11,7 @@ const FeatureCards = ({name, link, image, description}:valueStateInterface) => {
             {name}
           </h1>
           <p className='p-1 text-left'>
-            {description}
+            {description} 
           </p>
         </div>
     </Link>
