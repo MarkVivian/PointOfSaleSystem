@@ -4,30 +4,29 @@ import { valuesState } from "@/components/ImportedValues";
 export default function Home() {
   return (
     <body className="grid relative h-screen w-screen">
-      <nav className=" h-fit">
+      <nav className=" h-fit border-b-4">
         <h1 className="pos text-center">
         Point Of Sale System
         </h1>
       </nav>
 
-      <div className="bg-green-800 h-80 flex gap-10 py-5 w-screen">
-        {
-          valuesState.map(({name, link, description, image})=>{
-            return(
-              <FeatureCards key={name} name={name} description={description} image={image} link={link} />
-              )
-          })
-        }
-      </div>
+      <main className="h-fit relative flex w-screen gap-5 overflow-hidden py-5">
+          {
+            valuesState.map(({name, link, description, image})=>{
+              return(
+                <FeatureCards key={name} name={name} description={description} image={image} link={link} />
+                )
+            })
+          }
+      </main>
 
-      <div className="bg-red-800 relative grid place-content-center h-20">
-          <button className=" w-fit bg-white h-fit">
-              start Your journey
-          </button>
-      </div>
-
-      <footer className="bg-black text-white">
-    copyrights
+      <footer className="bg-black text-white text-center w-screen p-2 border-t-4 absolute bottom-0">
+        copyrights information 
+          <br/>
+        Adipisicing duis commodo reprehenderit sunt dolore sunt cupidatat consectetur eu cillum mollit ipsum enim proident.
+        Aliquip quis ipsum magna ut occaecat veniam.
+        <br/>
+        Ut ipsum laborum Lorem ullamco.
       </footer>
 
     </body>
