@@ -2,7 +2,7 @@ import Image from 'next/image'
 import { valueStateInterface } from './Interfaces'
 import Link from 'next/link'
 
-const FeatureCards = ({name, link, image, description}:valueStateInterface) => {
+const HomepageCards = ({name, link, image, description}:valueStateInterface) => {
   return (
     <Link href={link} className='relative grid border-2 h-72 w-54' passHref>
         <Image src={image} alt={name} height={1000} width={1000} priority={true} className='w-full h-40'/>
@@ -18,4 +18,4 @@ const FeatureCards = ({name, link, image, description}:valueStateInterface) => {
   )
 }
 
-export default FeatureCards
+export default HomepageCards 

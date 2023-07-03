@@ -4,8 +4,13 @@ import pic3 from "/public/icon_placeHolder2.jpg"
 import pic4 from "/public/icon_placeholder3.jpg"
 import pic5 from "/public/icon_placeholder4.jpg"
 import pic6 from "/public/icon_placeholder5.jpg"
+import { valueStateInterface } from "./Interfaces"
+import calendarOrders from "@/app/dashboard/dashboardContent/calendarOrders"
+import monthAnalysis from "@/app/dashboard/dashboardContent/monthAnalysis"
+import productAnalytics from "@/app/dashboard/dashboardContent/productAnalytics"
+import productTracking from "@/app/dashboard/dashboardContent/productTracking"
 
-export const valuesState = [
+export const valuesState : valueStateInterface[] = [
     {
       name : "Home",
       link : "/",
@@ -42,4 +47,11 @@ export const valuesState = [
       description: "this will allow the user to change the appearance and the theme..",
       image : pic6
     }
+]
+
+export const dashboardContent:JSX.Element[] = [
+    calendarOrders(),
+    monthAnalysis(),
+    productAnalytics(),
+    productTracking()
 ]

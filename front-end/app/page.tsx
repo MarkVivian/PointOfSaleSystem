@@ -1,4 +1,4 @@
-import FeatureCards from "@/components/FeatureCards";
+import HomepageCards from "@/components/HomepageCards";
 import { valuesState } from "@/components/ImportedValues";
 
 export default function Home() {
@@ -14,7 +14,7 @@ export default function Home() {
           {
             valuesState.map(({name, link, description, image})=>{
               return(
-                <FeatureCards key={name} name={name} description={description} image={image} link={link} />
+                <HomepageCards key={name} name={name} description={description} image={image} link={link} />
                 )
             })
           }

@@ -1,5 +1,6 @@
 import React from 'react'
 import {Metadata} from 'next'
+import TopFeature from '@/components/ordersProducts/TopFeature'
 
 export const metadata:Metadata ={
   title : "Orders",
@@ -8,7 +9,20 @@ export const metadata:Metadata ={
 
 function page() {
   return (
-    <div>Orders</div>
+    <main className='relative py-3'>
+
+      <TopFeature type='orders'/>
+
+      <section className=' h-97 bg-green-700 mb-3 mx-5'>
+
+      </section>
+
+      <div className='flex w-full place-content-center p-2 gap-10'>
+        <button className=' border-2 bg-gray-500 px-5 py-1 rounded-lg hover:font-bold hover:text-lg duration-150'>filter by months</button>
+        <button className=' border-2 bg-gray-500 px-5 py-1 rounded-lg hover:font-bold hover:text-lg duration-150'>filter expired orders</button>
+      </div>
+
+    </main>
   )
 }
 

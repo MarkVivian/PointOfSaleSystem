@@ -6,11 +6,11 @@ import { valuesState } from '@/components/ImportedValues';
 
 const LeftNavbar = () => {
   return (
-    <main className='relative h-screen border-r-4 border-black w-40 dark:border-white'>
+    <main className='relative h-screen border-r-4 border-black min-w-[10rem] dark:border-white'>
 
         {/* this will handle the icon.... */}
         <div className=" relative w-full h-44 grid place-content-center">
-          <Link href={"/"} passHref>
+          <Link href={"/dashboard/login"} passHref>
             <Image src={placeholder} alt="icon Image" height={100} width={100} priority className='h-28 rounded-full '/>
           </Link>
         </div>

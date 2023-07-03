@@ -13,9 +13,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className='relative flex'>
+      <body className='relative flex h-screen w-screen'>
         <LeftNavbar />
-        <div>
+        <div className="w-full relative h-screen overflow-hidden">
           {children}
         </div>
       </body>
