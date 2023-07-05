@@ -1,7 +1,7 @@
 "use client"
 import { useRef, useState } from 'react'
 import { addInfointerface, topFeatureShowControl } from '../Interfaces'
-import TopFeatureAddOption from './TopFeatureAddOption'
+import DialogInput from './DialogInput'
 
 function TopFeature({type} : {type : string}) {
   const [showControl, setControl] = useState<topFeatureShowControl>({
@@ -26,6 +26,16 @@ function TopFeature({type} : {type : string}) {
 
   const dialogReference = useRef<HTMLDialogElement>(null)
   const buttonReference = useRef<HTMLButtonElement>(null)
+
+  function onChangeModifier(events : React.ChangeEvent<HTMLInputElement>){
+    const {name, value} = events.target
+      setAddInfo((files)=>{
+        return{
+          ...files,
+          [name] : value
+        }
+      })
+  }
   return (
     <section className='w-full p-2 grid place-content-center'>
       
@@ -76,43 +86,13 @@ function TopFeature({type} : {type : string}) {
           : 
           ""
       }
-      {//Todo : add the add dialog input form here.....}
-      <dialog ref={dialogReference} className='bg-black rounded-lg text-white'>
 
-
-          <div className='flex gap-10 w-full place-content-center h-fit'>
-            <button 
-              className={`bg-gray-600 rounded-lg p-3 hover:text-lg ${buttonReference.current?.disabled ? 'pointer-events-none' : ''}`}
-              ref={buttonReference}
-              onClick={()=>{
-                if(buttonReference.current){
-                  buttonReference.current.disabled = true
-                  setControl((files)=>{
-                    return{
-                      ...files,
-                      clearState : true
-                    }
-                  })
-                }
-              }}
-            >
-              Add {type}
-            </button>
-
-            <button 
-              onClick={()=>{
-                if(dialogReference.current && buttonReference.current){
-                dialogReference.current.close()
-                buttonReference.current.disabled = false
-              }
-              location.reload()
-            }}
-              className=' bg-gray-600 rounded-lg p-3 hover:text-lg '
-            >
-              Close
-            </button>
-          </div>
-      </dialog>
+        <DialogInput 
+        buttonReference={buttonReference} 
+        dialogReference={dialogReference} 
+        changeModifierFunction={onChangeModifier}
+        type={type}
+        addinfo={addInfo}/>
 
     </section>
   )
