@@ -28,6 +28,23 @@ export interface addInfointerface{
     productImage : string
 }
 
+export interface orderInterface{
+    orderItem : string,
+    orderCount : number,
+    orderDate : string,
+    arrivalDate : string,
+    orderId : number
+}
+
+export interface productInterface{
+    productName : string,
+    productDescription : string,
+    productCount : number,
+    productCost : number,
+    productImage : string,
+    productId : number
+}
+
 export interface DialogInputInterface{
     buttonReference : RefObject<HTMLButtonElement>, 
     dialogReference : RefObject<HTMLDialogElement>, 

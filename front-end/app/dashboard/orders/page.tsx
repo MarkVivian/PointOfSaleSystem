@@ -1,6 +1,7 @@
 import React from 'react'
 import {Metadata} from 'next'
 import TopFeature from '@/components/ordersProducts/TopFeature'
+import OrdersProductsCard from '@/components/ordersProducts/OrdersProductsCard'
 
 export const metadata:Metadata ={
   title : "Orders",
@@ -13,9 +14,17 @@ function page() {
 
       <TopFeature type='orders'/>
 
-      <section className=' h-97 bg-green-700 mb-3 mx-5'>
-
-      </section>
+          <OrdersProductsCard 
+            dataToWrite={[{
+              orderItem : "",
+              orderCount : 0,
+              orderDate : "",
+              arrivalDate : "",
+              orderId : 0
+            }]}
+            showImage={false}
+            type='orders'
+          />
 
       <div className='flex w-full place-content-center p-2 gap-10'>
         <button className=' border-2 bg-gray-500 px-5 py-1 rounded-lg hover:font-bold hover:text-lg duration-150'>filter by months</button>

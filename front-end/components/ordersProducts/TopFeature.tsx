@@ -46,8 +46,9 @@ function TopFeature({type} : {type : string}) {
             if(dialogReference.current){
               dialogReference.current.showModal()
             }
-          }}
-        >Add</button>
+          }}>
+            Add
+        </button>
         
         <button 
           className=' border-2 bg-gray-500 px-5 py-1 rounded-lg hover:font-bold hover:text-lg duration-150' 
