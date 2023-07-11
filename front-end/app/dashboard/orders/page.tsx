@@ -16,14 +16,16 @@ function page() {
 
           <OrdersProductsCard 
             dataToWrite={[{
-              orderItem : "",
+              orderItem : "Incididunt.",
               orderCount : 0,
-              orderDate : "",
-              arrivalDate : "",
+              orderDate : "/fdsf/fsd/sdfs",
+              arrivalDate : "fdsf/fsd/fdsf",
               orderId : 0
             }]}
             showImage={false}
             type='orders'
+            modifyState={false}
+            deleteState={false}
           />
 
       <div className='flex w-full place-content-center p-2 gap-10'>

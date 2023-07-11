@@ -1,0 +1,51 @@
+// ordersProductsCard
+.card{
+    height: 26rem;
+    background-color: green;
+    margin-bottom: .75rem;
+    margin: 0 1.25rem;
+    padding: .5rem;
+    flex-wrap: wrap;
+    overflow: hidden;
+
+    .orderCard,.productCard{
+        background-color: blue;
+        width: 22rem;
+        padding: .5rem;
+        border-radius: .5rem;
+        height: fit-content;
+
+        button{
+            padding: .2rem;
+            border: .15rem solid black;
+            border-radius: .5rem;
+        }
+
+        div{
+            position: relative;
+            display: flex;
+            gap : .5rem;
+            margin: .3rem 0;
+            border: .2rem solid black;   
+            padding: .3rem; 
+            border-radius: .5rem;
+
+            &.executable{
+                height: fit-content;
+                position: relative;
+                display: flex;
+                gap: 1rem;
+                place-content: center;
+                border: none;
+            }
+        }
+
+        h1{
+            min-width: 6.5rem;
+        }
+
+    }
+
+
+
+}

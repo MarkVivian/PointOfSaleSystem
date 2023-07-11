@@ -20,11 +20,13 @@ function page() {
           productCost : 100,
           productCount : 0,
           productImage : "",
-          productDescription : "",
-          productName : "",
+          productDescription : "Eu labore esse reprehenderit tempor tempor.",
+          productName : "Nisi sint pariatur magna culpa.",
           productId : 0
         }]}
-        type='products'/>
+        type='products'
+        modifyState={false}
+        deleteState={true}/>
 
       <div className='flex w-full place-content-center p-2'>
           <button className=' border-2 bg-gray-500 px-5 py-1 rounded-lg hover:font-bold hover:text-lg duration-150'>No images</button>
