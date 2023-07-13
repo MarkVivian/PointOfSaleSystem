@@ -2,7 +2,7 @@ import React from 'react'
 import { orderInterface, productInterface } from '../Interfaces'
 import Image from 'next/image'
 
-function OrdersProductsCard({dataToWrite, showImage, type, modifyState, deleteState} : {type : string, dataToWrite : orderInterface[] | productInterface[], showImage : Boolean, modifyState : Boolean, deleteState : Boolean}) {
+function OrdersProductsCard({dataToWrite, showImage, type, modifyState, deleteState} : {type : string, dataToWrite : orderInterface[] | productInterface[], showImage? : Boolean, modifyState : Boolean, deleteState : Boolean}) {
   
   return (
     <section className='card'>
@@ -77,7 +77,7 @@ function OrdersProductsCard({dataToWrite, showImage, type, modifyState, deleteSt
               return(
                 <div key={file.productId} className='productCard'>
                   {
-                    showImage ?
+                    showImage! ?
                       <Image src={""} alt='random image' width={100} height={100}/>
                     :
                       ""

@@ -1,9 +1,9 @@
 "use client"
-import { useRef, useState } from 'react'
-import { addInfointerface, topFeatureShowControl } from '../Interfaces'
+import { useEffect, useRef, useState } from 'react'
+import { addInfointerface, stateManagementInterface, topFeatureShowControl } from '../Interfaces'
 import DialogInput from './DialogInput'
 
-function TopFeature({type} : {type : string}) {
+function TopFeature({type, HandleStates} : {type : string, HandleStates(values: {modifyState: Boolean, deleteState: Boolean}): void}) {
   const [showControl, setControl] = useState<topFeatureShowControl>({
     locateState : false,
     locateText : "",
@@ -36,6 +36,11 @@ function TopFeature({type} : {type : string}) {
         }
       })
   }
+
+  useEffect(()=>{
+    HandleStates({modifyState : showControl.modify, deleteState : showControl.delete})
+  }, [showControl.delete, showControl.modify])
+
   return (
     <section className='w-full p-2 grid place-content-center'>
       
@@ -58,11 +63,11 @@ function TopFeature({type} : {type : string}) {
         </button>
         <button 
           className=' border-2 bg-gray-500 px-5 py-1 rounded-lg hover:font-bold hover:text-lg duration-150'
-          onClick={()=>{setControl((files)=>{return{...files, modify : !showControl.modify}})}}
+          onClick={()=>{setControl((file)=>{return{...file, modify : !showControl.modify}})}}
         >Modify</button>
         <button 
           className=' border-2 bg-gray-500 px-5 py-1 rounded-lg hover:font-bold hover:text-lg duration-150'
-          onClick={()=>{setControl((files)=>{return{...files, delete : !showControl.delete}})}}
+          onClick={()=>{setControl((file)=>{return{...file, delete : !showControl.delete}})}}
         >Delete</button>
       </div>
 

@@ -1,5 +1,5 @@
 import { Metadata } from 'next'
-import React from 'react'
+import Settings from './Settings'
 
 export const metadata:Metadata ={
   title : "Settings",
@@ -7,9 +7,7 @@ export const metadata:Metadata ={
 }
 
 function page() {
-  return (
-    <div>Settings</div>
-  )
+  return <Settings />
 }
 
 export default page

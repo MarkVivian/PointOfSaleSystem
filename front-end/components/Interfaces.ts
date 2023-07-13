@@ -67,3 +67,9 @@ export interface dialogValuesInterface{
             inputValue: string | number;
         }[];
 }
+
+export interface stateManagementInterface{
+    modifyState : Boolean,
+    deleteState : Boolean,
+    showImages? : Boolean
+}
