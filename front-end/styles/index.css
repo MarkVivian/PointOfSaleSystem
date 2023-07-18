@@ -97,4 +97,13 @@ body {
 }
 .card .orderCard h1, .card .productCard h1 {
   min-width: 6.5rem;
+}
+
+.shop .pList div h1 {
+  font-size: 1.5em;
+  width: 16rem;
+}
+.shop .pList div button {
+  border: 1px solid white;
+  background-color: grey;
 }/*# sourceMappingURL=index.css.map */

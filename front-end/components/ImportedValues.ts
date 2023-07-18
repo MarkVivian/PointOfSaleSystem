@@ -5,10 +5,6 @@ import pic4 from "/public/icon_placeholder3.jpg"
 import pic5 from "/public/icon_placeholder4.jpg"
 import pic6 from "/public/icon_placeholder5.jpg"
 import { valueStateInterface } from "./Interfaces"
-import calendarOrders from "@/app/dashboard/dashboardContent/calendarOrders"
-import monthAnalysis from "@/app/dashboard/dashboardContent/monthAnalysis"
-import productAnalytics from "@/app/dashboard/dashboardContent/productAnalytics"
-import productTracking from "@/app/dashboard/dashboardContent/productTracking"
 
 export const valuesState : valueStateInterface[] = [
     {
@@ -49,9 +45,22 @@ export const valuesState : valueStateInterface[] = [
     }
 ]
 
-export const dashboardContent:JSX.Element[] = [
-    calendarOrders(),
-    monthAnalysis(),
-    productAnalytics(),
-    productTracking()
+export const productListValues = [
+  {
+    name : "hammer",
+    cost : 110,
+    count : 10,
+    id : 1
+  },
+  {
+    name : "nails",
+    cost : 220,
+    count : 20,
+    id : 2
+  },  {
+    name : "files",
+    cost : 330,
+    count : 30,
+    id : 3
+  }
 ]

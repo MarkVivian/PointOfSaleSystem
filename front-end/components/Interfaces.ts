@@ -73,3 +73,10 @@ export interface stateManagementInterface{
     deleteState : Boolean,
     showImages? : Boolean
 }
+
+export interface boughtProductsInterface{
+    name : string,
+    cost : number,
+    count : number,
+    id : number
+}

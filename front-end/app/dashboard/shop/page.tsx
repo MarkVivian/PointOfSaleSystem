@@ -1,5 +1,6 @@
 import { Metadata } from 'next'
 import React from 'react'
+import Shop from './Shop'
 
 export const metadata:Metadata ={
     title : "Shop",
@@ -7,9 +8,7 @@ export const metadata:Metadata ={
 }
 
 function page() {
-  return (
-    <div>Shop</div>
-  )
+  return <Shop />
 }
 
 export default page
