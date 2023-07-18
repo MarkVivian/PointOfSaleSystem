@@ -8,7 +8,7 @@ function ProductList() {
 
   return (
     <section className=" pList border-2 overflow-y-scroll h-96 p-2">
-
+        <h1 className='text-center text-xl'>Products in Basket</h1>
         {
         productListValues.map((file : boughtProductsInterface)=>{
           return(

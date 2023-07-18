@@ -64,3 +64,14 @@ export const productListValues = [
     id : 3
   }
 ]
+
+export const searchProductsName = [
+  {productName : "Hammer",productCost : 0, productCount : 10},
+  {productName : "mark",productCost : 12, productCount : 0},
+  {productName : "d", productCost : 12, productCount : 20},
+  {productName : "e", productCost : 12, productCount : 30},
+  {productName : "f", productCost : 12, productCount : 40},
+  {productName: "a", productCost : 12, productCount : 50},
+  {productName: "b", productCost : 12, productCount : 60},
+  {productName: "c", productCost : 12, productCount : 70},
+]

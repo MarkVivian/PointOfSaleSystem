@@ -40,13 +40,13 @@ export default function ProductClear() {
   }
 
   return (
-    <section className='pClear flex border-2 gap-10'>
+    <section className='pClear flex border-2 gap-10 p-3 place-content-center'>
       {
         productClearValues.map((file)=>{
           return(
             <div key={file.name}>
 
-                <h1>
+                <h1 className='text-center text-lg'>
                   {file.name}
                 </h1>
 

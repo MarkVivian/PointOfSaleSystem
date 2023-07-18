@@ -1,14 +1,24 @@
 import { Metadata } from 'next'
-import React from 'react'
-import Shop from './Shop'
+import SearchProduct from './SearchProduct'
+import ProductList from './ProductList'
+import ProductClear from './ProductClear'
 
 export const metadata:Metadata ={
     title : "Shop",
     description : "this is where you can sell your goods"
 }
 
-function page() {
-  return <Shop />
+function Shop() {
+  return (
+    <main className='shop p-3'>
+      <SearchProduct />
+
+      <ProductList />
+
+      <ProductClear />
+      
+    </main>
+  )
 }
 
-export default page
+export default Shop
