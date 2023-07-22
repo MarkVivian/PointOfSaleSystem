@@ -1,33 +1,34 @@
-import HomepageCards from "@/components/HomepageCards";
-import { valuesState } from "@/components/ImportedValues";
+import { homePageValues } from '@/components/ImportedValues'
+import Image from 'next/image'
+import Link from 'next/link'
 
 export default function Home() {
   return (
-    <body className="grid relative h-screen w-screen">
-      <nav className=" h-fit border-b-4">
-        <h1 className="pos text-center">
-        Point Of Sale System
-        </h1>
-      </nav>
+    <body className="homepage">
+      
+      <h1 className="text-center">
+      Point Of Sale System
+      </h1>
 
-      <main className="h-fit relative flex w-screen gap-5 overflow-hidden py-5">
+      <main className="mainBody">
           {
-            valuesState.map(({name, link, description, image})=>{
+            homePageValues.map(({name, link, description, image})=>{
               return(
-                <HomepageCards key={name} name={name} description={description} image={image} link={link} />
+                <Link className="linkDetails" key={link} href={link} passHref>
+                      <Image src={image!} alt={name} height={1000} width={1000} priority={true} className='imageDetails'/>
+                      <div>
+                        <h1>
+                          {name}
+                        </h1>
+                        <p>
+                          {description}
+                        </p>
+                      </div>
+                  </Link>
                 )
             })
           }
       </main>
-
-      <footer className="bg-black text-white text-center w-screen p-2 border-t-4 absolute bottom-0">
-        copyrights information 
-          <br/>
-        Adipisicing duis commodo reprehenderit sunt dolore sunt cupidatat consectetur eu cillum mollit ipsum enim proident.
-        Aliquip quis ipsum magna ut occaecat veniam.
-        <br/>
-        Ut ipsum laborum Lorem ullamco.
-      </footer>
 
     </body>
   )

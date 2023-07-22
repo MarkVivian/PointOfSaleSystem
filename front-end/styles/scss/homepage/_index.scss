@@ -1,0 +1,52 @@
+.homepage{
+    height: 100vh;
+    width: 100vw;
+    position: relative;
+    background-image: url("../public/pointOfSale.jpg");    
+    background-size: contain;
+
+    & h1{
+        padding: 4rem 0;
+        font-size: 3em;
+    }
+
+    .mainBody{
+        position: relative;
+        display: flex;
+        overflow: hidden;
+        margin: 0 2rem;
+        gap: 2rem;
+        padding: 1rem;
+        place-content: center;
+
+        .linkDetails{
+            background-color: rgb(199, 195, 195);
+            color: black;
+            width: 17rem;
+            height: 22rem;
+            padding: .5rem;
+            
+            &:hover{
+                background-color: black;
+                transition-duration: 1s;
+                color: white;
+            }
+            
+            .imageDetails{
+                height: 12rem;
+            }
+
+            div{
+                h1{
+                    font-size: 1.5em;
+                    padding: 0;
+                    text-align: center;
+                }
+                p{
+                    font-size: 1em;
+                }
+            }
+        }
+    }
+
+}

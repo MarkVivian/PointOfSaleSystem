@@ -1,10 +1,46 @@
+"use client"
 import Image from 'next/image'
 import React from 'react'
 import placeholder from "@/public/icon_placeHolder.jpg"
 import Link from 'next/link';
-import { valuesState } from '@/components/ImportedValues';
+import { leftNavbarInterface } from '@/components/Interfaces';
+
+const valuesState:leftNavbarInterface[] = [
+  {
+    name : "Home",
+    link : "/",
+    classnameValue: ""
+  },
+  {
+    name : "Orders",
+    link : "/dashboard/orders",
+    classnameValue: ""
+  },
+  {
+    name : "Products",
+    link : "/dashboard/products",
+    classnameValue: ""
+  },
+  {
+    name : "Shop",
+    link : "/dashboard/shop",
+    classnameValue: ""
+  },
+  {
+    name : "Dashboard",
+    link : "/dashboard",
+    classnameValue: "pressed"
+  },
+  {
+    name : "Settings",
+    link : "/dashboard/settings",
+    classnameValue: ""
+  }
+]
 
 const LeftNavbar = () => {
+  
+
   return (
     <main className='relative h-screen border-r-4 border-black min-w-[10rem] dark:border-white'>
 
@@ -20,9 +56,12 @@ const LeftNavbar = () => {
           {
             valuesState.map((value)=>{
               return(
-                <Link className=' relative grid place-content-center h-14 m-2 text-xl hover-effect rounded-lg' key={value.name} href={value.link}>
-                    {value.name}
-                </Link>
+                      <Link 
+                      key={value.name}
+                      className={`grid place-content-center h-14 m-2 text-xl rounded-lg hover-effect bg-default`} 
+                      href={value.link}>
+                        {value.name}
+                      </Link>
               )
             })
           }
