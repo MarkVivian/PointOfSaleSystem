@@ -1,11 +1,12 @@
 import { StaticImageData } from "next/image";
 import { RefObject } from "react";
 
-export interface valueStateInterface{
+export interface leftNavbarInterface{
     name : string, 
     link : string, 
-    description : string,
-    image : string | StaticImageData
+    description? : string,
+    image? : string | StaticImageData,
+    classnameValue? : string
 }
 
 export interface topFeatureShowControl{
