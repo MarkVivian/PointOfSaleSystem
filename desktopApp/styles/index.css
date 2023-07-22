@@ -1,0 +1,109 @@
+.pos {
+  font-size: 8vw;
+  line-height: 8vw;
+  margin: 0;
+  font-family: "Red Hat Display", sans-serif;
+  font-weight: 900;
+  background: url(../public/icon_placeHolder.jpg);
+  background-size: 40%;
+  background-position: 50% 50%;
+  -webkit-background-clip: text;
+  color: rgba(0, 0, 0, 0.08);
+  animation: zoomout 10s ease 500ms forwards;
+}
+@keyframes zoomout {
+  from {
+    background-size: 40%;
+  }
+  to {
+    background-size: 10%;
+  }
+}
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+:root {
+  --foreground-rgb: 0, 0, 0;
+  --background-start-rgb: 214, 219, 220;
+  --background-end-rgb: 255, 255, 255;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --foreground-rgb: 255, 255, 255;
+    --background-start-rgb: 0, 0, 0;
+    --background-end-rgb: 0, 0, 0;
+  }
+}
+body {
+  color: rgb(var(--foreground-rgb));
+  background: linear-gradient(to bottom, transparent, rgb(var(--background-end-rgb))) rgb(var(--background-start-rgb));
+  box-sizing: border-box;
+}
+
+.hover-effect {
+  background-image: linear-gradient(#0ba730 0 0), linear-gradient(#41a221 0 0);
+  background-repeat: no-repeat;
+  background-size: 50% 0.08em;
+  background-position: -100% 100%, 200% 0;
+  transition: background-size 0.3s, background-position 0.3s 0.3s;
+}
+.hover-effect:hover {
+  background-size: 50% 100%;
+  background-position: 0 100%, 100% 0;
+  transition: background-size 0.3s 0.3s, background-position 0.3s;
+}
+
+.card {
+  height: 26rem;
+  background-color: green;
+  margin-bottom: 0.75rem;
+  margin: 0 1.25rem;
+  padding: 0.5rem;
+  flex-wrap: wrap;
+  overflow: hidden;
+}
+.card .orderCard, .card .productCard {
+  background-color: blue;
+  width: 22rem;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  height: -moz-fit-content;
+  height: fit-content;
+}
+.card .orderCard button, .card .productCard button {
+  padding: 0.2rem;
+  border: 0.15rem solid black;
+  border-radius: 0.5rem;
+}
+.card .orderCard div, .card .productCard div {
+  position: relative;
+  display: flex;
+  gap: 0.5rem;
+  margin: 0.3rem 0;
+  border: 0.2rem solid black;
+  padding: 0.3rem;
+  border-radius: 0.5rem;
+}
+.card .orderCard div.executable, .card .productCard div.executable {
+  height: -moz-fit-content;
+  height: fit-content;
+  position: relative;
+  display: flex;
+  gap: 1rem;
+  place-content: center;
+  border: none;
+}
+.card .orderCard h1, .card .productCard h1 {
+  min-width: 6.5rem;
+}
+
+.shop .pList div h1 {
+  font-size: 1.2em;
+  width: 16rem;
+}
+.shop .pList div button {
+  border: 1px solid white;
+  background-color: grey;
+}/*# sourceMappingURL=index.css.map */
