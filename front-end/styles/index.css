@@ -38,14 +38,83 @@ body {
   background-color: #41a221;
 }
 
+.topFeature .buttonPlace {
+  display: flex;
+  margin: 0.5rem;
+  gap: 2.5rem;
+}
+.topFeature .buttonPlace .buttons {
+  border: 2px solid grey;
+  padding: 0.25rem 1.25rem;
+  border-radius: 0.5rem;
+}
+.topFeature .buttonPlace .buttons:hover {
+  font-size: 1.125rem;
+  line-height: 1.75rem;
+  transition-duration: 150ms;
+  background-color: grey;
+  border: none;
+}
+.topFeature .locateTab {
+  color: black;
+  height: 2.5rem;
+  padding: 0 0.5rem;
+  font-size: 1.125rem;
+  line-height: 1.75rem;
+  border: 3px solid white;
+  border-radius: 0.5rem;
+}
+.topFeature .locateTab:focus {
+  background-color: grey;
+  transition-duration: 0.5s;
+}
+
+.Orders {
+  position: relative;
+  padding: 0.75rem 0;
+}
+.Orders .buttons {
+  border: 2px solid grey;
+  padding: 0.25rem 1.25rem;
+  border-radius: 0.5rem;
+}
+.Orders .buttons:hover {
+  font-size: 1.125rem;
+  line-height: 1.75rem;
+  transition-duration: 150ms;
+  background-color: grey;
+  border: none;
+}
+
+.Products {
+  padding: 0.75rem 0;
+  position: relative;
+}
+.Products .buttons {
+  border: 2px solid grey;
+  padding: 0.25rem 1.25rem;
+  border-radius: 0.5rem;
+}
+.Products .buttons:hover {
+  font-size: 1.125rem;
+  line-height: 1.75rem;
+  transition-duration: 150ms;
+  background-color: grey;
+  border: none;
+}
+
 .card {
-  height: 26rem;
-  background-color: green;
+  display: flex;
+  height: 29rem;
   margin-bottom: 0.75rem;
   margin: 0 1.25rem;
   padding: 0.5rem;
   flex-wrap: wrap;
   overflow: hidden;
+  border: 2px solid white;
+  overflow-y: scroll;
+  scroll-behavior: smooth;
+  gap: 1rem;
 }
 .card .orderCard, .card .productCard {
   background-color: blue;
@@ -69,6 +138,12 @@ body {
   padding: 0.3rem;
   border-radius: 0.5rem;
 }
+.card .orderCard div input, .card .productCard div input {
+  width: 8rem;
+  padding: 0.2rem;
+  border-radius: 0.5rem;
+  color: black;
+}
 .card .orderCard div.executable, .card .productCard div.executable {
   height: -moz-fit-content;
   height: fit-content;
@@ -76,6 +151,13 @@ body {
   display: flex;
   gap: 1rem;
   place-content: center;
+  border: none;
+}
+.card .orderCard div.executable button:hover, .card .productCard div.executable button:hover {
+  font-size: 1.125rem;
+  line-height: 1.75rem;
+  transition-duration: 150ms;
+  background-color: grey;
   border: none;
 }
 .card .orderCard h1, .card .productCard h1 {

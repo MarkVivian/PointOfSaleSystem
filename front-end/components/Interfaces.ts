@@ -10,11 +10,11 @@ export interface leftNavbarInterface{
 }
 
 export interface topFeatureShowControl{
-        locateState : Boolean,
+        locateState : boolean,
         locateText : string,
-        delete : Boolean,
-        modify : Boolean,
-        clearState : Boolean
+        delete : boolean,
+        modify : boolean,
+        clearState : boolean
 }
 
 export interface addInfointerface{
@@ -26,7 +26,7 @@ export interface addInfointerface{
     productDescription : string,
     productCount : number,
     productCost : number,
-    productImage : string
+    productImage : File | null
 }
 
 export interface orderInterface{
@@ -51,28 +51,32 @@ export interface DialogInputInterface{
     dialogReference : RefObject<HTMLDialogElement>, 
     type : string, 
     changeModifierFunction : (events: React.ChangeEvent<HTMLInputElement>)=> void, 
-    addinfo : addInfointerface
+    addinfo : addInfointerface,
+    fileAddingModifier: (events: React.ChangeEvent<HTMLInputElement>)=> void
 }
 
 export interface dialogValuesInterface{
         orders: {
-            h1Value: string;
-            inputType: string;
-            nameValue: string;
-            inputValue: string | number;
+            h1Value: string,
+            inputType: string,
+            nameValue: string,
+            inputValue: string | number,
+            placeholder: string
         }[];
         products: {
-            h1Value: string;
-            inputType: string;
-            nameValue: string;
-            inputValue: string | number;
+            h1Value: string,
+            inputType: string,
+            nameValue: string,
+            inputValue?: string | number,
+            inputValues? : File,
+            accept? : string
         }[];
 }
 
 export interface stateManagementInterface{
-    modifyState : Boolean,
-    deleteState : Boolean,
-    showImages? : Boolean
+    modifyState : boolean,
+    deleteState : boolean,
+    showImages? : boolean
 }
 
 export interface boughtProductsInterface{

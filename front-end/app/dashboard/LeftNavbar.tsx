@@ -1,7 +1,7 @@
 "use client"
 import Image from 'next/image'
 import React from 'react'
-import placeholder from "@/public/icon_placeHolder.jpg"
+import placeholder from "@/public/userIcon.jpg"
 import Link from 'next/link';
 import { leftNavbarInterface } from '@/components/Interfaces';
 

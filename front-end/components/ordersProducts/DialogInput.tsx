@@ -2,7 +2,7 @@ import React from 'react'
 import { DialogInputInterface, dialogValuesInterface} from '../Interfaces'
 
 function DialogInput(
-  {buttonReference, dialogReference, type, changeModifierFunction, addinfo}
+  {buttonReference, dialogReference, type, changeModifierFunction, addinfo, fileAddingModifier}
   :
   DialogInputInterface
   ) {
@@ -12,25 +12,29 @@ function DialogInput(
             h1Value : "Ordered Item",
             inputType : "text",
             nameValue : "orderItem",
-            inputValue : addinfo.orderItem
+            inputValue : addinfo.orderItem,
+            placeholder: "Soap"
           },
           {
             h1Value : "Order Count",
             inputType : "number",
             nameValue : "orderCount",
-            inputValue : addinfo.orderCount
+            inputValue : addinfo.orderCount,
+            placeholder: "12"
           },
           {
             h1Value : "Order Date",
             inputType : "text",
             nameValue : "orderDate",
-            inputValue : addinfo.orderDate
+            inputValue : addinfo.orderDate,
+            placeholder: "dd/mm/yyyy"
           },
           {
             h1Value : "arrival date",
             inputType : "text",
             nameValue : "arrivalDate",
-            inputValue : addinfo.arrivalDate
+            inputValue : addinfo.arrivalDate,
+            placeholder: "dd/mm/yyyy"
           }
         ],
         products : [
@@ -59,10 +63,11 @@ function DialogInput(
             inputValue : addinfo.productCost
           },
           {
-            h1Value : "Product Image",
-            inputType : "text",
+            h1Value : "Product Image[optional]",
+            inputType : "file",
             nameValue : "productImage",
-            inputValue : addinfo.productImage
+            inputValues : addinfo.productImage!,
+            accept : "image/*"
           }
         ]
       }
@@ -82,7 +87,13 @@ function DialogInput(
                   return(
                     <div className='flex gap-5' key={file.h1Value}>
                       <h1 className=' py-2 text-lg float-right w-28'>{file.h1Value}</h1>
-                      <input type={file.inputType} name={file.nameValue} onChange={changeModifierFunction} value={file.inputValue} className="text-black p-2 rounded-lg border-none text-lg flex-1"/>
+                      <input 
+                      placeholder={file.placeholder}
+                      type={file.inputType} 
+                      name={file.nameValue} 
+                      onChange={changeModifierFunction} 
+                      value={file.inputValue} 
+                      className="text-black p-2 rounded-lg border-none text-lg flex-1"/>
                     </div>
                   )
                 })
@@ -91,8 +102,22 @@ function DialogInput(
                   return(
                     <div className='flex gap-5' key={file.h1Value}>
                         <h1 className=' py-2 text-lg float-right w-48'>{file.h1Value}</h1>
-                      <input type={`${file.inputType}`} name={`${file.nameValue}`} onChange={changeModifierFunction} value={file.inputValue} className="text-black p-2 rounded-lg border-none text-lg flex-1"/>
-                    </div>
+                      {
+                        file.inputType === "file" ? 
+                        <input 
+                          type={file.inputType}
+                          accept={file.accept!}
+                          onChange={fileAddingModifier}
+                        />
+                        :
+                        <input 
+                            type={`${file.inputType}`} 
+                            name={`${file.nameValue}`} 
+                            onChange={changeModifierFunction} 
+                            value={file.inputValue} 
+                            className="text-black p-2 rounded-lg border-none text-lg flex-1"/>
+                      }
+                          </div>
                   )
                 })
               }
@@ -105,6 +130,7 @@ function DialogInput(
               className={`bg-gray-600 rounded-lg p-3 hover:text-lg ${buttonReference.current?.disabled ? 'pointer-events-none' : ''}`}
               ref={buttonReference}
               onClick={()=>{
+                console.log(dialogValues.products)
                 if(buttonReference.current){
                   buttonReference.current.disabled = true
                 }

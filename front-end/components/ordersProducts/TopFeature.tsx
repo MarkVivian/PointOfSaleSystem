@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from 'react'
 import { addInfointerface, stateManagementInterface, topFeatureShowControl } from '../Interfaces'
 import DialogInput from './DialogInput'
 
-function TopFeature({type, HandleStates} : {type : string, HandleStates(values: {modifyState: Boolean, deleteState: Boolean}): void}) {
+function TopFeature({type, HandleStates} : {type : string, HandleStates(values: {modifyState: boolean, deleteState: boolean}): void}) {
   const [showControl, setControl] = useState<topFeatureShowControl>({
     locateState : false,
     locateText : "",
@@ -21,7 +21,7 @@ function TopFeature({type, HandleStates} : {type : string, HandleStates(values: 
     productDescription : "",
     productCount : 0,
     productCost : 0,
-    productImage : ""
+    productImage : null
   })
 
   const dialogReference = useRef<HTMLDialogElement>(null)
@@ -37,16 +37,27 @@ function TopFeature({type, HandleStates} : {type : string, HandleStates(values: 
       })
   }
 
+  function fileAddingModifier(event: React.ChangeEvent<HTMLInputElement>){
+    const file = event.target.files?.[0] || null
+    console.log(file)
+    setAddInfo((files)=>{
+      return{
+        ...files,
+        productImage: file
+      }
+    })
+  }
+
   useEffect(()=>{
     HandleStates({modifyState : showControl.modify, deleteState : showControl.delete})
   }, [showControl.delete, showControl.modify])
 
   return (
-    <section className='w-full p-2 grid place-content-center'>
+    <section className='w-full p-2 grid place-content-center topFeature'>
       
-      <div className='flex m-2 gap-10'>
+      <div className='buttonPlace'>
         <button 
-          className=' border-2 bg-gray-500 px-5 py-1 rounded-lg hover:font-bold hover:text-lg duration-150'
+        className='buttons'
           onClick={()=>{
             if(dialogReference.current){
               dialogReference.current.showModal()
@@ -56,27 +67,28 @@ function TopFeature({type, HandleStates} : {type : string, HandleStates(values: 
         </button>
         
         <button 
-          className=' border-2 bg-gray-500 px-5 py-1 rounded-lg hover:font-bold hover:text-lg duration-150' 
+        className='buttons'
           onClick={()=>{setControl((files)=>{return{...files, locateState : !showControl.locateState}})}}
         >
           Locate
         </button>
         <button 
-          className=' border-2 bg-gray-500 px-5 py-1 rounded-lg hover:font-bold hover:text-lg duration-150'
+        className='buttons'
           onClick={()=>{setControl((file)=>{return{...file, modify : !showControl.modify}})}}
         >Modify</button>
         <button 
-          className=' border-2 bg-gray-500 px-5 py-1 rounded-lg hover:font-bold hover:text-lg duration-150'
+        className='buttons'
           onClick={()=>{setControl((file)=>{return{...file, delete : !showControl.delete}})}}
         >Delete</button>
       </div>
 
       {
         showControl.locateState ?
-          <div className=' grid place-content-center p-3'>
+          <div className=' grid place-content-center'>
           <input 
             type="text" 
             placeholder='locate tab' 
+            className='locateTab'
             name = "locateText"
             value={showControl.locateText}
             onChange={(events)=>{
@@ -87,7 +99,7 @@ function TopFeature({type, HandleStates} : {type : string, HandleStates(values: 
                   }
                 })
             }}
-            className='text-black h-10 p-1 text-lg rounded-lg' />
+          />
           </div>
           : 
           ""
@@ -98,7 +110,8 @@ function TopFeature({type, HandleStates} : {type : string, HandleStates(values: 
         dialogReference={dialogReference} 
         changeModifierFunction={onChangeModifier}
         type={type}
-        addinfo={addInfo}/>
+        addinfo={addInfo}
+        fileAddingModifier={fileAddingModifier}/>
 
     </section>
   )

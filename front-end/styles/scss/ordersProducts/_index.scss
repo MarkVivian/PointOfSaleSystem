@@ -1,12 +1,90 @@
+// Top feature
+.topFeature{
+    .buttonPlace{
+        display: flex;
+        margin: .5rem;
+        gap: 2.5rem;
+
+        .buttons{
+            border: 2px solid grey;
+            padding: .25rem 1.25rem;
+            border-radius: .5rem;
+
+            &:hover{
+                font-size: 1.125rem;
+                line-height: 1.75rem;
+                transition-duration: 150ms;
+                background-color: grey;
+                border: none;
+            }
+        }
+    }
+    .locateTab{
+        color: black;
+        height: 2.5rem;
+        padding: 0 .5rem;
+        font-size: 1.125rem;
+        line-height: 1.75rem;
+        border: 3px solid white;
+        border-radius: .5rem;
+
+        &:focus{
+            background-color: grey;
+            transition-duration: .5s;
+        }
+    }
+}
+
+.Orders{
+    position: relative;
+    padding: 0.75rem 0;
+
+    .buttons{
+        border: 2px solid grey;
+        padding: .25rem 1.25rem;
+        border-radius: .5rem;
+
+        &:hover{
+            font-size: 1.125rem;
+            line-height: 1.75rem;
+            transition-duration: 150ms;
+            background-color: grey;
+            border: none;
+        }
+    }
+}
+
+.Products{
+    padding: .75rem 0;
+    position: relative;
+
+    .buttons{
+        border: 2px solid grey;
+        padding: .25rem 1.25rem;
+        border-radius: .5rem;
+
+        &:hover{
+            font-size: 1.125rem;
+            line-height: 1.75rem;
+            transition-duration: 150ms;
+            background-color: grey;
+            border: none;
+        }
+    }
+}
 // ordersProductsCard
 .card{
-    height: 26rem;
-    background-color: green;
+    display: flex;
+    height: 29rem;
     margin-bottom: .75rem;
     margin: 0 1.25rem;
     padding: .5rem;
     flex-wrap: wrap;
     overflow: hidden;
+    border: 2px solid white;
+    overflow-y: scroll;
+    scroll-behavior: smooth;
+    gap: 1rem;
 
     .orderCard,.productCard{
         background-color: blue;
@@ -30,6 +108,14 @@
             padding: .3rem; 
             border-radius: .5rem;
 
+            input{
+                width: 8rem;
+                padding: .2rem;
+                border-radius: .5rem;
+                color: black;
+
+            }
+
             &.executable{
                 height: fit-content;
                 position: relative;
@@ -37,6 +123,14 @@
                 gap: 1rem;
                 place-content: center;
                 border: none;
+
+                button:hover{
+                    font-size: 1.125rem;
+                    line-height: 1.75rem;
+                    transition-duration: 150ms;
+                    background-color: grey;
+                    border: none;
+                }
             }
         }
 
