@@ -12,7 +12,10 @@ module.exports = {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
         'gradient-conic':
           'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
-          'default': 'linear-gradient(#0ba730 0 0),linear-gradient(#41a221 0 0);',
+        'default': 'linear-gradient(#0ba730 0 0),linear-gradient(#41a221 0 0);',
+        'purple': 'linear-gradient(#8e2de2 0 0), linear-gradient(#4a00e0 0 0)',
+        'pink': 'linear-gradient(#f953c6 0 0), linear-gradient(#b91d73 0 0)',
+        'green': 'linear-gradient(#414d0b 0 0), linear-gradient(#727a17 0 0)',
       },
       width : {
         '98' : '28rem',

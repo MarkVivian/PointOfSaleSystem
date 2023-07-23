@@ -1,6 +1,6 @@
-import pic1 from "/public/icon_placeHolder.jpg"
-import pic5 from "/public/icon_placeholder4.jpg"
-import pic6 from "/public/icon_placeholder5.jpg"
+import dashboard from "@/public/homepage/dashboardImage.jpg"
+import login from "@/public/homepage/loginImage.jpg"
+import settings from "@/public/homepage/settingsImage.jpg"
 import { leftNavbarInterface } from "./Interfaces"
 
 
@@ -10,19 +10,19 @@ export const homePageValues:leftNavbarInterface[] = [
     name : "Login",
     link : "/dashboard/login",
     description: "this will allow you to create a backup of all your orders, products and dashboard details and easy view from the web.. ",
-    image : pic1
+    image : login
   },
   {
     name : "Dashboard",
     link : "/dashboard",
     description: "this will be used to analyse the products, orders and the sales you have made through the month from the web or the applicccation.",
-    image : pic5
+    image : dashboard
   },
   {
     name : "Settings",
     link : "/dashboard/settings",
     description: "this will allow the user to change the appearance, theme and give the creator of he system a tip if you are fealing generous.",
-    image : pic6
+    image : settings
   }
 ]
 
