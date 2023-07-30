@@ -1,7 +1,6 @@
 import { Metadata } from 'next'
-import SearchProduct from './SearchProduct'
-import ProductList from './ProductList'
-import ProductClear from './ProductClear'
+import ShopInfo from './Shop'
+
 
 export const metadata:Metadata ={
     title : "Shop",
@@ -10,12 +9,9 @@ export const metadata:Metadata ={
 
 function Shop() {
   return (
-    <main className='shop p-3'>
-      <SearchProduct />
+    <main>
 
-      <ProductList />
-
-      <ProductClear />
+      <ShopInfo />
       
     </main>
   )

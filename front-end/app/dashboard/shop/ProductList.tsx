@@ -1,11 +1,13 @@
 "use client"
 import { productListValues } from '@/components/ImportedValues'
 import { boughtProductsInterface } from '@/components/Interfaces'
-import React, { useRef } from 'react'
+import React, { useEffect, useRef } from 'react'
 
-function ProductList() {
+function ProductList({costAddition} : {costAddition : (value : number)=>void}) {
   const removeButton = useRef<HTMLButtonElement>(null)
-
+  useEffect(()=>{
+    costAddition(productListValues.reduce((acc, item)=>acc + (item.cost * item.count), 0))
+  }, [productListValues])
   return (
     <section className=" pList border-2 overflow-y-scroll h-96 p-2">
         <h1 className='text-center text-xl'>Products in Basket</h1>

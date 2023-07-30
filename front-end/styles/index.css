@@ -164,6 +164,18 @@ body {
   min-width: 6.5rem;
 }
 
+.shop .buttons {
+  border: 2px solid grey;
+  padding: 0.25rem 1.25rem;
+  border-radius: 0.5rem;
+}
+.shop .buttons:hover {
+  font-size: 1.125rem;
+  line-height: 1.75rem;
+  transition-duration: 150ms;
+  background-color: grey;
+  border: none;
+}
 .shop .pList div h1 {
   font-size: 1.2em;
   width: 16rem;
@@ -172,6 +184,7 @@ body {
   border: 1px solid white;
   background-color: grey;
 }
+
 .homepage {
   height: 100vh;
   width: 100vw;

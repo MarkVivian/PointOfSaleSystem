@@ -1,4 +1,18 @@
 .shop{
+    .buttons{
+        border: 2px solid grey;
+        padding: .25rem 1.25rem;
+        border-radius: .5rem;
+
+        &:hover{
+            font-size: 1.125rem;
+            line-height: 1.75rem;
+            transition-duration: 150ms;
+            background-color: grey;
+            border: none;
+        }
+    }
+
     .pList{
         div{
             h1{
@@ -10,11 +24,5 @@
                 background-color: grey;
             }
         }
-    }
-    .pClear{
-
-    }
-    .pSearch{
-
     }
 }
