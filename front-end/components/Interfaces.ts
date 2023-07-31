@@ -85,3 +85,16 @@ export interface boughtProductsInterface{
     count : number,
     id : number
 }
+
+export interface graphDatainterface{
+    id: number,
+    year: number,
+    userGain: number,
+    userLost: number
+}
+
+export interface ChartInterface{
+    labelName : string, 
+    labelValues : string[], 
+    dataValues : Number[]
+}

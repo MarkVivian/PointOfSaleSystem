@@ -115,18 +115,19 @@ body {
   overflow-y: scroll;
   scroll-behavior: smooth;
   gap: 1rem;
+  background-color: rgb(15, 14, 14);
 }
 .card .orderCard, .card .productCard {
-  background-color: blue;
   width: 22rem;
   padding: 0.5rem;
   border-radius: 0.5rem;
   height: -moz-fit-content;
   height: fit-content;
+  background-color: rgb(85, 84, 84);
 }
 .card .orderCard button, .card .productCard button {
   padding: 0.2rem;
-  border: 0.15rem solid black;
+  border: 0.15rem solid white;
   border-radius: 0.5rem;
 }
 .card .orderCard div, .card .productCard div {
@@ -134,7 +135,7 @@ body {
   display: flex;
   gap: 0.5rem;
   margin: 0.3rem 0;
-  border: 0.2rem solid black;
+  border: 0.2rem solid white;
   padding: 0.3rem;
   border-radius: 0.5rem;
 }
@@ -142,7 +143,7 @@ body {
   width: 8rem;
   padding: 0.2rem;
   border-radius: 0.5rem;
-  color: black;
+  color: white;
 }
 .card .orderCard div.executable, .card .productCard div.executable {
   height: -moz-fit-content;

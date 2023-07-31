@@ -7,7 +7,7 @@ import Creator from './Creator'
 function Settings() {
     const [content, setContent] = useState<String>("talk to Creator")
 
-  return (
+  /*return (
     <main className='p-5 h-screen w-screen relative'>
         <h1 className='text-center font-bold text-xl'>
             Settings
@@ -39,7 +39,8 @@ function Settings() {
             </div>
         </section>
     </main>
-  )
+  )*/
+  return <h1 className='flex place-content-center h-full text-9xl'>comming soon</h1>
 }
 
 const settingsValues = [

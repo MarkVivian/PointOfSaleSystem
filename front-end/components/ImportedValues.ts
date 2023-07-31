@@ -1,7 +1,7 @@
 import dashboard from "@/public/homepage/dashboardImage.jpg"
 import login from "@/public/homepage/loginImage.jpg"
 import settings from "@/public/homepage/downloadImage.jpg"
-import { leftNavbarInterface, orderInterface, productInterface } from "./Interfaces"
+import { graphDatainterface, leftNavbarInterface, orderInterface, productInterface } from "./Interfaces"
 
 export const homePageValues:leftNavbarInterface[] = [
   {
@@ -142,3 +142,36 @@ export const OrderValues:orderInterface[] = [
     orderId : 5
   },
 ]
+
+export const graphData:graphDatainterface[] = [
+  {
+    id: 1,
+    year: 2016,
+    userGain: 80000,
+    userLost: 823
+  },
+  {
+    id: 2,
+    year: 2017,
+    userGain: 45677,
+    userLost: 345
+  },
+  {
+    id: 3,
+    year: 2018,
+    userGain: 78888,
+    userLost: 555
+  },
+  {
+    id: 4,
+    year: 2019,
+    userGain: 90000,
+    userLost: 4555
+  },
+  {
+    id: 5,
+    year: 2020,
+    userGain: 4300,
+    userLost: 234
+  }
+];
