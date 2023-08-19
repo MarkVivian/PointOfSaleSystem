@@ -1,0 +1,12 @@
+FROM mysql/mysql-server:latest
+
+COPY PointOfSaleSystem.sql /docker-entrypoint-initdb.d/
+# The /docker-entrypoint-initdb.d/ directory is a special directory that MySQL looks for during container initialization. Any .sql or .sh files in that directory are executed in alphabetical order.
+
+ENV MYSQL_ROOT_PASSWORD=admin
+ENV MYSQL_USER=user
+ENV MYSQL_PASSWORD=1234
+ENV MYSQL_DATABASE=PointOfSale
+ENV MYSQL_ALLOW_EMPTY_PASSWORD no
+
+EXPOSE 3306

@@ -1,0 +1,21 @@
+version: '3'
+services:
+  server:
+    image: viviantech/posserver:1.0
+    ports:
+      - "3000:3000"
+    depends_on:
+      - "database"
+      # <host machine port> : <container port>
+      # you can use the same container port but different host ports.
+  client:
+    image: viviantech/posclient:1.0
+    ports:
+      - "3001:3001"
+    depends_on:
+      - "server"
+
+  database:
+    image: viviantech/posdatabase:1.0
+    ports:
+      - "3307:3306"
