@@ -1,6 +1,12 @@
 import dashboard from "@/public/homepage/dashboardImage.jpg"
 import login from "@/public/homepage/loginImage.jpg"
 import settings from "@/public/homepage/downloadImage.jpg"
+import dashboardIcon from "@/public/navbar/dashboardIcon.png"
+import ordersIcon from "@/public/navbar/orderIcon.png"
+import productIcon from "@/public/navbar/productIcon.png"
+import shopIcon from "@/public/navbar/shopIcon.png"
+import settingsIcon from "@/public/navbar/settingsIcon.png"
+import userIcon from "@/public/navbar/userIcon.png"
 import { graphDatainterface, leftNavbarInterface, orderInterface, productInterface } from "./Interfaces"
 
 export const homePageValues:leftNavbarInterface[] = [
@@ -23,6 +29,46 @@ export const homePageValues:leftNavbarInterface[] = [
     image : settings
   }
 ]
+
+export const leftNavbarValues:leftNavbarInterface[] = [
+  {
+    name : "login",
+    link : "/dashboard/login",
+    icon : userIcon,
+    classnameValue: ""
+  },
+  {
+    name : "Orders",
+    link : "/dashboard/orders",
+    icon : ordersIcon,
+    classnameValue: ""
+  },
+  {
+    name : "Products",
+    link : "/dashboard/products",
+    icon : productIcon,
+    classnameValue: ""
+  },
+  {
+    name : "Shop",
+    link : "/dashboard/shop",
+    icon : shopIcon,
+    classnameValue: ""
+  },
+  {
+    name : "Dashboard",
+    link : "/dashboard",
+    icon : dashboardIcon,
+    classnameValue: "pressed"
+  },
+  {
+    name : "Settings",
+    link : "/dashboard/settings",
+    icon : settingsIcon,
+    classnameValue: ""
+  }
+]
+
 
 export const productListValues = [
   {
@@ -175,3 +221,4 @@ export const graphData:graphDatainterface[] = [
     userLost: 234
   }
 ];
+

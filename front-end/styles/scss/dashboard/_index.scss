@@ -1,1 +1,31 @@
-@forward "LeftNavbar"
+@use "../_global.scss" as global;
+
+// left navbar
+.leftNavbar{
+    height: 15.6vh;
+
+    .image{
+        height: 3rem;
+        width: 3rem;
+        margin: auto;
+        margin-top: 1rem;
+
+        &:hover + .paragraph{
+            visibility: visible;
+            color: white;
+        }
+
+    }
+
+    .paragraph{
+        display: grid;
+        text-align: center;
+        width: 100%;
+        visibility: hidden;
+    }
+
+    &.active{
+        background-color: global.$darkBrown;
+    }
+
+}

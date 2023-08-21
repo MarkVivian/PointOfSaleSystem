@@ -4,10 +4,12 @@ import { RefObject } from "react";
 export interface leftNavbarInterface{
     name : string, 
     link : string, 
-    description? : string,
-    image? : string | StaticImageData,
-    classnameValue? : string
+    icon : StaticImageData,
+    classnameValue : string
 }
+
+
+
 
 export interface topFeatureShowControl{
         locateState : boolean,

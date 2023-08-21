@@ -1,5 +1,6 @@
-import LeftNavbar from "@/app/dashboard/LeftNavbar"
+import LeftNavbar from "@/app/dashboard/navbars/LeftNavbar"
 import "@/styles/index.css"
+import TopNavbar from "./navbars/TopNavbar"
 
 export const metadata = {
   title: 'dashboard',
@@ -13,11 +14,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className='relative flex h-screen w-screen'>
-        <LeftNavbar />
-        <div className="w-full relative h-screen overflow-hidden">
-          {children}
-        </div>
+      <body className="relative w-full bg-darkBrown">
+          <TopNavbar />
+          <main className="w-full flex">
+            <LeftNavbar />
+            {children}
+          </main>
       </body>
     </html>
   )

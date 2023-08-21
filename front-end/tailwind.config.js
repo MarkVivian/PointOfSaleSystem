@@ -33,6 +33,11 @@ module.exports = {
         '104' : '34rem',
         '106' : '36rem',
         '108' : '38rem'
+      },
+      backgroundColor : {
+        "midBrown": 'rgb(128, 98, 68)',
+        "darkBrown": 'rgb(99, 80, 58)',
+        "lighBrown": 'rgb(159, 127, 88)'
       }
     },
   },
