@@ -22,8 +22,8 @@ const LeftNavbar = () => {
                       <Image 
                         src={value.icon} 
                         alt={value.name} 
-                        width={100} 
-                        height={100}
+                        width={90} 
+                        height={90}
                         className='image'/>
 
                       <p className='paragraph'>
